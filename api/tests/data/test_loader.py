@@ -3,6 +3,7 @@ from collections.abc import Callable
 from pathlib import Path
 from typing import Any
 
+import psycopg
 import pytest
 import yaml
 
@@ -122,12 +123,27 @@ def test_in_scope_code_without_rule_is_rejected(db: Conn, tmp_fixture: Path) -> 
     assert row is not None and row[0] == 0
 
 
-def test_write_failure_rolls_back_whole_release(db: Conn, fixture_dir: Path) -> None:
+def _no_rows(db: Conn) -> None:
+    for table in ("data_release", "kbli", "permit", "permit_rule"):
+        row = db.execute(f"select count(*) from {table}").fetchone()
+        assert row is not None and row[0] == 0, table
+
+
+def test_embedder_failure_writes_nothing(db: Conn, fixture_dir: Path) -> None:
     class Boom(FakeEmbedder):
         def embed(self, texts: list[str]) -> list[list[float]]:
             raise RuntimeError("boom")
 
     with pytest.raises(RuntimeError):
         load_data(db, fixture_dir, Boom())
-    row = db.execute("select count(*) from data_release").fetchone()
-    assert row is not None and row[0] == 0
+    _no_rows(db)
+
+
+def test_db_failure_mid_transaction_rolls_back_whole_release(db: Conn, fixture_dir: Path) -> None:
+    class WrongDim(FakeEmbedder):
+        def embed(self, texts: list[str]) -> list[list[float]]:
+            return [[1.0, 0.0, 0.0] for _ in texts]  # kbli insert fails after data_release insert
+
+    with pytest.raises(psycopg.Error):
+        load_data(db, fixture_dir, WrongDim())
+    _no_rows(db)
