@@ -125,7 +125,7 @@ def test_regional_note_and_metadata_passed_through(db: Conn, loaded_fixture: int
 
 def test_unknown_code_gives_nothing(db: Conn, loaded_fixture: int) -> None:
     assert lookup_permits(db, loaded_fixture, [("00000", attrs())], TODAY) == ([], False)
-    assert risk_for(db, loaded_fixture, "00000", attrs()) is None
+    assert risk_for(db, loaded_fixture, "00000", attrs(), TODAY) is None
 
 
 def test_expired_rows_ignored(db: Conn, tmp_path: Path) -> None:
@@ -137,7 +137,7 @@ def test_expired_rows_ignored(db: Conn, tmp_path: Path) -> None:
     items, _ = lookup_permits(db, release, [(B, attrs(packaged=True))], TODAY)
     spp = next(i for i in items if i.name == "SPP-IRT")
     assert spp.order == 3  # NIB 1, SLHS 2, SPP-IRT (not step 3 rule - expired; step 4 rule)
-    assert risk_for(db, release, B, attrs(packaged=True)) == "menengah_rendah"  # not tinggi
+    assert risk_for(db, release, B, attrs(packaged=True), TODAY) == "menengah_rendah"  # not tinggi
 
 
 def test_expired_permit_ignored(db: Conn, tmp_path: Path) -> None:
@@ -175,12 +175,12 @@ def test_stale_warning_after_183_days(db: Conn, tmp_path: Path, loaded_fixture: 
 
 
 def test_risk_is_highest_applicable(db: Conn, loaded_fixture: int, tmp_path: Path) -> None:
-    assert risk_for(db, loaded_fixture, A, attrs(packaged=True)) == "rendah"
-    assert risk_for(db, loaded_fixture, B, attrs()) == "menengah_rendah"
+    assert risk_for(db, loaded_fixture, A, attrs(packaged=True), TODAY) == "rendah"
+    assert risk_for(db, loaded_fixture, B, attrs(), TODAY) == "menengah_rendah"
     release = load_variant(db, tmp_path, [rule(A, "slhs", "tinggi", 3, {"packaged": True})])
-    assert risk_for(db, release, A, attrs(packaged=True)) == "tinggi"
-    assert risk_for(db, release, A, attrs(packaged=False)) == "rendah"
-    assert risk_for(db, release, A, attrs(packaged=None)) == "tinggi"
+    assert risk_for(db, release, A, attrs(packaged=True), TODAY) == "tinggi"
+    assert risk_for(db, release, A, attrs(packaged=False), TODAY) == "rendah"
+    assert risk_for(db, release, A, attrs(packaged=None), TODAY) == "tinggi"
 
 
 def test_branch_unknown_picks_higher_risk_branch(db: Conn, tmp_path: Path) -> None:
