@@ -139,3 +139,15 @@ def test_canned_selection_picks_first_candidate_per_activity() -> None:
         ("warung makan", "56102", "Contoh alasan.", []),
         ("kue kering", "10711", "Contoh alasan.", []),
     ]
+
+
+def test_default_sdk_has_bounded_timeout_and_retries(monkeypatch: pytest.MonkeyPatch) -> None:
+    seen: dict[str, Any] = {}
+
+    def fake_anthropic(**kwargs: Any) -> object:
+        seen.update(kwargs)
+        return object()
+
+    monkeypatch.setattr(anthropic, "Anthropic", fake_anthropic)
+    LlmClient()
+    assert seen == {"timeout": 60, "max_retries": 1}

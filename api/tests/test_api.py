@@ -465,3 +465,98 @@ def test_real_connection_keeps_log_row_on_503(committed_fixture: str) -> None:
     with connect(committed_fixture) as other:
         r = other.execute("select output from query_log").fetchone()
         assert r is not None and r[0] == {"error": "llm_unavailable"}
+
+
+def test_unsure_selection_keeps_partial_scope_note(make_client: MakeClient) -> None:
+    unsure = Selection(activities=[], unsure=True)
+    c = make_client(
+        FakeLlm([und(scope="partial", scope_note="Sembako tidak dicakup."), unsure, unsure])
+    )
+    note = post(c).json()["result"]["scope_note"]
+    assert note.startswith("Sembako tidak dicakup.") and UNSURE_NOTE in note
+
+
+def test_select_prompt_gets_the_redacted_description(make_client: MakeClient) -> None:
+    llm = FakeLlm([und(), sel()])
+    post(make_client(llm), "keripik pisang, WA 081234567890")
+    select_user = llm.calls[1][1]
+    assert "keripik pisang, WA [TELEPON]" in select_user and "081234567890" not in select_user
+
+
+def test_permits_returns_data_as_of(make_client: MakeClient) -> None:
+    c = make_client(FakeLlm([und(), sel(alts=[FIXTURE_CATERING_CODE])]))
+    rid = _analyze_ok(c)
+    resp = c.post("/v1/permits", json={"request_id": rid, "primary_codes": [FIXTURE_CATERING_CODE]})
+    body = resp.json()
+    assert body["data_as_of"] == min(p["last_verified"] for p in body["permits"])
+
+
+def test_pii_in_answer_keys_redacted(db: Conn, make_client: MakeClient) -> None:
+    llm = FakeLlm([und(), sel()])
+    post(make_client(llm), answers={"WA 081234567890": "ya", "a@b.com": "x"})
+    sent = " ".join(user for _, user, _ in llm.calls)
+    assert "081234567890" not in sent and "a@b.com" not in sent
+    r = db.execute("select clarifications::text from query_log").fetchone()
+    assert r is not None and "081234567890" not in r[0] and "a@b.com" not in r[0]
+    assert "[TELEPON]" in r[0] and "[EMAIL]" in r[0]
+
+
+def test_unhandled_500_carries_cors_headers() -> None:
+    app = create_app(Settings(cors_origins=("http://localhost:3000",)))
+
+    def boom() -> None:
+        raise RuntimeError("kaboom")
+
+    app.add_api_route("/boom", boom)
+    resp = TestClient(app).get("/boom", headers={"Origin": "http://localhost:3000"})
+    assert resp.status_code == 500
+    assert resp.json() == {
+        "error": {"code": "internal", "message": "Terjadi kesalahan pada server."}
+    }
+    assert resp.headers["access-control-allow-origin"] == "http://localhost:3000"
+
+
+def test_embedder_mismatch(db: Conn) -> None:
+    from app.deps import embedder_mismatch
+
+    assert embedder_mismatch(db, "bge") is None  # no release yet
+    db.execute("insert into data_release (notes) values ('')")
+    assert "does not record" in (embedder_mismatch(db, "bge") or "")
+    assert embedder_mismatch(db, "fake") is None
+    db.execute("insert into data_release (notes) values ('embedder=fake')")
+    assert "'fake' but EMBEDDER=bge" in (embedder_mismatch(db, "bge") or "")
+    assert embedder_mismatch(db, "fake") is None
+
+
+def test_startup_logs_embedder_mismatch(
+    monkeypatch: pytest.MonkeyPatch, caplog: pytest.LogCaptureFixture
+) -> None:
+    import app.deps as deps
+
+    monkeypatch.setattr(deps, "connect", lambda url: _FakeConnCtx())
+    monkeypatch.setattr(deps, "embedder_mismatch", lambda conn, e: f"mismatch for {e}")
+    with caplog.at_level("WARNING"):
+        deps.warn_on_embedder_mismatch(Settings(embedder="bge"))
+    assert "EMBEDDER MISMATCH: mismatch for bge" in caplog.text
+
+
+def test_startup_embedder_check_never_fails(
+    monkeypatch: pytest.MonkeyPatch, caplog: pytest.LogCaptureFixture
+) -> None:
+    import app.deps as deps
+
+    def down(url: str) -> None:
+        raise OSError("db down")
+
+    monkeypatch.setattr(deps, "connect", down)
+    with caplog.at_level("WARNING"):
+        deps.warn_on_embedder_mismatch(Settings(embedder="bge"))
+    assert "could not check" in caplog.text
+
+
+class _FakeConnCtx:
+    def __enter__(self) -> "_FakeConnCtx":
+        return self
+
+    def __exit__(self, *a: object) -> None:
+        return None

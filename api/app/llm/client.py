@@ -7,6 +7,10 @@ from pydantic import BaseModel
 MODEL = "claude-opus-5-5"
 MAX_TOKENS = 16000
 FALLBACK_BETA = "server-side-fallback-2026-07-01"
+# Per-request timeout (seconds) and SDK retries: bounded so a request fails with 503 well
+# before the web client's own timeout (90 s) instead of hanging.
+TIMEOUT_S = 60
+MAX_RETRIES = 1
 # Claude Opus 5.5 pricing, USD per 1M tokens.
 INPUT_USD_PER_MTOK = 4.00
 OUTPUT_USD_PER_MTOK = 20.00
@@ -33,7 +37,11 @@ class LlmResult[T: BaseModel]:
 
 class LlmClient:
     def __init__(self, sdk: Any = None) -> None:
-        self._sdk = sdk if sdk is not None else anthropic.Anthropic()
+        self._sdk = (
+            sdk
+            if sdk is not None
+            else anthropic.Anthropic(timeout=TIMEOUT_S, max_retries=MAX_RETRIES)
+        )
 
     def parse[T: BaseModel](
         self,

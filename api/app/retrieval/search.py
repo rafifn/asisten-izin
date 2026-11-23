@@ -1,3 +1,5 @@
+import re
+
 from pgvector import Vector
 
 from app.db import Conn
@@ -6,11 +8,13 @@ from app.retrieval.embedder import Embedder
 
 RRF_K = 60
 _POOL = 50  # rows taken from each ranking before merging
+_MAX_TERMS = 64
+_WORD = re.compile(r"[^\W_]+")  # letters and digits only: nothing tsquery could parse as syntax
 
 _KEYWORD_SQL = """
 select code from (
     select code,
-           greatest(ts_rank(search_tsv, plainto_tsquery('simple', %(q)s)),
+           greatest(ts_rank(search_tsv, to_tsquery('simple', %(tsq)s)),
                     similarity(title, %(q)s)) as score
     from kbli
     where data_release_id = %(rel)s and in_scope
@@ -28,6 +32,17 @@ limit %(pool)s
 """
 
 
+def or_tsquery(query: str) -> str | None:
+    """`w1 | w2 | ...` over the query's words (lowercased, unique), for `to_tsquery('simple')`.
+
+    OR, not AND: a user's description has many words that never appear in a KBLI text, and
+    `plainto_tsquery` (AND) then matches nothing. Only letters and digits survive, so no input
+    can inject tsquery operators. None (SQL NULL, ignored by `greatest`) if there are no words.
+    """
+    words = list(dict.fromkeys(w.lower() for w in _WORD.findall(query)))[:_MAX_TERMS]
+    return " | ".join(words) or None
+
+
 def search_kbli(
     conn: Conn,
     release_id: int,
@@ -38,12 +53,17 @@ def search_kbli(
 ) -> list[Candidate]:
     """Hybrid search over in-scope KBLI rows of one release.
 
-    Keyword rank orders by the greater of ts_rank and trigram similarity; vector rank
+    Keyword rank orders by the greater of ts_rank (OR over the query words) and trigram
+    similarity; vector rank
     orders by cosine distance; the two are merged with reciprocal rank fusion (k=60).
     In-scope `extra_codes` are pinned; the rest of the `limit` slots are filled in RRF order.
     """
     keyword = [
-        r[0] for r in conn.execute(_KEYWORD_SQL, {"q": query, "rel": release_id, "pool": _POOL})
+        r[0]
+        for r in conn.execute(
+            _KEYWORD_SQL,
+            {"q": query, "tsq": or_tsquery(query), "rel": release_id, "pool": _POOL},
+        )
     ]
     vec = Vector(embedder.embed([query])[0])
     vector = [

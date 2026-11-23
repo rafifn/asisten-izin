@@ -167,7 +167,7 @@ class _Log:
         )
 
 
-def _data_as_of(conn: Conn, release_id: int, permits: list[PermitItem]) -> date:
+def data_as_of(conn: Conn, release_id: int, permits: list[PermitItem]) -> date:
     """Oldest `last_verified` among the permits shown (agrees with stale_warning);
     the release date if there are none."""
     if permits:
@@ -189,7 +189,8 @@ def analyze(
     """Run the pipeline and log the request. Raises ApiError (after logging) on failure."""
     entry = _Log(
         redact(description),
-        None if answers is None else {k: redact(v) for k, v in answers.items()},
+        # Keys are question ids, which the client echoes back: redact them like the values.
+        None if answers is None else {redact(k): redact(v) for k, v in answers.items()},
     )
     try:
         # A savepoint, so a failed statement cannot poison the connection before we log.
@@ -197,15 +198,15 @@ def analyze(
             return _run(conn, llm, embedder, entry, today)
     except UnderstandRefused:
         entry.write(conn, {"error": "refused"})
-        raise ApiError(400, "invalid_input", REFUSED_MESSAGE) from None
+        raise ApiError(400, "invalid_input", REFUSED_MESSAGE, entry.request_id) from None
     except LlmUnavailable:
         log.warning("llm unavailable", exc_info=True)
         entry.write(conn, {"error": "llm_unavailable"})
-        raise ApiError(503, "llm_unavailable", LLM_UNAVAILABLE_MESSAGE) from None
+        raise ApiError(503, "llm_unavailable", LLM_UNAVAILABLE_MESSAGE, entry.request_id) from None
     except Exception:
         log.exception("analyze failed")
         entry.write(conn, {"error": "internal"})
-        raise ApiError(500, "internal", INTERNAL_MESSAGE) from None
+        raise ApiError(500, "internal", INTERNAL_MESSAGE, entry.request_id) from None
 
 
 def _run(
@@ -248,7 +249,7 @@ def _run(
     for act in u.activities:
         query = f"{act.label} {entry.description}"
         candidates[act.label] = search_kbli(conn, release_id, query, embedder, extra)
-    selection, s_results = select_codes(llm, u, candidates)  # type: ignore[arg-type]
+    selection, s_results = select_codes(llm, entry.description, u, candidates)  # type: ignore[arg-type]
     entry.llm_results.extend(s_results)
 
     assumptions = [] if u.size == "menengah_besar" else [MICRO_ASSUMPTION]
@@ -257,7 +258,8 @@ def _run(
     permits: list[PermitItem] = []
     stale = False
     if selection.unsure or not selection.activities:
-        scope_note = UNSURE_NOTE
+        # Keep a partial-scope note (it names what is not covered) and add the unsure note.
+        scope_note = f"{scope_note} {UNSURE_NOTE}" if scope_note else UNSURE_NOTE
     else:
         by_code = {c.code: c for cands in candidates.values() for c in cands}
         primaries: list[tuple[str, Attributes]] = []
@@ -301,7 +303,7 @@ def _run(
         assumptions=assumptions,
         scope_note=scope_note,
         kbli_2020_mapping=mapping,
-        data_as_of=_data_as_of(conn, release_id, permits),
+        data_as_of=data_as_of(conn, release_id, permits),
         stale_warning=stale,
         request_id=rid,
     )

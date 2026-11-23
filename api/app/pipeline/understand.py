@@ -41,6 +41,10 @@ def understand(
         raise UnderstandRefused("model refused to analyse the description")
     u = result.parsed.model_copy(deep=True)
     u.questions = [] if answers is not None else u.questions[:MAX_QUESTIONS]
+    if u.size == "menengah_besar" and u.questions:
+        # Size signals without an explicit size (cabang, pabrik, ...) must be asked about, not
+        # answered as out of scope (ruling R21): a model that still has questions was not sure.
+        u.size = "unknown"
     if u.size == "menengah_besar":
         u.scope = "out"
     return u, result

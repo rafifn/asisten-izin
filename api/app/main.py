@@ -5,8 +5,8 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.config import Settings
-from app.deps import build_embedder, build_llm
-from app.errors import install_error_handlers
+from app.deps import build_embedder, build_llm, warn_on_embedder_mismatch
+from app.errors import CatchAllMiddleware, install_error_handlers
 from app.routes import router
 
 
@@ -20,9 +20,13 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         app.state.settings = cfg
         app.state.llm = build_llm(cfg)
         app.state.embedder = build_embedder(cfg)
+        warn_on_embedder_mismatch(cfg)
         yield
 
     app = FastAPI(title="Asisten Izin Kuliner", lifespan=lifespan)
+    # Order matters: the middleware added last is outermost. CORS must wrap the catch-all so
+    # unhandled 500s carry CORS headers.
+    app.add_middleware(CatchAllMiddleware)
     app.add_middleware(
         CORSMiddleware,
         allow_origins=list(cors_cfg.cors_origins),

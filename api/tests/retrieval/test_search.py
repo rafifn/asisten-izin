@@ -70,3 +70,38 @@ def test_map_2020_codes(db: Conn, loaded_fixture: int) -> None:
         "90001",
         "90003",
     ]  # 90004 is out of scope; unknown 2020 code maps to nothing
+
+
+LONG_QUERY = "saya punya usaha katering rumahan untuk acara pernikahan dan ulang tahun di kampung"
+
+
+def test_or_tsquery_sanitises_words() -> None:
+    from app.retrieval.search import or_tsquery
+
+    assert or_tsquery("Katering katering, kue!") == "katering | kue"
+    assert or_tsquery("a' | !b & c:* (d) <-> e_f") == "a | b | c | d | e | f"
+    assert or_tsquery("!!! ''") is None
+
+
+def test_long_query_with_absent_words_gets_a_text_rank(db: Conn, loaded_fixture: int) -> None:
+    from app.retrieval.search import or_tsquery
+
+    row = db.execute(
+        "select search_tsv @@ plainto_tsquery('simple', %(q)s),"
+        " search_tsv @@ to_tsquery('simple', %(tsq)s),"
+        " ts_rank(search_tsv, to_tsquery('simple', %(tsq)s))"
+        " from kbli where data_release_id = %(rel)s and code = %(code)s",
+        {"q": LONG_QUERY, "tsq": or_tsquery(LONG_QUERY), "rel": loaded_fixture,
+         "code": FIXTURE_CATERING_CODE},
+    ).fetchone()  # fmt: skip
+    assert row is not None
+    assert row[0] is False  # the old AND query (plainto_tsquery) does not match
+    assert row[1] is True and row[2] > 0
+    assert search_kbli(db, loaded_fixture, LONG_QUERY, FakeEmbedder())[0].code == (
+        FIXTURE_CATERING_CODE
+    )
+
+
+def test_tsquery_special_characters_do_not_break_search(db: Conn, loaded_fixture: int) -> None:
+    for q in ["katering' | !", "&&& ::: <->", "!!!", "(katering"]:
+        search_kbli(db, loaded_fixture, q, FakeEmbedder())

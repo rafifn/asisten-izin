@@ -1,3 +1,4 @@
+import logging
 from collections.abc import Iterator
 from datetime import date
 from typing import cast
@@ -12,6 +13,43 @@ from app.llm.fake import FakeLlm
 from app.retrieval.embedder import BgeM3Embedder, Embedder, FakeEmbedder
 
 AnyLlm = LlmClient | FakeLlm
+
+log = logging.getLogger(__name__)
+
+
+def embedder_mismatch(conn: Conn, embedder: str) -> str | None:
+    """Warning text if the latest data release was embedded with another embedder than the
+    configured one, or does not record one while `embedder=bge`; None if fine or no release."""
+    row = conn.execute("select notes from data_release order by id desc limit 1").fetchone()
+    if row is None:
+        return None
+    notes = row[0] or ""
+    if "embedder=" not in notes:
+        if embedder == "bge":
+            return (
+                "the latest data release does not record its embedder, but EMBEDDER=bge: "
+                "retrieval may be poor. Run `make data-load` with EMBEDDER=bge."
+            )
+        return None
+    recorded = notes.split("embedder=", 1)[1].split()[0]
+    if recorded != embedder:
+        return (
+            f"the latest data release was embedded with '{recorded}' but EMBEDDER={embedder}: "
+            "retrieval will be poor. Run `make data-load` with the matching EMBEDDER."
+        )
+    return None
+
+
+def warn_on_embedder_mismatch(settings: Settings) -> None:
+    """Startup check; never fails startup (the database may not be up yet)."""
+    try:
+        with connect(settings.database_url) as conn:
+            problem = embedder_mismatch(conn, settings.embedder)
+    except Exception as e:
+        log.warning("could not check the data release embedder: %s", e)
+        return
+    if problem:
+        log.warning("EMBEDDER MISMATCH: %s", problem)
 
 
 def build_llm(settings: Settings) -> AnyLlm:

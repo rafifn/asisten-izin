@@ -76,3 +76,24 @@ def test_empty_answers_dict_never_returns_questions() -> None:
     llm = FakeLlm([understanding(questions=[q("a")])])
     u, _ = understand(llm, "jualan kue", {})
     assert u.questions == [] and "Jangan ajukan pertanyaan" in llm.calls[0][1]
+
+
+def test_size_signal_with_a_question_is_asked_not_out_of_scope() -> None:
+    size_q = Question(id="skala", text="Skala usaha?", options=["Mikro/kecil", "Menengah/besar"])
+    llm = FakeLlm([understanding(size="menengah_besar", scope="in", questions=[size_q])])
+    u, _ = understand(llm, "warung bakso, sudah 3 cabang", None)
+    assert u.scope == "in" and u.size == "unknown" and [x.id for x in u.questions] == ["skala"]
+
+
+def test_answered_menengah_besar_is_out_of_scope() -> None:
+    llm = FakeLlm([understanding(size="menengah_besar", scope="in", questions=[q("x")])])
+    u, _ = understand(llm, "warung bakso, sudah 3 cabang", {"skala": "Menengah/besar"})
+    assert u.scope == "out" and u.questions == []
+
+
+def test_prompt_asks_about_size_instead_of_assuming_large() -> None:
+    llm = FakeLlm([understanding()])
+    understand(llm, "jualan kue", None)
+    system = llm.calls[0][0]
+    assert "cabang" in system and "pertanyaan klarifikasi tentang skala usaha" in system
+    assert "daftarkan HANYA aktivitas yang termasuk cakupan" in system

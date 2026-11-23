@@ -8,7 +8,7 @@ from pydantic import BaseModel, StringConstraints, field_validator
 from app.db import Conn
 from app.deps import AnyLlm, get_conn, get_embedder, get_llm, get_today
 from app.errors import ApiError
-from app.pipeline.analyze import AnalyzeResponse, analyze
+from app.pipeline.analyze import AnalyzeResponse, analyze, data_as_of
 from app.pipeline.redact import redact
 from app.pipeline.schemas import Attributes, PermitItem
 from app.retrieval.embedder import Embedder
@@ -51,6 +51,7 @@ class PermitsRequest(BaseModel):
 
 class PermitsResponse(BaseModel):
     permits: list[PermitItem]
+    data_as_of: date
     stale_warning: bool
 
 
@@ -112,7 +113,9 @@ def post_permits(
             raise ApiError(400, "invalid_input", "Kode tidak termasuk dalam hasil analisis ini.")
         primaries.append((code, stored[label]))
     permits, stale = lookup_permits(conn, release_id, primaries, today)
-    return PermitsResponse(permits=permits, stale_warning=stale)
+    return PermitsResponse(
+        permits=permits, data_as_of=data_as_of(conn, release_id, permits), stale_warning=stale
+    )
 
 
 @router.post("/v1/feedback", status_code=204)

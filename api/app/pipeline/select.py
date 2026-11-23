@@ -32,9 +32,11 @@ def _tri(value: bool | None) -> str:
     return "tidak diketahui" if value is None else ("ya" if value else "tidak")
 
 
-def _build_user(understanding: Understanding, candidates: dict[str, list[Candidate]]) -> str:
+def _build_user(
+    description: str, understanding: Understanding, candidates: dict[str, list[Candidate]]
+) -> str:
     attrs = {a.label: a.attributes for a in understanding.activities}
-    parts: list[str] = []
+    parts: list[str] = [f"# Deskripsi usaha\n{description}"]
     for label, cands in candidates.items():
         lines = [f"## Aktivitas: {label}"]
         a = attrs.get(label)
@@ -91,9 +93,14 @@ def _clean(sel: Selection, candidates: dict[str, list[Candidate]]) -> Selection 
 
 
 def select_codes(
-    llm: _Llm, understanding: Understanding, candidates: dict[str, list[Candidate]]
+    llm: _Llm,
+    description: str,
+    understanding: Understanding,
+    candidates: dict[str, list[Candidate]],
 ) -> tuple[Selection, list[LlmResult[Selection]]]:
     """Let the model choose KBLI codes, only from the given candidates (keyed by activity label).
+
+    `description` is the (already redacted) business description; it heads the user message.
 
     Activities without candidates are not sent to the model. An invalid primary code
     triggers one retry with the allowed codes listed; a second violation or a refusal
@@ -102,7 +109,7 @@ def select_codes(
     candidates = {label: cands for label, cands in candidates.items() if cands}
     if not candidates:
         return _unsure(), []
-    user = _build_user(understanding, candidates)
+    user = _build_user(description, understanding, candidates)
     results: list[LlmResult[Selection]] = []
     for system in (_SYSTEM, _retry_system(candidates)):
         result = llm.parse(system, user, Selection, "medium")
