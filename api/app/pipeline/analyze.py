@@ -9,6 +9,7 @@ from uuid import UUID, uuid4
 from psycopg.types.json import Jsonb
 from pydantic import BaseModel, Field
 
+from app.data.loader import current_release_id
 from app.db import Conn
 from app.errors import ApiError
 from app.llm.client import LlmResult, LlmUnavailable
@@ -42,6 +43,7 @@ REFUSED_MESSAGE = "Deskripsi ini tidak dapat diproses. Coba tulis ulang dengan k
 LLM_UNAVAILABLE_MESSAGE = (
     "Layanan analisis sedang sibuk atau tidak tersedia. Silakan coba lagi beberapa saat lagi."
 )
+INTERNAL_MESSAGE = "Terjadi kesalahan pada server. Silakan coba lagi nanti."
 MICRO_ASSUMPTION = "Dianggap usaha mikro/kecil"
 
 
@@ -107,12 +109,18 @@ AnalyzeResponse = Annotated[NeedsClarification | OutOfScope | Ok, Field(discrimi
 def attrs_for(label: str, activities: list[Activity]) -> Attributes:
     """Attributes of the understood activity with this label.
 
-    A merged activity (label not matching any understood one) uses the first activity's.
+    A selected activity whose label matches none (a merge or relabel) gets the combination
+    over all understood activities: per field True if any is True, else None if any is
+    None, else False.
     """
     for a in activities:
         if a.label == label:
             return a.attributes
-    return activities[0].attributes
+    combined: dict[str, bool | None] = {}
+    for field in Attributes.model_fields:
+        values = [getattr(a.attributes, field) for a in activities]
+        combined[field] = True if True in values else (None if None in values else False)
+    return Attributes.model_validate(combined)
 
 
 class _Log:
@@ -124,8 +132,16 @@ class _Log:
         self.started = time.perf_counter()
         self.request_id = uuid4()
         self.release_id: int | None = None
+        self.selected: list[dict[str, object]] = []
         self.understanding: Understanding | None = None
         self.llm_results: list[LlmResult[Understanding] | LlmResult[Selection]] = []
+
+    def _attributes(self) -> dict[str, object]:
+        assert self.understanding is not None
+        return {
+            **self.understanding.model_dump(mode="json"),
+            "selected_activities": self.selected,
+        }
 
     def write(self, conn: Conn, output: BaseModel | dict[str, object]) -> None:
         out = output if isinstance(output, dict) else output.model_dump(mode="json", by_alias=True)
@@ -138,7 +154,7 @@ class _Log:
             [
                 self.request_id,
                 self.description,
-                Jsonb(self.understanding.model_dump(mode="json")) if self.understanding else None,
+                Jsonb(self._attributes()) if self.understanding else None,
                 Jsonb(self.answers) if self.answers is not None else None,
                 Jsonb(out),
                 self.release_id,
@@ -152,9 +168,10 @@ class _Log:
 
 
 def _data_as_of(conn: Conn, release_id: int, permits: list[PermitItem]) -> date:
-    """Newest `last_verified` among the permits shown; the release date if there are none."""
+    """Oldest `last_verified` among the permits shown (agrees with stale_warning);
+    the release date if there are none."""
     if permits:
-        return max(p.last_verified for p in permits)
+        return min(p.last_verified for p in permits)
     row = conn.execute("select created_at::date from data_release where id = %s", [release_id])
     found = row.fetchone()
     assert found is not None
@@ -165,18 +182,19 @@ def analyze(
     conn: Conn,
     llm: object,
     embedder: Embedder,
-    release_id: int,
     description: str,
     answers: dict[str, str] | None,
     today: date,
 ) -> NeedsClarification | OutOfScope | Ok:
     """Run the pipeline and log the request. Raises ApiError (after logging) on failure."""
     entry = _Log(
-        redact(description), None if answers is None else {k: redact(v) for k, v in answers.items()}
+        redact(description),
+        None if answers is None else {k: redact(v) for k, v in answers.items()},
     )
-    entry.release_id = release_id
     try:
-        return _run(conn, llm, embedder, release_id, entry, today)
+        # A savepoint, so a failed statement cannot poison the connection before we log.
+        with conn.transaction():
+            return _run(conn, llm, embedder, entry, today)
     except UnderstandRefused:
         entry.write(conn, {"error": "refused"})
         raise ApiError(400, "invalid_input", REFUSED_MESSAGE) from None
@@ -184,16 +202,21 @@ def analyze(
         log.warning("llm unavailable", exc_info=True)
         entry.write(conn, {"error": "llm_unavailable"})
         raise ApiError(503, "llm_unavailable", LLM_UNAVAILABLE_MESSAGE) from None
+    except Exception:
+        log.exception("analyze failed")
+        entry.write(conn, {"error": "internal"})
+        raise ApiError(500, "internal", INTERNAL_MESSAGE) from None
 
 
 def _run(
     conn: Conn,
     llm: object,
     embedder: Embedder,
-    release_id: int,
     entry: _Log,
     today: date,
 ) -> NeedsClarification | OutOfScope | Ok:
+    release_id = current_release_id(conn)
+    entry.release_id = release_id
     u, u_res = understand(llm, entry.description, entry.answers)  # type: ignore[arg-type]
     entry.understanding = u
     entry.llm_results.append(u_res)
@@ -268,6 +291,7 @@ def _run(
                 )
             )
             primaries.append((p.code, attrs))
+            entry.selected.append({"label": sel.activity_label, "attributes": attrs.model_dump()})
         permits, stale = lookup_permits(conn, release_id, primaries, today)
 
     rid = entry.request_id

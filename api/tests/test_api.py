@@ -1,5 +1,5 @@
 import shutil
-from collections.abc import Callable
+from collections.abc import Callable, Iterator
 from datetime import date
 from pathlib import Path
 from uuid import UUID, uuid4
@@ -7,8 +7,9 @@ from uuid import UUID, uuid4
 import pytest
 from fastapi.testclient import TestClient
 
+from app.config import Settings
 from app.data.loader import load_data
-from app.db import Conn
+from app.db import Conn, connect
 from app.deps import get_conn, get_embedder, get_llm, get_today
 from app.llm.client import LlmUnavailable
 from app.llm.fake import FakeLlm
@@ -322,3 +323,145 @@ def test_canned_fake_llm_end_to_end(make_client: MakeClient) -> None:
     c = make_client(FakeLlm.canned())
     body = post(c).json()
     assert body["status"] == "ok" and body["result"]["activities"]
+
+
+def test_data_as_of_is_oldest_permit_date(db: Conn, make_client: MakeClient) -> None:
+    c = make_client(FakeLlm([und(), sel()]))
+    db.execute("update permit set last_verified = '2026-10-01' where id = 'spp-irt'")
+    r = post(c).json()["result"]
+    assert r["data_as_of"] == "2026-10-01"
+
+
+class WeirdError(Exception):
+    pass
+
+
+def test_unexpected_error_returns_500_and_logs(db: Conn, make_client: MakeClient) -> None:
+    c = make_client(FakeLlm([und(), WeirdError("boom")]))
+    resp = post(c)
+    assert resp.status_code == 500 and resp.json()["error"]["code"] == "internal"
+    row = db.execute("select output, tokens_in, model from query_log").fetchone()
+    assert row is not None and row[0] == {"error": "internal"} and row[2]
+
+
+def test_db_error_inside_pipeline_still_logs(db: Conn, make_client: MakeClient) -> None:
+    class DbBreaker(FakeLlm):
+        def parse(self, system, user, schema, effort):  # type: ignore[no-untyped-def]
+            db.execute("select 1/0")
+            raise AssertionError
+
+    resp = post(make_client(DbBreaker()))
+    assert resp.status_code == 500 and rows(db) == 1
+
+
+def test_no_data_loaded_returns_500_and_logs(db: Conn) -> None:
+    app = create_app()
+    app.dependency_overrides[get_conn] = lambda: db
+    app.dependency_overrides[get_llm] = lambda: FakeLlm([])
+    app.dependency_overrides[get_embedder] = lambda: FakeEmbedder()
+    app.dependency_overrides[get_today] = lambda: TODAY
+    resp = post(TestClient(app))
+    assert resp.status_code == 500 and resp.json()["error"]["code"] == "internal"
+    assert rows(db) == 1
+
+
+def _two_activities() -> Understanding:
+    def attrs(packaged: bool) -> Attributes:
+        return Attributes(
+            packaged=packaged,
+            served_on_site=False,
+            has_seating=False,
+            sells_online=False,
+            animal_products=False,
+            formal_restaurant=None,
+        )
+
+    return und(
+        activities=[
+            Activity(label="a", attributes=attrs(False)),
+            Activity(label="b", attributes=attrs(True)),
+        ]
+    )
+
+
+def _merged_selection() -> Selection:
+    return Selection(
+        activities=[
+            ActivitySelection(
+                activity_label="gabungan",
+                primary=Pick(code=FIXTURE_PACKAGED_CODE, text="Alasan."),
+                alternatives=[],
+            )
+        ],
+        unsure=False,
+    )
+
+
+def test_merged_label_uses_combined_attributes(db: Conn, make_client: MakeClient) -> None:
+    c = make_client(FakeLlm([_two_activities(), _merged_selection()]))
+    body = post(c).json()
+    # activities[0] has packaged=False; combined (any True) must give SPP-IRT
+    assert "SPP-IRT" in [p["name"] for p in body["result"]["permits"]]
+    row = db.execute("select attributes from query_log").fetchone()
+    assert row is not None
+    stored = row[0]["selected_activities"][0]
+    assert stored["label"] == "gabungan"
+    assert stored["attributes"]["packaged"] is True
+    assert stored["attributes"]["formal_restaurant"] is None
+
+
+def test_permits_uses_stored_resolved_attributes(db: Conn, make_client: MakeClient) -> None:
+    c = make_client(FakeLlm([_two_activities(), _merged_selection()]))
+    rid = post(c).json()["request_id"]
+    payload = {"request_id": rid, "primary_codes": [FIXTURE_PACKAGED_CODE]}
+    names = [p["name"] for p in c.post("/v1/permits", json=payload).json()["permits"]]
+    assert "SPP-IRT" in names
+    db.execute(
+        "update query_log set attributes = jsonb_set(attributes,"
+        " '{selected_activities,0,attributes,packaged}', 'false') where request_uuid = %s",
+        [UUID(rid)],
+    )
+    names = [p["name"] for p in c.post("/v1/permits", json=payload).json()["permits"]]
+    assert "SPP-IRT" not in names
+
+
+@pytest.fixture
+def committed_fixture(migrated_db_url: str) -> Iterator[str]:
+    """Fixture data committed to the test DB so real per-request connections can see it."""
+    conn = connect(migrated_db_url)
+    load_data(conn, FIXTURE_DATA, FakeEmbedder())
+    conn.commit()
+    yield migrated_db_url
+    conn.execute(
+        "truncate query_log, kbli_2020_map, permit_rule, permit, kbli, data_release cascade"
+    )
+    conn.commit()
+    conn.close()
+
+
+def test_real_connection_commits_before_response(committed_fixture: str) -> None:
+    app = create_app(Settings(database_url=committed_fixture, llm_mode="fake", embedder="fake"))
+    with TestClient(app) as c:
+        body = post(c).json()
+        assert body["status"] == "ok"
+        # a second connection sees the row as soon as the response is back
+        with connect(committed_fixture) as other:
+            r = other.execute(
+                "select helpful from query_log where request_uuid = %s", [UUID(body["request_id"])]
+            ).fetchone()
+            assert r is not None
+        fb = c.post("/v1/feedback", json={"request_id": body["request_id"], "helpful": True})
+        assert fb.status_code == 204
+        with connect(committed_fixture) as other:
+            r = other.execute("select helpful from query_log").fetchone()
+            assert r is not None and r[0] is True
+
+
+def test_real_connection_keeps_log_row_on_503(committed_fixture: str) -> None:
+    app = create_app(Settings(database_url=committed_fixture, llm_mode="fake", embedder="fake"))
+    app.dependency_overrides[get_llm] = lambda: FakeLlm([LlmUnavailable()])
+    with TestClient(app) as c:
+        assert post(c).status_code == 503
+    with connect(committed_fixture) as other:
+        r = other.execute("select output from query_log").fetchone()
+        assert r is not None and r[0] == {"error": "llm_unavailable"}

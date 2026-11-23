@@ -5,13 +5,12 @@ from uuid import UUID
 from fastapi import APIRouter, Depends, Response
 from pydantic import BaseModel, StringConstraints, field_validator
 
-from app.data.loader import current_release_id
 from app.db import Conn
 from app.deps import AnyLlm, get_conn, get_embedder, get_llm, get_today
 from app.errors import ApiError
-from app.pipeline.analyze import AnalyzeResponse, analyze, attrs_for
+from app.pipeline.analyze import AnalyzeResponse, analyze
 from app.pipeline.redact import redact
-from app.pipeline.schemas import Attributes, PermitItem, Understanding
+from app.pipeline.schemas import Attributes, PermitItem
 from app.retrieval.embedder import Embedder
 from app.rules.engine import lookup_permits
 
@@ -69,22 +68,18 @@ def healthz() -> dict[str, str]:
 @router.post("/v1/analyze", response_model=AnalyzeResponse)
 def post_analyze(
     body: AnalyzeRequest,
-    conn: Annotated[Conn, Depends(get_conn)],
+    conn: Annotated[Conn, Depends(get_conn, scope="function")],
     llm: Annotated[AnyLlm, Depends(get_llm)],
     embedder: Annotated[Embedder, Depends(get_embedder)],
     today: Annotated[date, Depends(get_today)],
 ) -> object:
-    try:
-        release_id = current_release_id(conn)
-    except LookupError:
-        raise ApiError(503, "data_unavailable", "Data belum tersedia. Coba lagi nanti.") from None
-    return analyze(conn, llm, embedder, release_id, body.description, body.answers, today)
+    return analyze(conn, llm, embedder, body.description, body.answers, today)
 
 
 @router.post("/v1/permits", response_model=PermitsResponse)
 def post_permits(
     body: PermitsRequest,
-    conn: Annotated[Conn, Depends(get_conn)],
+    conn: Annotated[Conn, Depends(get_conn, scope="function")],
     today: Annotated[date, Depends(get_today)],
 ) -> PermitsResponse:
     row = conn.execute(
@@ -97,7 +92,10 @@ def post_permits(
     activities = (output or {}).get("result", {}).get("activities", [])
     if not attributes or release_id is None or not activities:
         raise ApiError(400, "invalid_input", "Kode tidak termasuk dalam hasil analisis ini.")
-    understood = Understanding.model_validate(attributes).activities
+    stored = {
+        a["label"]: Attributes.model_validate(a["attributes"])
+        for a in attributes.get("selected_activities", [])
+    }
 
     primaries: list[tuple[str, Attributes]] = []
     for code in dict.fromkeys(body.primary_codes):
@@ -112,13 +110,15 @@ def post_permits(
         )
         if label is None:
             raise ApiError(400, "invalid_input", "Kode tidak termasuk dalam hasil analisis ini.")
-        primaries.append((code, attrs_for(label, understood)))
+        primaries.append((code, stored[label]))
     permits, stale = lookup_permits(conn, release_id, primaries, today)
     return PermitsResponse(permits=permits, stale_warning=stale)
 
 
 @router.post("/v1/feedback", status_code=204)
-def post_feedback(body: FeedbackRequest, conn: Annotated[Conn, Depends(get_conn)]) -> Response:
+def post_feedback(
+    body: FeedbackRequest, conn: Annotated[Conn, Depends(get_conn, scope="function")]
+) -> Response:
     comment = None if body.comment is None else redact(body.comment)
     cur = conn.execute(
         "update query_log set helpful = %s, comment = %s where request_uuid = %s",
