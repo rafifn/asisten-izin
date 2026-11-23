@@ -202,9 +202,9 @@
   issuer: BPJPH (Badan Penyelenggara Jaminan Produk Halal)
   description: >-
     Produk makanan dan minuman yang beredar di Indonesia wajib bersertifikat
-    halal. Untuk usaha mikro dan kecil, masa penahapan kewajiban ini berlaku
-    sampai 17 Oktober 2028. Produk dari bahan yang diharamkan tidak disertifikasi
-    halal, tetapi wajib diberi keterangan tidak halal.
+    halal. Usaha mikro dan kecil wajib sudah bersertifikat halal paling lambat
+    17 Oktober 2028 (akhir masa penahapan). Produk dari bahan yang diharamkan
+    tidak disertifikasi halal, tetapi wajib diberi keterangan tidak halal.
   how_to: >-
     Ajukan ke BPJPH melalui ptsp.halal.go.id. Usaha mikro dan kecil dengan
     produk tidak berisiko dan proses produksi sederhana bisa memakai pernyataan
@@ -212,6 +212,25 @@
     lewat jalur reguler.
   source_regulation: PP 42 Tahun 2024 sebagaimana diubah dengan PP 40 Tahun 2026
   source_article: Pasal 2, 98, 155, 159, 160 (PP 42/2024); penahapan UMK diubah PP 40/2026
+  source_url: https://bpjph.halal.go.id/read/penyesuaian-penahapan-kewajiban-sertifikasi-halal-diatur-dalam-pp-40-tahun-2026-begini-rinciannya
+  valid_from: 2026-10-14
+  last_verified: 2026-11-23
+- id: sertifikat-halal-obat-bahan-alam
+  name: Sertifikat Halal (minuman jamu dan obat bahan alam)
+  issuer: BPJPH (Badan Penyelenggara Jaminan Produk Halal)
+  description: >-
+    Minuman jamu dan produk obat bahan alam yang beredar di Indonesia wajib
+    bersertifikat halal. Untuk usaha mikro dan kecil, kewajiban ini harus sudah
+    dipenuhi paling lambat 17 Oktober 2028 (akhir masa penahapan, baik untuk
+    minuman maupun obat bahan alam). Produk dari bahan yang diharamkan tidak
+    disertifikasi halal, tetapi wajib diberi keterangan tidak halal.
+  how_to: >-
+    Ajukan ke BPJPH melalui ptsp.halal.go.id. Usaha mikro dan kecil dengan
+    produk tidak berisiko dan proses produksi sederhana bisa memakai pernyataan
+    halal pelaku usaha (self declare) dengan pendampingan PPH. Selain itu, ajukan
+    lewat jalur reguler.
+  source_regulation: PP 42 Tahun 2024 sebagaimana diubah dengan PP 40 Tahun 2026
+  source_article: Pasal 2, 98, 155, 160 ayat (2), 161 ayat (1) huruf a (PP 42/2024); penahapan diubah PP 40/2026
   source_url: https://bpjph.halal.go.id/read/penyesuaian-penahapan-kewajiban-sertifikasi-halal-diatur-dalam-pp-40-tahun-2026-begini-rinciannya
   valid_from: 2026-10-14
   last_verified: 2026-11-23

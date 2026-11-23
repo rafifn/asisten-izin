@@ -1972,6 +1972,15 @@
   source_url: https://oss.go.id/id/kbli/detail/b0287593-7582-539c-9880-21af0e63c00f
   valid_from: 2026-06-15
   last_verified: 2026-11-23
+- kbli_code: '56305'
+  conditions: {}
+  risk_level: menengah_rendah
+  permit_id: sertifikat-halal-obat-bahan-alam
+  step_order: 7
+  source_regulation: 'PP 42 Tahun 2024 Pasal 2, 160, 161 jo. PP 40 Tahun 2026 (BPJPH); risiko: PP 28 Tahun 2025 Lampiran I (KBLI 2025 di Sistem OSS)'
+  source_url: https://bpjph.halal.go.id/read/penyesuaian-penahapan-kewajiban-sertifikasi-halal-diatur-dalam-pp-40-tahun-2026-begini-rinciannya
+  valid_from: 2026-10-14
+  last_verified: 2026-11-23
 - kbli_code: '56306'
   conditions: {}
   risk_level: menengah_rendah

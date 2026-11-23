@@ -153,7 +153,7 @@ All accessed 2026-11-23. PP 5/2021 was not used anywhere.
 - Format: HTML (Next.js server-rendered page; the data block embedded in the
   page was read). Every page was checked to be "KBLI 2025" and its title
   matches `kbli_scope.yaml`.
-- Supports: `risk_level` of all 258 rules, the presence of Sertifikat
+- Supports: `risk_level` of all 259 rules, the presence of Sertifikat
   Standar, the hygiene permit (Label HSP / SLHS) per food-service code, and
   which codes list SPP-IRT vs only BPOM izin edar as PB UMKU. Rule rows cite
   the page of their code as `source_url` (except halal rows, see section 8,
@@ -249,9 +249,10 @@ All accessed 2026-11-23. PP 5/2021 was not used anywhere.
   https://peraturan.bpk.go.id/Details/304896/pp-no-42-tahun-2024 (PDF, 96
   pages, sha256
   `0863219864c2edaa81bdd2f1b9fcdb4868d2a86cccf13f5855f9c5334a6b0259`).
-  Supports: sertifikat-halal (Pasal 2: obligation and "keterangan tidak halal";
-  Pasal 98: pernyataan halal for UMK with pendampingan PPH; Pasal 155, 159,
-  160). Source URL of all 43 halal rules.
+  Supports: sertifikat-halal and sertifikat-halal-obat-bahan-alam (Pasal 2:
+  obligation and "keterangan tidak halal"; Pasal 98: pernyataan halal for UMK
+  with pendampingan PPH; Pasal 155, 159, 160, 161 ayat (1) huruf a). Source URL
+  of all 43 sertifikat-halal rules.
 - PP 40/2026 (amends PP 42/2024; set and promulgated 2026-10-14): the official
   PDF could not be found on JDIH BPK or peraturan.go.id on 2026-11-23. The new
   UMK deadline is taken from BPJPH's official article "Penyesuaian Penahapan
@@ -259,11 +260,14 @@ All accessed 2026-11-23. PP 5/2021 was not used anywhere.
   Rinciannya", published 2026-10-24,
   https://bpjph.halal.go.id/read/penyesuaian-penahapan-kewajiban-sertifikasi-halal-diatur-dalam-pp-40-tahun-2026-begini-rinciannya
   (HTML): UMK food, beverage, slaughter products and slaughter services are
-  phased in until 17 Oktober 2028. Supports: the 2028 date in
-  sertifikat-halal and its `source_url`.
+  phased in until 17 Oktober 2028 (item 1); obat bahan alam, among other
+  product groups, "diperpanjang sampai dengan 17 Oktober 2028" (item 4).
+  Supports: the 2028 date in sertifikat-halal and
+  sertifikat-halal-obat-bahan-alam, the `source_url` of both permits, and the
+  `source_url` of the 56305 halal rule.
 - BPJPH home page https://bpjph.halal.go.id/ (HTML): application portal
   ptsp.halal.go.id ("Pendaftaran Sertifikasi Halal"). Supports: how_to of
-  sertifikat-halal.
+  sertifikat-halal and sertifikat-halal-obat-bahan-alam.
 
 ## Method notes (permits and rules)
 
@@ -333,10 +337,13 @@ All accessed 2026-11-23. PP 5/2021 was not used anywhere.
    2026-10-24,
    https://bpjph.halal.go.id/read/penyesuaian-penahapan-kewajiban-sertifikasi-halal-diatur-dalam-pp-40-tahun-2026-begini-rinciannya.
    Re-verify against the PP text once it is published.
-3. No halal rule for 56305 (Rumah/Kedai Obat Bahan Alam): obat bahan alam has
-   its own timeline in PP 42/2024 Pasal 161 ayat (1) huruf a (until 17
-   Oktober 2026), and whether PP 40/2026 changed it for UMK could not be
-   confirmed. No halal rule for the retail codes 47222, 47242-47246, 47249:
+3. 56305 (Rumah/Kedai Obat Bahan Alam) uses a separate permit,
+   sertifikat-halal-obat-bahan-alam. Its KBLI definition covers "minuman jamu
+   atau obat bahan alam": minuman falls under PP 42/2024 Pasal 160 ayat (2)
+   and obat bahan alam under Pasal 161 ayat (1) huruf a; per the BPJPH article
+   on PP 40/2026, both are phased in until 17 Oktober 2028 (items 1 and 4), so
+   the permit gives that date. No halal rule for the retail codes 47222,
+   47242-47246, 47249:
    the obligation attaches to the product (PP 42/2024 Pasal 2), and Pasal 159
    ayat (2)-(3) puts services other than slaughter (such as penjualan) in a
    later phase.
