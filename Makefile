@@ -43,7 +43,8 @@ setup:
 	cd api && uv run python -m app.data.loader ../data
 
 # DESTRUCTIVE: deletes the local database volume (all data releases and query logs) and also
-# stops the `full` profile containers. Requires CONFIRM=1.
+# stops the `full` profile containers, then starts db, migrates and loads data/ again (EMBEDDER
+# from the shell or .env: fake or bge). Requires CONFIRM=1.
 db-reset:
 	@if [ "$(CONFIRM)" != "1" ]; then \
 	  echo "db-reset DELETES the local database (loaded data and query logs). Re-run: make db-reset CONFIRM=1" >&2; \
@@ -52,6 +53,7 @@ db-reset:
 	docker compose --profile full down -v
 	docker compose up -d --wait db
 	cd api && uv run python -m app.db
+	cd api && uv run python -m app.data.loader ../data
 
 data-load:
 	cd api && uv run python -m app.data.loader ../data

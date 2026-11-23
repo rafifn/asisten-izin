@@ -108,7 +108,13 @@ sheet.
   (`make data-load` with `.env` set to real mode); the runner checks the release notes.
 - `LLM_MODE=fake EMBEDDER=fake make eval` is free, but the report is labelled as not a quality
   measurement.
-- Reports are written to `evals/reports/<timestamp>.md`. Fake-mode reports are git-ignored.
+- Reports are written to `evals/reports/<timestamp>.md`, rewritten after every case, so Ctrl-C
+  or a crash keeps the results so far (the report is then marked as an incomplete run). A case
+  that raises is recorded as an error row and the run continues. Fake-mode reports are
+  git-ignored.
+- The report shows out-of-scope accuracy (the 0.95 bar) and 3-way scope accuracy, splits every
+  metric by clarified vs not clarified cases, lists the clarified (auto-answered) case ids, and
+  counts an unexpected question on a non-vague case as its own failure type.
 
 The eval runs natively (it needs `evals/` and `uv`), not inside the `api` image.
 
@@ -142,4 +148,6 @@ The api container runs `python -m app.db` (idempotent migrations) before startin
 The API's CORS allow-list comes from `CORS_ORIGINS` (comma-separated, default
 `http://localhost:3000`); set it to the staging web origin. `make dev` and the `full` profile share
 ports 8000/3000, so stop one before starting the other. `make db-reset CONFIRM=1` deletes the local
-database (all data releases and `query_log`) and stops api/web.
+database (all data releases and `query_log`) with `docker compose --profile full down -v` (which
+also stops api/web), then starts db, migrates and reloads `data/` with the configured `EMBEDDER`
+(`.env` or the shell; use `EMBEDDER=bge` for real mode).

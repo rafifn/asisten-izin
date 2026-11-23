@@ -73,14 +73,22 @@ Stop with `docker compose --profile full down` (add `-v` only if you mean to del
 
 ### Real mode
 
-Real answers need an Anthropic API key and the real embedder:
+Real answers need Claude credentials and the real embedder. Set in `.env`:
 
 ```bash
-# in .env
 LLM_MODE=real
 EMBEDDER=bge
-ANTHROPIC_API_KEY=sk-ant-...
 ```
+
+Then authenticate in one of two ways:
+
+- **API key:** add `ANTHROPIC_API_KEY=sk-ant-...` to `.env`.
+- **`ant auth login` profile:** run `ant auth login` once and leave `ANTHROPIC_API_KEY` out of
+  `.env` entirely (as in `.env.example`, where it is commented out). An empty
+  `ANTHROPIC_API_KEY=` line would override the profile.
+
+The containers only get `ANTHROPIC_API_KEY` when it is set (in the shell or `.env`); the `ant`
+profile lives on the host and is not mounted, so the `full` profile needs the API key.
 
 Then reload the data so the KBLI embeddings come from bge-m3 (the first run downloads about
 2 GB of weights to the Hugging Face cache):
@@ -103,7 +111,7 @@ after switching.
 | `make check` | ruff format and lint, mypy, pytest, web lint, typecheck, vitest |
 | `make e2e` | Playwright smoke test against a running fake-mode stack |
 | `make setup` | Start db, apply migrations, load data (non-destructive) |
-| `make db-reset CONFIRM=1` | **Deletes** the local database (all loaded data and query logs), stops the `full` containers, re-migrates. Refuses without `CONFIRM=1` |
+| `make db-reset CONFIRM=1` | **Deletes** the local database (all loaded data and query logs) with `docker compose --profile full down -v` (this also stops the `full` containers), then starts db, migrates and loads `data/` with the configured `EMBEDDER`. Refuses without `CONFIRM=1` |
 | `make data-load` | Validate `data/*.yaml` and insert a new data release |
 | `make data-sample` | Write a random spot-check sheet to `docs/spot-checks/` |
 | `make eval` | Eval dry run: case count and cost estimate, no API calls |
@@ -140,13 +148,19 @@ make eval EVAL_ARGS=--yes        # real Claude API, costs money; needs `make dat
 LLM_MODE=fake EMBEDDER=fake make eval   # free plumbing check, labelled as fake
 ```
 
-The Phase 1 bars are KBLI top-3 >= 0.90 and scope accuracy >= 0.95 with zero invented codes or
-permits. **The baseline report against the real model is still pending**, so there are no quality
+The Phase 1 bars are KBLI top-3 >= 0.90 and out-of-scope accuracy (expected-out cases answered
+out of scope) >= 0.95 with zero invented codes or permits. The report also shows 3-way scope
+accuracy (in / partial / out) and splits every metric by clarified vs not clarified cases. **The baseline report against the real model is still pending**, so there are no quality
 numbers yet. `evals/reports/example-fake.md` only shows the report format.
 
 ## Project status
 
-Phase 1 of 5: a working local app (retrieval, selection, rules, UI, logging, evals) that is ready
-to move to staging. Still open before Phase 1 counts as done: the real-model eval baseline and the
-owner's data spot-check ([docs/spot-checks/](docs/spot-checks/)). There are no users yet, and no
-accuracy claims are made. Operations: [docs/runbook.md](docs/runbook.md).
+Phase 1 of 5: a working local app (retrieval, selection, rules, UI, logging, evals). It is **not
+yet ready for staging**. Open items before Phase 1 counts as done:
+
+- the owner's data spot-check ([docs/spot-checks/](docs/spot-checks/));
+- the owner's review of the eval cases ([evals/REVIEW.md](evals/REVIEW.md));
+- the paid real-model eval baseline (`make eval EVAL_ARGS=--yes`) meeting the Phase 1 bars.
+
+There are no users yet, and no accuracy claims are made. Operations:
+[docs/runbook.md](docs/runbook.md).

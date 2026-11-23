@@ -12,7 +12,7 @@ FastAPI (Python 3.12, uv) in `api/`, Next.js in `web/`, Postgres 17 + pgvector
 
 - `make dev`: start db, apply migrations, run API (8000) and web (3000); `make e2e` runs Playwright against a running fake-mode stack
 - `make check`: ruff format --check, ruff check, mypy app, pytest
-- `make setup`: start db, migrate, load data (non-destructive); `make db-reset CONFIRM=1`: wipe the local db volume and re-migrate (refuses without CONFIRM=1)
+- `make setup`: start db, migrate, load data (non-destructive); `make db-reset CONFIRM=1`: wipe the local db volume (`docker compose --profile full down -v`), start db, migrate and load data with the configured `EMBEDDER` (refuses without CONFIRM=1)
 - `make eval`: dry run (case count + cost estimate); `make eval EVAL_ARGS=--yes` calls the real API (costs money). `make eval-gen` regenerates expected permits in `evals/cases.yaml`
 
 ## Rules
