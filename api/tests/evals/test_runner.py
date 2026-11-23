@@ -200,9 +200,13 @@ def test_report_splits_by_clarified_and_lists_failure_types() -> None:
     )
     assert "| Metric | All | Clarified (1) | Not clarified (1) |" in text
     assert "Clarified (auto-answered) cases: a-01" in text
-    assert "Out-of-scope accuracy (1 expected-out cases answered out) | 1.000" in text
+    assert "Out-of-scope accuracy (1 expected-out cases) | 1.000" in text
     assert "| unexpected_question | 1 |" in text
     assert "Scope accuracy, 3-way" in text
+    only_one = runner.render_report(
+        rs[1:], Settings(llm_mode="real", embedder="bge"), 1, datetime(2026, 11, 23, 12, 0)
+    )
+    assert "| KBLI top-1 | 0.000 | n/a | 0.000 |" in only_one
 
 
 def test_main_keeps_results_when_a_case_raises_or_the_run_is_interrupted(

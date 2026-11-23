@@ -323,8 +323,11 @@ def render_report(
         "|---|---|---|---|---|",
     ]
 
+    def cell(g: str, text: str) -> str:
+        return text if groups[g] else "n/a"  # an empty group has no meaningful numbers
+
     def row(label: str, key: str, bar: str = "", digits: int = 3) -> str:
-        vals = " | ".join(_f(sums[g][key], digits) for g in groups)
+        vals = " | ".join(cell(g, _f(sums[g][key], digits)) for g in groups)
         return f"| {label} | {vals} | {bar} |"
 
     out += [
@@ -334,17 +337,18 @@ def render_report(
         row(f"Risk match, primary acceptable ({s['risk_cases']} cases)", "risk_match"),
         row("Scope accuracy, 3-way (in / partial / out)", "scope"),
         row(
-            f"Out-of-scope accuracy ({s['out_cases']} expected-out cases answered out)",
+            f"Out-of-scope accuracy ({s['out_cases']} expected-out cases)",
             "out_of_scope",
             f">= {BAR_OUT_OF_SCOPE:.2f} {_mark(s['out_of_scope'] >= BAR_OUT_OF_SCOPE)}",
         ),
         row("Clarification rate", "clarification_rate"),
-        f"| Invented codes/permits | {' | '.join(str(sums[g]['invented']) for g in groups)} "
-        f"| == 0 {_mark(s['invented'] == 0)} |",
+        "| Invented codes/permits | "
+        + " | ".join(cell(g, str(sums[g]["invented"])) for g in groups)
+        + f" | == 0 {_mark(s['invented'] == 0)} |",
         row("Average cost per case (USD)", "avg_cost", digits=4),
         row("Total cost (USD)", "total_cost", digits=4),
         "| Latency p50 / p95 (s) | "
-        + " | ".join(f"{sums[g]['p50']:.1f} / {sums[g]['p95']:.1f}" for g in groups)
+        + " | ".join(cell(g, f"{sums[g]['p50']:.1f} / {sums[g]['p95']:.1f}") for g in groups)
         + " | |",
         "",
         "Cases that ended in clarification were re-run once with each question answered by its",
