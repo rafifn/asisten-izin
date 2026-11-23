@@ -33,11 +33,13 @@ ENV PATH=/opt/venv/bin:$PATH \
     HF_HOME=/opt/hf \
     HF_HUB_OFFLINE=1 \
     PYTHONUNBUFFERED=1 \
-    PYTHONDONTWRITEBYTECODE=1
+    PYTHONDONTWRITEBYTECODE=1 \
+    MIGRATIONS_DIR=/app/db/migrations
 COPY --from=builder /opt/venv /opt/venv
 COPY --from=builder /opt/hf /opt/hf
 WORKDIR /app
-# Layout mirrors the repo: app.db finds ../db/migrations, evals find ../data and ../evals.
+# Layout: /app/app (package), /app/db/migrations (MIGRATIONS_DIR above), /app/data (pass it to
+# the loader: `python -m app.data.loader /app/data`).
 COPY api/app ./app
 COPY db ./db
 COPY data ./data

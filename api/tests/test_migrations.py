@@ -53,3 +53,8 @@ def test_nested_transaction_in_db_fixture_is_rolled_back(db: Conn) -> None:
 def test_db_fixture_changes_do_not_persist(db: Conn) -> None:
     row = db.execute("select count(*) from data_release where notes in ('nested', 'x')").fetchone()
     assert row is not None and row[0] == 0
+
+
+def test_migrate_refuses_an_empty_directory(db: Conn, tmp_path: Path) -> None:
+    with pytest.raises(FileNotFoundError, match="no migration files"):
+        migrate(db, tmp_path)
