@@ -11,6 +11,7 @@ ALLOWED_ATTRIBUTES = (
     "has_seating",
     "sells_online",
     "animal_products",
+    "formal_restaurant",  # usaha berbentuk restoran (vs warung/rumah makan/kedai); R8
 )
 
 KbliCode = Annotated[str, StringConstraints(pattern=r"^\d{5}$")]
