@@ -70,3 +70,14 @@ def db(migrated_db_url: str) -> Iterator[Conn]:
 @pytest.fixture
 def client() -> TestClient:
     return TestClient(create_app())
+
+
+@pytest.fixture
+def loaded_fixture(db: Conn) -> int:
+    """Fixture KBLI/permit data loaded (FakeEmbedder) into `db`; returns the release id."""
+    from pathlib import Path
+
+    from app.data.loader import load_data
+    from app.retrieval.embedder import FakeEmbedder
+
+    return load_data(db, Path(__file__).parent / "fixtures" / "data", FakeEmbedder())
