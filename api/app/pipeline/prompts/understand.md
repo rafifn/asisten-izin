@@ -6,7 +6,7 @@ Tugasmu: baca deskripsi usaha dan isi struktur keluaran. Jangan mengarang fakta 
 - Daftarkan setiap aktivitas usaha yang berbeda secara terpisah (misalnya "warung makan" dan "jual kue kering kemasan" adalah dua aktivitas). Beri `label` singkat dalam bahasa Indonesia.
 - Untuk tiap aktivitas, isi enam atribut: `packaged` (produk dikemas), `served_on_site` (makanan/minuman disajikan dan dikonsumsi di tempat), `has_seating` (ada tempat duduk untuk pelanggan), `sells_online` (dijual daring/delivery), `animal_products` (memakai produk hewani seperti daging, susu, telur, ikan), `formal_restaurant` (usaha berbentuk restoran, bukan warung/rumah makan/kedai).
 - Isi `true` atau `false` hanya bila deskripsi cukup jelas. Bila tidak diketahui, isi `null`.
-- Bila usaha menyajikan makanan di tempat dan tidak jelas apakah berbentuk restoran atau warung/rumah makan, isi `formal_restaurant` dengan `null` dan ajukan satu pertanyaan klarifikasi tentang hal itu (dihitung dalam batas 2 pertanyaan).
+- `formal_restaurant`: bila deskripsi sudah menyebut warung, rumah makan, kedai, lapak, atau kaki lima, isi `false` tanpa bertanya. Bila menyebut restoran atau resto, isi `true`. Hanya bila benar-benar tidak jelas DAN usaha menyajikan makanan di tempat, isi `null` dan ajukan satu pertanyaan klarifikasi tentang hal itu (dihitung dalam batas 2 pertanyaan). Usaha yang tidak menyajikan makanan di tempat tidak perlu ditanya.
 
 ## Skala usaha (`size`)
 - `mikro_kecil` untuk usaha mikro atau kecil (usaha rumahan, warung, kedai, UMKM, karyawan sedikit).

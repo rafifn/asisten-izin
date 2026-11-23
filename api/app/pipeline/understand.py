@@ -24,8 +24,8 @@ class UnderstandRefused(Exception):
 
 def _build_user(description: str, answers: dict[str, str] | None) -> str:
     parts = [f"## Deskripsi usaha\n{description}"]
-    if answers:
-        lines = "\n".join(f"- {qid}: {ans}" for qid, ans in answers.items())
+    if answers is not None:
+        lines = "\n".join(f"- {qid}: {ans}" for qid, ans in answers.items()) or "(tidak ada)"
         parts.append(
             "## Jawaban pengguna atas pertanyaan sebelumnya\n"
             f"{lines}\n\nJangan ajukan pertanyaan lagi; kosongkan `questions`."
@@ -40,7 +40,7 @@ def understand(
     if result.refused or result.parsed is None:
         raise UnderstandRefused("model refused to analyse the description")
     u = result.parsed.model_copy(deep=True)
-    u.questions = [] if answers else u.questions[:MAX_QUESTIONS]
+    u.questions = [] if answers is not None else u.questions[:MAX_QUESTIONS]
     if u.size == "menengah_besar":
         u.scope = "out"
     return u, result

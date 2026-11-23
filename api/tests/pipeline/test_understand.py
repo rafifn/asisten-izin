@@ -70,3 +70,9 @@ def test_refusal_raises() -> None:
 
     with pytest.raises(UnderstandRefused):
         understand(Refusing([]), "jualan kue", None)
+
+
+def test_empty_answers_dict_never_returns_questions() -> None:
+    llm = FakeLlm([understanding(questions=[q("a")])])
+    u, _ = understand(llm, "jualan kue", {})
+    assert u.questions == [] and "Jangan ajukan pertanyaan" in llm.calls[0][1]
