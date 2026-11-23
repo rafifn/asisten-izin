@@ -23,12 +23,12 @@ from app.deps import AnyLlm, build_embedder, build_llm
 from app.errors import ApiError
 from app.evals.cases import CASES_PATH, REPO_ROOT, Case, load_cases
 from app.evals.score import DataCodes, invented, match_primaries, score_kbli, score_permits
-from app.pipeline.analyze import UNSURE_NOTE, NeedsClarification, Ok, OutOfScope, analyze
+from app.pipeline.analyze import NeedsClarification, Ok, OutOfScope, analyze
 from app.retrieval.embedder import Embedder
 
 REPORTS_DIR = REPO_ROOT / "evals" / "reports"
 BAR_TOP3 = 0.90
-BAR_SCOPE = 0.95
+BAR_OUT_OF_SCOPE = 0.95  # applies to out-of-scope accuracy (ruling R22)
 # Rough cost model for the pre-run estimate: ~2 LLM calls per case, ~6k in + ~1k out each.
 CALLS_PER_CASE = 2
 IN_TOK, OUT_TOK = 6_000, 1_000
@@ -38,6 +38,18 @@ IN_USD, OUT_USD = 4.00, 20.00
 def estimate_cost(n_cases: int) -> float:
     per_call = (IN_TOK * IN_USD + OUT_TOK * OUT_USD) / 1_000_000
     return n_cases * CALLS_PER_CASE * per_call
+
+
+@dataclass
+class CaseRun:
+    """What running one case produced (before scoring)."""
+
+    resp: NeedsClarification | OutOfScope | Ok | None
+    clarified: bool  # the first pass asked; the questions were auto-answered with option 1
+    cost_usd: float  # every logged request of the case, failed ones included
+    latency_s: float
+    error: str | None = None
+    logged_scope: str | None = None  # understanding.scope logged for the final request
 
 
 @dataclass
@@ -57,20 +69,25 @@ class CaseResult:
     failures: list[str] = field(default_factory=list)
 
 
-def got_scope(resp: NeedsClarification | OutOfScope | Ok) -> str:
+def got_scope(resp: NeedsClarification | OutOfScope | Ok, logged_scope: str | None) -> str:
+    """Scope the system answered with. For an `ok` answer this is the understanding's scope as
+    logged in `query_log` (in or partial), not something inferred from the scope note."""
     if isinstance(resp, OutOfScope):
         return "out"
     if isinstance(resp, NeedsClarification):
         return "clarify"
-    note = resp.result.scope_note
-    return "partial" if note is not None and note != UNSURE_NOTE else "in"
+    return logged_scope if logged_scope in ("in", "partial") else "in"
 
 
-def _request_cost(conn: Conn, request_id: Any) -> float:
+def _logged(conn: Conn, request_id: Any) -> tuple[float, str | None]:
+    """(cost_usd, understanding scope) of a logged request."""
     row = conn.execute(
-        "select cost_usd from query_log where request_uuid = %s", [request_id]
+        "select cost_usd, attributes->>'scope' from query_log where request_uuid = %s",
+        [request_id],
     ).fetchone()
-    return float(row[0]) if row and row[0] is not None else 0.0
+    if row is None:
+        return 0.0, None
+    return (float(row[0]) if row[0] is not None else 0.0), row[1]
 
 
 def first_option_answers(q: NeedsClarification) -> dict[str, str]:
@@ -79,10 +96,11 @@ def first_option_answers(q: NeedsClarification) -> dict[str, str]:
 
 def run_case(
     conn: Conn, llm: AnyLlm, embedder: Embedder, case: Case, today: date, commit: bool = True
-) -> tuple[NeedsClarification | OutOfScope | Ok | None, bool, float, float, str | None]:
-    """Returns (final response, clarified, cost, latency seconds, error).
+) -> CaseRun:
+    """Run one case (and its auto-answered clarification round, if asked).
 
-    Commits after every request (like the API does) unless `commit` is False (tests).
+    Commits after every request (like the API does) unless `commit` is False (tests). An
+    `ApiError` becomes `CaseRun.error`; the cost of the failed request is still counted.
     """
 
     def done() -> None:
@@ -90,43 +108,52 @@ def run_case(
             conn.commit()
 
     started = time.perf_counter()
-    cost = 0.0
-    clarified = False
-    answers = case.answers
-    try:
-        resp = analyze(conn, llm, embedder, case.description, answers, today)
-        done()
-        cost += _request_cost(conn, resp.request_id)
-        if isinstance(resp, NeedsClarification):
-            clarified = True
-            resp = analyze(conn, llm, embedder, case.description, first_option_answers(resp), today)
+    run = CaseRun(None, False, 0.0, 0.0)
+
+    def request(answers: dict[str, str] | None) -> NeedsClarification | OutOfScope | Ok:
+        try:
+            resp = analyze(conn, llm, embedder, case.description, answers, today)
+        except ApiError as e:
             done()
-            cost += _request_cost(conn, resp.request_id)
-    except ApiError as e:
+            if e.request_id is not None:
+                run.cost_usd += _logged(conn, e.request_id)[0]
+            raise
         done()
-        return None, clarified, cost, time.perf_counter() - started, f"{e.code}: {e.message}"
-    return resp, clarified, cost, time.perf_counter() - started, None
+        cost, run.logged_scope = _logged(conn, resp.request_id)
+        run.cost_usd += cost
+        return resp
+
+    try:
+        resp = request(case.answers)
+        if isinstance(resp, NeedsClarification):
+            run.clarified = True
+            resp = request(first_option_answers(resp))
+        run.resp = resp
+    except ApiError as e:
+        run.error = f"{e.code}: {e.message}"
+    run.latency_s = time.perf_counter() - started
+    return run
 
 
 def score_case(
-    case: Case,
-    resp: NeedsClarification | OutOfScope | Ok | None,
-    clarified: bool,
-    cost: float,
-    latency: float,
-    error: str | None,
-    name_to_id: Mapping[str, str],
-    data: DataCodes,
+    case: Case, run: CaseRun, name_to_id: Mapping[str, str], data: DataCodes
 ) -> CaseResult:
+    """Score one run. Each failure string starts with its type (`scope:`, `kbli:`, ...)."""
     exp = case.expect
+    resp, clarified, error = run.resp, run.clarified, run.error
     ok = resp if isinstance(resp, Ok) else None
-    scope = "error" if resp is None else got_scope(resp)
+    scope = "error" if resp is None else got_scope(resp, run.logged_scope)
     status = "error" if resp is None else resp.status
-    r = CaseResult(case, status, clarified, scope, ok, cost, latency, error)
+    r = CaseResult(case, status, clarified, scope, ok, run.cost_usd, run.latency_s, error)
     if scope != exp.scope:
         r.failures.append(f"scope: expected {exp.scope}, got {scope}")
     if exp.clarify and not clarified:
-        r.failures.append("expected a clarification question on the first pass")
+        r.failures.append("clarify: expected a clarification question on the first pass")
+    if not exp.clarify and clarified:
+        r.failures.append(
+            "unexpected_question: asked a clarification question on a non-vague case"
+            " (auto-answered with the first option)"
+        )
     if error:
         r.failures.append(f"error: {error}")
     if ok is not None:
@@ -168,6 +195,35 @@ def score_case(
     return r
 
 
+def evaluate_case(
+    conn: Conn,
+    llm: AnyLlm,
+    embedder: Embedder,
+    case: Case,
+    today: date,
+    name_to_id: Mapping[str, str],
+    data: DataCodes,
+    commit: bool = True,
+) -> CaseResult:
+    """Run and score one case. Any exception becomes an error row, so one bad case never
+    stops a (paid) run."""
+    started = time.perf_counter()
+    try:
+        return score_case(
+            case, run_case(conn, llm, embedder, case, today, commit), name_to_id, data
+        )
+    except Exception as e:
+        try:
+            conn.rollback()
+        except Exception:
+            pass
+        error = f"{type(e).__name__}: {e}"
+        r = CaseResult(case, "error", False, "error", None, 0.0, time.perf_counter() - started)
+        r.error = error
+        r.failures.append(f"error: {error}")
+        return r
+
+
 def percentile(values: list[float], q: float) -> float:
     if not values:
         return 0.0
@@ -186,6 +242,7 @@ def summarize(results: list[CaseResult]) -> dict[str, Any]:
             pooled["top3"] += r.kbli["top3"] * n
     permit_cases = [r for r in results if r.permits_ok is not None]
     risk_cases = [r for r in results if r.risk_ok is not None]
+    out_cases = [r for r in results if r.case.expect.scope == "out"]
     n = len(results) or 1
     return {
         "cases": len(results),
@@ -201,6 +258,10 @@ def summarize(results: list[CaseResult]) -> dict[str, Any]:
         else 0.0,
         "risk_cases": len(risk_cases),
         "scope": sum(r.got_scope == r.case.expect.scope for r in results) / n,
+        "out_cases": len(out_cases),
+        "out_of_scope": sum(r.got_scope == "out" for r in out_cases) / len(out_cases)
+        if out_cases
+        else 0.0,
         "clarification_rate": sum(r.clarified for r in results) / n,
         "invented": sum(len(r.invented) for r in results),
         "avg_cost": sum(r.cost_usd for r in results) / n,
@@ -214,10 +275,25 @@ def _mark(ok: bool) -> str:
     return "PASS" if ok else "FAIL"
 
 
+def _f(value: float, digits: int = 3) -> str:
+    return f"{value:.{digits}f}"
+
+
 def render_report(
-    results: list[CaseResult], settings: Settings, release_id: int, started: datetime
+    results: list[CaseResult],
+    settings: Settings,
+    release_id: int,
+    started: datetime,
+    total_cases: int | None = None,
 ) -> str:
-    s = summarize(results)
+    """Markdown report. `total_cases` > len(results) marks the report as an incomplete run."""
+    groups = {
+        "All": results,
+        "Clarified": [r for r in results if r.clarified],
+        "Not clarified": [r for r in results if not r.clarified],
+    }
+    sums = {name: summarize(rs) for name, rs in groups.items()}
+    s = sums["All"]
     fake = settings.llm_mode == "fake" or settings.embedder == "fake"
     out: list[str] = []
     if fake:
@@ -227,36 +303,72 @@ def render_report(
             "It only exercises the eval plumbing; low scores are expected.",
             "",
         ]
+    if total_cases is not None and total_cases > len(results):
+        out += [
+            f"> **INCOMPLETE RUN: {len(results)} of {total_cases} cases.** The run stopped early "
+            "(interrupted or crashed); the numbers cover only the cases listed.",
+            "",
+        ]
     out += [
         f"# Eval report {started:%Y-%m-%d %H:%M}",
         "",
         f"- Mode: LLM_MODE={settings.llm_mode}, EMBEDDER={settings.embedder}",
         f"- Data release id: {release_id}",
         f"- Cases: {s['cases']} ({s['activities']} expected activities)",
+        "- Latency: the first case's latency includes loading the embedding model.",
         "",
-        "| Metric | Value | Bar |",
-        "|---|---|---|",
-        f"| KBLI top-1 | {s['top1']:.3f} | |",
-        f"| KBLI top-3 | {s['top3']:.3f} | >= {BAR_TOP3:.2f} {_mark(s['top3'] >= BAR_TOP3)} |",
-        f"| Permit exact match ({s['permit_cases']} cases) | {s['permit_exact']:.3f} | |",
-        f"| Risk match, primary acceptable ({s['risk_cases']} cases) | {s['risk_match']:.3f} | |",
-        f"| Scope accuracy | {s['scope']:.3f} | "
-        f">= {BAR_SCOPE:.2f} {_mark(s['scope'] >= BAR_SCOPE)} |",
-        f"| Clarification rate | {s['clarification_rate']:.3f} | |",
-        f"| Invented codes/permits | {s['invented']} | == 0 {_mark(s['invented'] == 0)} |",
-        f"| Average cost per case (USD) | {s['avg_cost']:.4f} | |",
-        f"| Total cost (USD) | {s['total_cost']:.4f} | |",
-        f"| Latency p50 / p95 (s) | {s['p50']:.1f} / {s['p95']:.1f} | |",
+        "| Metric | All | Clarified ({}) | Not clarified ({}) | Bar (on All) |".format(
+            len(groups["Clarified"]), len(groups["Not clarified"])
+        ),
+        "|---|---|---|---|---|",
+    ]
+
+    def row(label: str, key: str, bar: str = "", digits: int = 3) -> str:
+        vals = " | ".join(_f(sums[g][key], digits) for g in groups)
+        return f"| {label} | {vals} | {bar} |"
+
+    out += [
+        row("KBLI top-1", "top1"),
+        row("KBLI top-3", "top3", f">= {BAR_TOP3:.2f} {_mark(s['top3'] >= BAR_TOP3)}"),
+        row(f"Permit exact match ({s['permit_cases']} cases)", "permit_exact"),
+        row(f"Risk match, primary acceptable ({s['risk_cases']} cases)", "risk_match"),
+        row("Scope accuracy, 3-way (in / partial / out)", "scope"),
+        row(
+            f"Out-of-scope accuracy ({s['out_cases']} expected-out cases answered out)",
+            "out_of_scope",
+            f">= {BAR_OUT_OF_SCOPE:.2f} {_mark(s['out_of_scope'] >= BAR_OUT_OF_SCOPE)}",
+        ),
+        row("Clarification rate", "clarification_rate"),
+        f"| Invented codes/permits | {' | '.join(str(sums[g]['invented']) for g in groups)} "
+        f"| == 0 {_mark(s['invented'] == 0)} |",
+        row("Average cost per case (USD)", "avg_cost", digits=4),
+        row("Total cost (USD)", "total_cost", digits=4),
+        "| Latency p50 / p95 (s) | "
+        + " | ".join(f"{sums[g]['p50']:.1f} / {sums[g]['p95']:.1f}" for g in groups)
+        + " | |",
         "",
         "Cases that ended in clarification were re-run once with each question answered by its",
         "first option; the second pass is the one scored. Vague cases are scored for scope only.",
+        "Costs include every logged request of a case, also requests that ended in an error.",
         "",
     ]
+    clarified_ids = [r.case.id for r in groups["Clarified"]]
+    out.append(
+        f"Clarified (auto-answered) cases: {', '.join(clarified_ids) if clarified_ids else 'none'}"
+    )
+    out.append("")
     failed = [r for r in results if r.failures]
     out.append(f"## Failed cases ({len(failed)})")
     out.append("")
     if failed:
-        out += ["| id | description | failures |", "|---|---|---|"]
+        types: dict[str, int] = {}
+        for r in failed:
+            for f in r.failures:
+                kind = f.split(":", 1)[0]
+                types[kind] = types.get(kind, 0) + 1
+        out += ["| Failure type | Count |", "|---|---|"]
+        out += [f"| {k} | {v} |" for k, v in sorted(types.items())]
+        out += ["", "| id | description | failures |", "|---|---|---|"]
         for r in failed:
             desc = r.case.description.replace("|", "/")
             fails = "<br>".join(f.replace("|", "/") for f in r.failures)
@@ -328,6 +440,9 @@ def main(argv: list[str], env: Mapping[str, str] | None = None) -> int:
     started = datetime.now()
     llm = build_llm(settings)
     embedder = build_embedder(settings)
+    fake = settings.llm_mode == "fake" or settings.embedder == "fake"
+    args.reports_dir.mkdir(parents=True, exist_ok=True)
+    path = args.reports_dir / f"{'fake-' if fake else ''}{started:%Y%m%d-%H%M}.md"
     with connect(settings.database_url) as conn:
         problem = check_release(conn, settings) if settings.llm_mode == "real" else None
         if problem:
@@ -336,23 +451,23 @@ def main(argv: list[str], env: Mapping[str, str] | None = None) -> int:
         release_id = current_release_id(conn)
         data, name_to_id = load_data_codes(conn, release_id)
         results: list[CaseResult] = []
-        for i, case in enumerate(cases, start=1):
-            resp, clarified, cost, latency, error = run_case(
-                conn, llm, embedder, case, date.today()
-            )
-            res = score_case(case, resp, clarified, cost, latency, error, name_to_id, data)
-            results.append(res)
-            print(
-                f"[{i}/{len(cases)}] {case.id}: {'ok' if not res.failures else 'FAIL'}", flush=True
-            )
 
-    report = render_report(results, settings, release_id, started)
-    fake = settings.llm_mode == "fake" or settings.embedder == "fake"
-    args.reports_dir.mkdir(parents=True, exist_ok=True)
-    name = f"{'fake-' if fake else ''}{started:%Y%m%d-%H%M}.md"
-    path = args.reports_dir / name
-    path.write_text(report, encoding="utf-8")
-    print(f"wrote {path}")
+        def write() -> None:
+            text = render_report(results, settings, release_id, started, len(cases))
+            path.write_text(text, encoding="utf-8")
+
+        try:
+            for i, case in enumerate(cases, start=1):
+                res = evaluate_case(conn, llm, embedder, case, date.today(), name_to_id, data)
+                results.append(res)
+                print(
+                    f"[{i}/{len(cases)}] {case.id}: {'ok' if not res.failures else 'FAIL'}",
+                    flush=True,
+                )
+                write()  # after every case: a crash or Ctrl-C never loses paid results
+        finally:
+            write()
+            print(f"wrote {path}")
     return 0
 
 
