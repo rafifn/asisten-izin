@@ -38,15 +38,6 @@
   valid_from: 2026-06-15
   last_verified: 2026-11-23
 - kbli_code: '10120'
-  conditions: {}
-  risk_level: menengah_rendah
-  permit_id: pbg-slf
-  step_order: 5
-  source_regulation: 'PP 28 Tahun 2025 Lampiran I (KBLI 2025 di Sistem OSS); Pasal 10, 106, 108'
-  source_url: https://oss.go.id/id/kbli/detail/076ba047-e626-5942-914d-d719336484ab
-  valid_from: 2026-06-15
-  last_verified: 2026-11-23
-- kbli_code: '10120'
   conditions: {packaged: true}
   risk_level: menengah_rendah
   permit_id: izin-edar-pangan-olahan
@@ -101,15 +92,6 @@
   valid_from: 2026-06-15
   last_verified: 2026-11-23
 - kbli_code: '10218'
-  conditions: {}
-  risk_level: menengah_rendah
-  permit_id: pbg-slf
-  step_order: 5
-  source_regulation: 'PP 28 Tahun 2025 Lampiran I (KBLI 2025 di Sistem OSS); Pasal 10, 106, 108'
-  source_url: https://oss.go.id/id/kbli/detail/2f65f6fe-6d9e-5751-9f24-cff969e2189e
-  valid_from: 2026-06-15
-  last_verified: 2026-11-23
-- kbli_code: '10218'
   conditions: {packaged: true}
   risk_level: menengah_rendah
   permit_id: izin-edar-bpom
@@ -164,15 +146,6 @@
   valid_from: 2026-06-15
   last_verified: 2026-11-23
 - kbli_code: '10296'
-  conditions: {}
-  risk_level: menengah_rendah
-  permit_id: pbg-slf
-  step_order: 5
-  source_regulation: 'PP 28 Tahun 2025 Lampiran I (KBLI 2025 di Sistem OSS); Pasal 10, 106, 108'
-  source_url: https://oss.go.id/id/kbli/detail/6c31fbdc-30dd-5af4-85b8-87e3c8b8555f
-  valid_from: 2026-06-15
-  last_verified: 2026-11-23
-- kbli_code: '10296'
   conditions: {packaged: true}
   risk_level: menengah_rendah
   permit_id: izin-edar-bpom
@@ -218,15 +191,6 @@
   valid_from: 2026-06-15
   last_verified: 2026-11-23
 - kbli_code: '10301'
-  conditions: {}
-  risk_level: rendah
-  permit_id: pbg-slf
-  step_order: 5
-  source_regulation: 'PP 28 Tahun 2025 Lampiran I (KBLI 2025 di Sistem OSS); Pasal 10, 106, 108'
-  source_url: https://oss.go.id/id/kbli/detail/68223e45-a514-5f73-bee4-3798b5f910b0
-  valid_from: 2026-06-15
-  last_verified: 2026-11-23
-- kbli_code: '10301'
   conditions: {packaged: true}
   risk_level: rendah
   permit_id: izin-edar-pangan-olahan
@@ -272,15 +236,6 @@
   valid_from: 2026-06-15
   last_verified: 2026-11-23
 - kbli_code: '10302'
-  conditions: {}
-  risk_level: rendah
-  permit_id: pbg-slf
-  step_order: 5
-  source_regulation: 'PP 28 Tahun 2025 Lampiran I (KBLI 2025 di Sistem OSS); Pasal 10, 106, 108'
-  source_url: https://oss.go.id/id/kbli/detail/2bc99f4d-b0e1-5b39-8a82-cb3222d4f8b8
-  valid_from: 2026-06-15
-  last_verified: 2026-11-23
-- kbli_code: '10302'
   conditions: {packaged: true}
   risk_level: rendah
   permit_id: izin-edar-pangan-olahan
@@ -326,15 +281,6 @@
   valid_from: 2026-06-15
   last_verified: 2026-11-23
 - kbli_code: '10303'
-  conditions: {}
-  risk_level: rendah
-  permit_id: pbg-slf
-  step_order: 5
-  source_regulation: 'PP 28 Tahun 2025 Lampiran I (KBLI 2025 di Sistem OSS); Pasal 10, 106, 108'
-  source_url: https://oss.go.id/id/kbli/detail/7bf1263b-87b5-5e58-a2fe-2bc70fb62dfd
-  valid_from: 2026-06-15
-  last_verified: 2026-11-23
-- kbli_code: '10303'
   conditions: {packaged: true}
   risk_level: rendah
   permit_id: izin-edar-pangan-olahan
@@ -380,15 +326,6 @@
   valid_from: 2026-06-15
   last_verified: 2026-11-23
 - kbli_code: '10304'
-  conditions: {}
-  risk_level: rendah
-  permit_id: pbg-slf
-  step_order: 5
-  source_regulation: 'PP 28 Tahun 2025 Lampiran I (KBLI 2025 di Sistem OSS); Pasal 10, 106, 108'
-  source_url: https://oss.go.id/id/kbli/detail/5ac3a700-23ab-58da-9e04-b4af443160c8
-  valid_from: 2026-06-15
-  last_verified: 2026-11-23
-- kbli_code: '10304'
   conditions: {packaged: true}
   risk_level: rendah
   permit_id: izin-edar-bpom
@@ -430,15 +367,6 @@
   permit_id: nib
   step_order: 3
   source_regulation: 'PP 28 Tahun 2025 Lampiran I (KBLI 2025 di Sistem OSS); Pasal 206, 234'
-  source_url: https://oss.go.id/id/kbli/detail/2827cbdd-db35-5941-8a48-91cb57da57ac
-  valid_from: 2026-06-15
-  last_verified: 2026-11-23
-- kbli_code: '10306'
-  conditions: {}
-  risk_level: rendah
-  permit_id: pbg-slf
-  step_order: 5
-  source_regulation: 'PP 28 Tahun 2025 Lampiran I (KBLI 2025 di Sistem OSS); Pasal 10, 106, 108'
   source_url: https://oss.go.id/id/kbli/detail/2827cbdd-db35-5941-8a48-91cb57da57ac
   valid_from: 2026-06-15
   last_verified: 2026-11-23
@@ -488,15 +416,6 @@
   valid_from: 2026-06-15
   last_verified: 2026-11-23
 - kbli_code: '10307'
-  conditions: {}
-  risk_level: rendah
-  permit_id: pbg-slf
-  step_order: 5
-  source_regulation: 'PP 28 Tahun 2025 Lampiran I (KBLI 2025 di Sistem OSS); Pasal 10, 106, 108'
-  source_url: https://oss.go.id/id/kbli/detail/eea51c75-b579-5607-a7c7-0051050ade70
-  valid_from: 2026-06-15
-  last_verified: 2026-11-23
-- kbli_code: '10307'
   conditions: {packaged: true}
   risk_level: rendah
   permit_id: izin-edar-bpom
@@ -542,15 +461,6 @@
   valid_from: 2026-06-15
   last_verified: 2026-11-23
 - kbli_code: '10308'
-  conditions: {}
-  risk_level: rendah
-  permit_id: pbg-slf
-  step_order: 5
-  source_regulation: 'PP 28 Tahun 2025 Lampiran I (KBLI 2025 di Sistem OSS); Pasal 10, 106, 108'
-  source_url: https://oss.go.id/id/kbli/detail/49767c21-9599-5250-bd27-52fb6f2f9fec
-  valid_from: 2026-06-15
-  last_verified: 2026-11-23
-- kbli_code: '10308'
   conditions: {packaged: true}
   risk_level: rendah
   permit_id: izin-edar-bpom
@@ -592,15 +502,6 @@
   permit_id: nib
   step_order: 3
   source_regulation: 'PP 28 Tahun 2025 Lampiran I (KBLI 2025 di Sistem OSS); Pasal 206, 234'
-  source_url: https://oss.go.id/id/kbli/detail/3219bac2-7c61-5268-954c-870a726686cc
-  valid_from: 2026-06-15
-  last_verified: 2026-11-23
-- kbli_code: '10309'
-  conditions: {}
-  risk_level: rendah
-  permit_id: pbg-slf
-  step_order: 5
-  source_regulation: 'PP 28 Tahun 2025 Lampiran I (KBLI 2025 di Sistem OSS); Pasal 10, 106, 108'
   source_url: https://oss.go.id/id/kbli/detail/3219bac2-7c61-5268-954c-870a726686cc
   valid_from: 2026-06-15
   last_verified: 2026-11-23
@@ -650,15 +551,6 @@
   valid_from: 2026-06-15
   last_verified: 2026-11-23
 - kbli_code: '10503'
-  conditions: {}
-  risk_level: rendah
-  permit_id: pbg-slf
-  step_order: 5
-  source_regulation: 'PP 28 Tahun 2025 Lampiran I (KBLI 2025 di Sistem OSS); Pasal 10, 106, 108'
-  source_url: https://oss.go.id/id/kbli/detail/d65a1411-5289-5657-ab20-85276b40e068
-  valid_from: 2026-06-15
-  last_verified: 2026-11-23
-- kbli_code: '10503'
   conditions: {packaged: true}
   risk_level: rendah
   permit_id: izin-edar-bpom
@@ -700,15 +592,6 @@
   permit_id: nib
   step_order: 3
   source_regulation: 'PP 28 Tahun 2025 Lampiran I (KBLI 2025 di Sistem OSS); Pasal 206, 234'
-  source_url: https://oss.go.id/id/kbli/detail/a01d02a2-b80a-5ddc-8d20-69e7da14730d
-  valid_from: 2026-06-15
-  last_verified: 2026-11-23
-- kbli_code: '10504'
-  conditions: {}
-  risk_level: rendah
-  permit_id: pbg-slf
-  step_order: 5
-  source_regulation: 'PP 28 Tahun 2025 Lampiran I (KBLI 2025 di Sistem OSS); Pasal 10, 106, 108'
   source_url: https://oss.go.id/id/kbli/detail/a01d02a2-b80a-5ddc-8d20-69e7da14730d
   valid_from: 2026-06-15
   last_verified: 2026-11-23
@@ -767,15 +650,6 @@
   valid_from: 2026-06-15
   last_verified: 2026-11-23
 - kbli_code: '10509'
-  conditions: {}
-  risk_level: menengah_rendah
-  permit_id: pbg-slf
-  step_order: 5
-  source_regulation: 'PP 28 Tahun 2025 Lampiran I (KBLI 2025 di Sistem OSS); Pasal 10, 106, 108'
-  source_url: https://oss.go.id/id/kbli/detail/df436cfe-93f8-5254-8f32-131958dd4b52
-  valid_from: 2026-06-15
-  last_verified: 2026-11-23
-- kbli_code: '10509'
   conditions: {packaged: true}
   risk_level: menengah_rendah
   permit_id: izin-edar-bpom
@@ -821,15 +695,6 @@
   valid_from: 2026-06-15
   last_verified: 2026-11-23
 - kbli_code: '10710'
-  conditions: {}
-  risk_level: rendah
-  permit_id: pbg-slf
-  step_order: 5
-  source_regulation: 'PP 28 Tahun 2025 Lampiran I (KBLI 2025 di Sistem OSS); Pasal 10, 106, 108'
-  source_url: https://oss.go.id/id/kbli/detail/02df412b-ac74-56cc-bd6b-5fc92feb866c
-  valid_from: 2026-06-15
-  last_verified: 2026-11-23
-- kbli_code: '10710'
   conditions: {packaged: true}
   risk_level: rendah
   permit_id: izin-edar-pangan-olahan
@@ -871,15 +736,6 @@
   permit_id: nib
   step_order: 3
   source_regulation: 'PP 28 Tahun 2025 Lampiran I (KBLI 2025 di Sistem OSS); Pasal 206, 234'
-  source_url: https://oss.go.id/id/kbli/detail/8b634ab8-52cf-56e2-ae83-7acac0a38474
-  valid_from: 2026-06-15
-  last_verified: 2026-11-23
-- kbli_code: '10722'
-  conditions: {}
-  risk_level: rendah
-  permit_id: pbg-slf
-  step_order: 5
-  source_regulation: 'PP 28 Tahun 2025 Lampiran I (KBLI 2025 di Sistem OSS); Pasal 10, 106, 108'
   source_url: https://oss.go.id/id/kbli/detail/8b634ab8-52cf-56e2-ae83-7acac0a38474
   valid_from: 2026-06-15
   last_verified: 2026-11-23
@@ -938,15 +794,6 @@
   valid_from: 2026-06-15
   last_verified: 2026-11-23
 - kbli_code: '10723'
-  conditions: {}
-  risk_level: menengah_tinggi
-  permit_id: pbg-slf
-  step_order: 5
-  source_regulation: 'PP 28 Tahun 2025 Lampiran I (KBLI 2025 di Sistem OSS); Pasal 10, 106, 108'
-  source_url: https://oss.go.id/id/kbli/detail/4a6a7b0e-fe47-5e7c-b29d-61b844281ff9
-  valid_from: 2026-06-15
-  last_verified: 2026-11-23
-- kbli_code: '10723'
   conditions: {packaged: true}
   risk_level: menengah_tinggi
   permit_id: izin-edar-pangan-olahan
@@ -1001,15 +848,6 @@
   valid_from: 2026-06-15
   last_verified: 2026-11-23
 - kbli_code: '10732'
-  conditions: {}
-  risk_level: menengah_rendah
-  permit_id: pbg-slf
-  step_order: 5
-  source_regulation: 'PP 28 Tahun 2025 Lampiran I (KBLI 2025 di Sistem OSS); Pasal 10, 106, 108'
-  source_url: https://oss.go.id/id/kbli/detail/84c42b2b-8bc7-5524-a8d8-a943231631fb
-  valid_from: 2026-06-15
-  last_verified: 2026-11-23
-- kbli_code: '10732'
   conditions: {packaged: true}
   risk_level: menengah_rendah
   permit_id: izin-edar-pangan-olahan
@@ -1055,15 +893,6 @@
   valid_from: 2026-06-15
   last_verified: 2026-11-23
 - kbli_code: '10733'
-  conditions: {}
-  risk_level: rendah
-  permit_id: pbg-slf
-  step_order: 5
-  source_regulation: 'PP 28 Tahun 2025 Lampiran I (KBLI 2025 di Sistem OSS); Pasal 10, 106, 108'
-  source_url: https://oss.go.id/id/kbli/detail/9b1da6ed-38e5-5b04-b961-c0110b8424f1
-  valid_from: 2026-06-15
-  last_verified: 2026-11-23
-- kbli_code: '10733'
   conditions: {packaged: true}
   risk_level: rendah
   permit_id: izin-edar-pangan-olahan
@@ -1105,15 +934,6 @@
   permit_id: nib
   step_order: 3
   source_regulation: 'PP 28 Tahun 2025 Lampiran I (KBLI 2025 di Sistem OSS); Pasal 206, 234'
-  source_url: https://oss.go.id/id/kbli/detail/54d9ca4d-8643-556e-b2e1-85fc101a6850
-  valid_from: 2026-06-15
-  last_verified: 2026-11-23
-- kbli_code: '10739'
-  conditions: {}
-  risk_level: rendah
-  permit_id: pbg-slf
-  step_order: 5
-  source_regulation: 'PP 28 Tahun 2025 Lampiran I (KBLI 2025 di Sistem OSS); Pasal 10, 106, 108'
   source_url: https://oss.go.id/id/kbli/detail/54d9ca4d-8643-556e-b2e1-85fc101a6850
   valid_from: 2026-06-15
   last_verified: 2026-11-23
@@ -1172,15 +992,6 @@
   valid_from: 2026-06-15
   last_verified: 2026-11-23
 - kbli_code: '10740'
-  conditions: {}
-  risk_level: menengah_rendah
-  permit_id: pbg-slf
-  step_order: 5
-  source_regulation: 'PP 28 Tahun 2025 Lampiran I (KBLI 2025 di Sistem OSS); Pasal 10, 106, 108'
-  source_url: https://oss.go.id/id/kbli/detail/97f48e51-d6dd-5b3d-927f-a41c160aa8b6
-  valid_from: 2026-06-15
-  last_verified: 2026-11-23
-- kbli_code: '10740'
   conditions: {packaged: true}
   risk_level: menengah_rendah
   permit_id: izin-edar-pangan-olahan
@@ -1231,15 +1042,6 @@
   permit_id: sertifikat-standar
   step_order: 4
   source_regulation: 'PP 28 Tahun 2025 Lampiran I (KBLI 2025 di Sistem OSS); Pasal 221, 234'
-  source_url: https://oss.go.id/id/kbli/detail/de13f696-63bb-56ee-8e9f-37bb6307b388
-  valid_from: 2026-06-15
-  last_verified: 2026-11-23
-- kbli_code: '10750'
-  conditions: {}
-  risk_level: menengah_rendah
-  permit_id: pbg-slf
-  step_order: 5
-  source_regulation: 'PP 28 Tahun 2025 Lampiran I (KBLI 2025 di Sistem OSS); Pasal 10, 106, 108'
   source_url: https://oss.go.id/id/kbli/detail/de13f696-63bb-56ee-8e9f-37bb6307b388
   valid_from: 2026-06-15
   last_verified: 2026-11-23
@@ -1289,15 +1091,6 @@
   valid_from: 2026-06-15
   last_verified: 2026-11-23
 - kbli_code: '10761'
-  conditions: {}
-  risk_level: rendah
-  permit_id: pbg-slf
-  step_order: 5
-  source_regulation: 'PP 28 Tahun 2025 Lampiran I (KBLI 2025 di Sistem OSS); Pasal 10, 106, 108'
-  source_url: https://oss.go.id/id/kbli/detail/37180921-3574-5cf1-b936-ac54bed78d52
-  valid_from: 2026-06-15
-  last_verified: 2026-11-23
-- kbli_code: '10761'
   conditions: {packaged: true}
   risk_level: rendah
   permit_id: izin-edar-pangan-olahan
@@ -1339,15 +1132,6 @@
   permit_id: nib
   step_order: 3
   source_regulation: 'PP 28 Tahun 2025 Lampiran I (KBLI 2025 di Sistem OSS); Pasal 206, 234'
-  source_url: https://oss.go.id/id/kbli/detail/b13c4d32-e2c9-594e-8f8b-b0fd79eac08f
-  valid_from: 2026-06-15
-  last_verified: 2026-11-23
-- kbli_code: '10762'
-  conditions: {}
-  risk_level: rendah
-  permit_id: pbg-slf
-  step_order: 5
-  source_regulation: 'PP 28 Tahun 2025 Lampiran I (KBLI 2025 di Sistem OSS); Pasal 10, 106, 108'
   source_url: https://oss.go.id/id/kbli/detail/b13c4d32-e2c9-594e-8f8b-b0fd79eac08f
   valid_from: 2026-06-15
   last_verified: 2026-11-23
@@ -1406,15 +1190,6 @@
   valid_from: 2026-06-15
   last_verified: 2026-11-23
 - kbli_code: '10771'
-  conditions: {}
-  risk_level: menengah_rendah
-  permit_id: pbg-slf
-  step_order: 5
-  source_regulation: 'PP 28 Tahun 2025 Lampiran I (KBLI 2025 di Sistem OSS); Pasal 10, 106, 108'
-  source_url: https://oss.go.id/id/kbli/detail/3d6547e3-921b-5030-b67f-f06ca2c3a7d7
-  valid_from: 2026-06-15
-  last_verified: 2026-11-23
-- kbli_code: '10771'
   conditions: {packaged: true}
   risk_level: menengah_rendah
   permit_id: izin-edar-pangan-olahan
@@ -1460,15 +1235,6 @@
   valid_from: 2026-06-15
   last_verified: 2026-11-23
 - kbli_code: '10779'
-  conditions: {}
-  risk_level: rendah
-  permit_id: pbg-slf
-  step_order: 5
-  source_regulation: 'PP 28 Tahun 2025 Lampiran I (KBLI 2025 di Sistem OSS); Pasal 10, 106, 108'
-  source_url: https://oss.go.id/id/kbli/detail/c9c4b706-0732-5be8-bc6e-1e51d345caf8
-  valid_from: 2026-06-15
-  last_verified: 2026-11-23
-- kbli_code: '10779'
   conditions: {packaged: true}
   risk_level: rendah
   permit_id: izin-edar-pangan-olahan
@@ -1510,15 +1276,6 @@
   permit_id: nib
   step_order: 3
   source_regulation: 'PP 28 Tahun 2025 Lampiran I (KBLI 2025 di Sistem OSS); Pasal 206, 234'
-  source_url: https://oss.go.id/id/kbli/detail/c20e4935-0a00-590b-a4c6-6e28f08aa84d
-  valid_from: 2026-06-15
-  last_verified: 2026-11-23
-- kbli_code: '10792'
-  conditions: {}
-  risk_level: rendah
-  permit_id: pbg-slf
-  step_order: 5
-  source_regulation: 'PP 28 Tahun 2025 Lampiran I (KBLI 2025 di Sistem OSS); Pasal 10, 106, 108'
   source_url: https://oss.go.id/id/kbli/detail/c20e4935-0a00-590b-a4c6-6e28f08aa84d
   valid_from: 2026-06-15
   last_verified: 2026-11-23
@@ -1577,15 +1334,6 @@
   valid_from: 2026-06-15
   last_verified: 2026-11-23
 - kbli_code: '10793'
-  conditions: {}
-  risk_level: menengah_rendah
-  permit_id: pbg-slf
-  step_order: 5
-  source_regulation: 'PP 28 Tahun 2025 Lampiran I (KBLI 2025 di Sistem OSS); Pasal 10, 106, 108'
-  source_url: https://oss.go.id/id/kbli/detail/53e98c02-3fe0-521a-8c1c-9b072599c010
-  valid_from: 2026-06-15
-  last_verified: 2026-11-23
-- kbli_code: '10793'
   conditions: {packaged: true}
   risk_level: menengah_rendah
   permit_id: izin-edar-pangan-olahan
@@ -1631,15 +1379,6 @@
   valid_from: 2026-06-15
   last_verified: 2026-11-23
 - kbli_code: '10794'
-  conditions: {}
-  risk_level: rendah
-  permit_id: pbg-slf
-  step_order: 5
-  source_regulation: 'PP 28 Tahun 2025 Lampiran I (KBLI 2025 di Sistem OSS); Pasal 10, 106, 108'
-  source_url: https://oss.go.id/id/kbli/detail/f38670f7-a302-5f2f-b2dc-77fce993fa5d
-  valid_from: 2026-06-15
-  last_verified: 2026-11-23
-- kbli_code: '10794'
   conditions: {packaged: true}
   risk_level: rendah
   permit_id: izin-edar-pangan-olahan
@@ -1681,15 +1420,6 @@
   permit_id: nib
   step_order: 3
   source_regulation: 'PP 28 Tahun 2025 Lampiran I (KBLI 2025 di Sistem OSS); Pasal 206, 234'
-  source_url: https://oss.go.id/id/kbli/detail/e215a215-0f39-50b3-beeb-dc87e1e8be73
-  valid_from: 2026-06-15
-  last_verified: 2026-11-23
-- kbli_code: '10795'
-  conditions: {}
-  risk_level: rendah
-  permit_id: pbg-slf
-  step_order: 5
-  source_regulation: 'PP 28 Tahun 2025 Lampiran I (KBLI 2025 di Sistem OSS); Pasal 10, 106, 108'
   source_url: https://oss.go.id/id/kbli/detail/e215a215-0f39-50b3-beeb-dc87e1e8be73
   valid_from: 2026-06-15
   last_verified: 2026-11-23
@@ -1739,15 +1469,6 @@
   valid_from: 2026-06-15
   last_verified: 2026-11-23
 - kbli_code: '10796'
-  conditions: {}
-  risk_level: rendah
-  permit_id: pbg-slf
-  step_order: 5
-  source_regulation: 'PP 28 Tahun 2025 Lampiran I (KBLI 2025 di Sistem OSS); Pasal 10, 106, 108'
-  source_url: https://oss.go.id/id/kbli/detail/d8b043f9-4a01-5d70-89a1-63cdd9d47fbc
-  valid_from: 2026-06-15
-  last_verified: 2026-11-23
-- kbli_code: '10796'
   conditions: {packaged: true}
   risk_level: rendah
   permit_id: izin-edar-pangan-olahan
@@ -1789,15 +1510,6 @@
   permit_id: nib
   step_order: 3
   source_regulation: 'PP 28 Tahun 2025 Lampiran I (KBLI 2025 di Sistem OSS); Pasal 206, 234'
-  source_url: https://oss.go.id/id/kbli/detail/3432d1e5-a7ea-593f-b776-28f099bc2395
-  valid_from: 2026-06-15
-  last_verified: 2026-11-23
-- kbli_code: '10797'
-  conditions: {}
-  risk_level: rendah
-  permit_id: pbg-slf
-  step_order: 5
-  source_regulation: 'PP 28 Tahun 2025 Lampiran I (KBLI 2025 di Sistem OSS); Pasal 10, 106, 108'
   source_url: https://oss.go.id/id/kbli/detail/3432d1e5-a7ea-593f-b776-28f099bc2395
   valid_from: 2026-06-15
   last_verified: 2026-11-23
@@ -1847,15 +1559,6 @@
   valid_from: 2026-06-15
   last_verified: 2026-11-23
 - kbli_code: '10799'
-  conditions: {}
-  risk_level: rendah
-  permit_id: pbg-slf
-  step_order: 5
-  source_regulation: 'PP 28 Tahun 2025 Lampiran I (KBLI 2025 di Sistem OSS); Pasal 10, 106, 108'
-  source_url: https://oss.go.id/id/kbli/detail/acec5d9d-7daf-5374-8f95-0a46faed81aa
-  valid_from: 2026-06-15
-  last_verified: 2026-11-23
-- kbli_code: '10799'
   conditions: {packaged: true}
   risk_level: rendah
   permit_id: izin-edar-pangan-olahan
@@ -1901,15 +1604,6 @@
   valid_from: 2026-06-15
   last_verified: 2026-11-23
 - kbli_code: '11053'
-  conditions: {}
-  risk_level: rendah
-  permit_id: pbg-slf
-  step_order: 5
-  source_regulation: 'PP 28 Tahun 2025 Lampiran I (KBLI 2025 di Sistem OSS); Pasal 10, 106, 108'
-  source_url: https://oss.go.id/id/kbli/detail/2c41a51e-e500-5f61-885a-25160910872b
-  valid_from: 2026-06-15
-  last_verified: 2026-11-23
-- kbli_code: '11053'
   conditions: {packaged: true}
   risk_level: rendah
   permit_id: izin-edar-pangan-olahan
@@ -1955,15 +1649,6 @@
   valid_from: 2026-06-15
   last_verified: 2026-11-23
 - kbli_code: '11059'
-  conditions: {}
-  risk_level: rendah
-  permit_id: pbg-slf
-  step_order: 5
-  source_regulation: 'PP 28 Tahun 2025 Lampiran I (KBLI 2025 di Sistem OSS); Pasal 10, 106, 108'
-  source_url: https://oss.go.id/id/kbli/detail/b14a74a0-bb6d-5d66-b457-3f0eb600322e
-  valid_from: 2026-06-15
-  last_verified: 2026-11-23
-- kbli_code: '11059'
   conditions: {packaged: true}
   risk_level: rendah
   permit_id: izin-edar-pangan-olahan
@@ -1981,69 +1666,6 @@
   source_url: https://peraturan.bpk.go.id/Details/304896/pp-no-42-tahun-2024
   valid_from: 2026-10-14
   last_verified: 2026-11-23
-- kbli_code: '56101'
-  conditions: {}
-  risk_level: menengah_rendah
-  permit_id: kkpr
-  step_order: 1
-  source_regulation: 'PP 28 Tahun 2025 Lampiran I (KBLI 2025 di Sistem OSS); Pasal 8, 12, 32'
-  source_url: https://oss.go.id/id/kbli/detail/586aff30-3e89-5c99-9bd5-b2333439ebcb
-  valid_from: 2026-06-15
-  last_verified: 2026-11-23
-- kbli_code: '56101'
-  conditions: {}
-  risk_level: menengah_rendah
-  permit_id: persetujuan-lingkungan-sppl
-  step_order: 2
-  source_regulation: 'PP 28 Tahun 2025 Lampiran I (KBLI 2025 di Sistem OSS); Pasal 8, 101, 220-222'
-  source_url: https://oss.go.id/id/kbli/detail/586aff30-3e89-5c99-9bd5-b2333439ebcb
-  valid_from: 2026-06-15
-  last_verified: 2026-11-23
-- kbli_code: '56101'
-  conditions: {}
-  risk_level: menengah_rendah
-  permit_id: nib
-  step_order: 3
-  source_regulation: 'PP 28 Tahun 2025 Lampiran I (KBLI 2025 di Sistem OSS); Pasal 206, 234'
-  source_url: https://oss.go.id/id/kbli/detail/586aff30-3e89-5c99-9bd5-b2333439ebcb
-  valid_from: 2026-06-15
-  last_verified: 2026-11-23
-- kbli_code: '56101'
-  conditions: {}
-  risk_level: menengah_rendah
-  permit_id: sertifikat-standar
-  step_order: 4
-  source_regulation: 'PP 28 Tahun 2025 Lampiran I (KBLI 2025 di Sistem OSS); Pasal 221, 234'
-  source_url: https://oss.go.id/id/kbli/detail/586aff30-3e89-5c99-9bd5-b2333439ebcb
-  valid_from: 2026-06-15
-  last_verified: 2026-11-23
-- kbli_code: '56101'
-  conditions: {}
-  risk_level: menengah_rendah
-  permit_id: pbg-slf
-  step_order: 5
-  source_regulation: 'PP 28 Tahun 2025 Lampiran I (KBLI 2025 di Sistem OSS); Pasal 10, 106, 108'
-  source_url: https://oss.go.id/id/kbli/detail/586aff30-3e89-5c99-9bd5-b2333439ebcb
-  valid_from: 2026-06-15
-  last_verified: 2026-11-23
-- kbli_code: '56101'
-  conditions: {}
-  risk_level: menengah_rendah
-  permit_id: label-hsp-atau-slhs
-  step_order: 6
-  source_regulation: 'PP 28 Tahun 2025 Lampiran I (KBLI 2025 di Sistem OSS), kewajiban Label HSP/SLHS; Lampiran II'
-  source_url: https://oss.go.id/id/kbli/detail/586aff30-3e89-5c99-9bd5-b2333439ebcb
-  valid_from: 2026-06-15
-  last_verified: 2026-11-23
-- kbli_code: '56101'
-  conditions: {}
-  risk_level: menengah_rendah
-  permit_id: sertifikat-halal
-  step_order: 7
-  source_regulation: 'PP 42 Tahun 2024 Pasal 2, 160 jo. PP 40 Tahun 2026; risiko: PP 28 Tahun 2025 Lampiran I (KBLI 2025 di Sistem OSS)'
-  source_url: https://peraturan.bpk.go.id/Details/304896/pp-no-42-tahun-2024
-  valid_from: 2026-10-14
-  last_verified: 2026-11-23
 - kbli_code: '56102'
   conditions: {}
   risk_level: menengah_rendah
@@ -2137,15 +1759,6 @@
 - kbli_code: '56210'
   conditions: {}
   risk_level: menengah_rendah
-  permit_id: pbg-slf
-  step_order: 5
-  source_regulation: 'PP 28 Tahun 2025 Lampiran I (KBLI 2025 di Sistem OSS); Pasal 10, 106, 108'
-  source_url: https://oss.go.id/id/kbli/detail/b7bb1ae3-5f1b-5b92-9731-04e9653ca455
-  valid_from: 2026-06-15
-  last_verified: 2026-11-23
-- kbli_code: '56210'
-  conditions: {}
-  risk_level: menengah_rendah
   permit_id: label-hsp
   step_order: 6
   source_regulation: 'PP 28 Tahun 2025 Lampiran I (KBLI 2025 di Sistem OSS), kewajiban Label HSP; Lampiran II'
@@ -2200,15 +1813,6 @@
 - kbli_code: '56290'
   conditions: {}
   risk_level: menengah_rendah
-  permit_id: pbg-slf
-  step_order: 5
-  source_regulation: 'PP 28 Tahun 2025 Lampiran I (KBLI 2025 di Sistem OSS); Pasal 10, 106, 108'
-  source_url: https://oss.go.id/id/kbli/detail/02411e38-0091-5db6-b5b2-ec7bd17bca4d
-  valid_from: 2026-06-15
-  last_verified: 2026-11-23
-- kbli_code: '56290'
-  conditions: {}
-  risk_level: menengah_rendah
   permit_id: label-hsp
   step_order: 6
   source_regulation: 'PP 28 Tahun 2025 Lampiran I (KBLI 2025 di Sistem OSS), kewajiban Label HSP; Lampiran II'
@@ -2257,15 +1861,6 @@
   permit_id: sertifikat-standar
   step_order: 4
   source_regulation: 'PP 28 Tahun 2025 Lampiran I (KBLI 2025 di Sistem OSS); Pasal 221, 234'
-  source_url: https://oss.go.id/id/kbli/detail/6c75f121-83a3-5878-a849-621ba4dbeabb
-  valid_from: 2026-06-15
-  last_verified: 2026-11-23
-- kbli_code: '56303'
-  conditions: {}
-  risk_level: menengah_rendah
-  permit_id: pbg-slf
-  step_order: 5
-  source_regulation: 'PP 28 Tahun 2025 Lampiran I (KBLI 2025 di Sistem OSS); Pasal 10, 106, 108'
   source_url: https://oss.go.id/id/kbli/detail/6c75f121-83a3-5878-a849-621ba4dbeabb
   valid_from: 2026-06-15
   last_verified: 2026-11-23
@@ -2326,15 +1921,6 @@
 - kbli_code: '56304'
   conditions: {}
   risk_level: menengah_rendah
-  permit_id: pbg-slf
-  step_order: 5
-  source_regulation: 'PP 28 Tahun 2025 Lampiran I (KBLI 2025 di Sistem OSS); Pasal 10, 106, 108'
-  source_url: https://oss.go.id/id/kbli/detail/6df07938-6bd6-5a19-840c-5d38cf21c5f4
-  valid_from: 2026-06-15
-  last_verified: 2026-11-23
-- kbli_code: '56304'
-  conditions: {}
-  risk_level: menengah_rendah
   permit_id: label-hsp
   step_order: 6
   source_regulation: 'PP 28 Tahun 2025 Lampiran I (KBLI 2025 di Sistem OSS), kewajiban Label HSP; Lampiran II'
@@ -2383,15 +1969,6 @@
   permit_id: sertifikat-standar
   step_order: 4
   source_regulation: 'PP 28 Tahun 2025 Lampiran I (KBLI 2025 di Sistem OSS); Pasal 221, 234'
-  source_url: https://oss.go.id/id/kbli/detail/b0287593-7582-539c-9880-21af0e63c00f
-  valid_from: 2026-06-15
-  last_verified: 2026-11-23
-- kbli_code: '56305'
-  conditions: {}
-  risk_level: menengah_rendah
-  permit_id: pbg-slf
-  step_order: 5
-  source_regulation: 'PP 28 Tahun 2025 Lampiran I (KBLI 2025 di Sistem OSS); Pasal 10, 106, 108'
   source_url: https://oss.go.id/id/kbli/detail/b0287593-7582-539c-9880-21af0e63c00f
   valid_from: 2026-06-15
   last_verified: 2026-11-23
@@ -2449,6 +2026,114 @@
   source_url: https://peraturan.bpk.go.id/Details/304896/pp-no-42-tahun-2024
   valid_from: 2026-10-14
   last_verified: 2026-11-23
+- kbli_code: '56101'
+  conditions: {formal_restaurant: true}
+  risk_level: menengah_tinggi
+  permit_id: kkpr
+  step_order: 1
+  source_regulation: 'PP 28 Tahun 2025 Lampiran I (KBLI 2025 di Sistem OSS); Pasal 8, 12, 32'
+  source_url: https://oss.go.id/id/kbli/detail/586aff30-3e89-5c99-9bd5-b2333439ebcb
+  valid_from: 2026-06-15
+  last_verified: 2026-11-23
+- kbli_code: '56101'
+  conditions: {formal_restaurant: true}
+  risk_level: menengah_tinggi
+  permit_id: persetujuan-lingkungan-sppl
+  step_order: 2
+  source_regulation: 'PP 28 Tahun 2025 Lampiran I (KBLI 2025 di Sistem OSS); Pasal 8, 101, 220-222'
+  source_url: https://oss.go.id/id/kbli/detail/586aff30-3e89-5c99-9bd5-b2333439ebcb
+  valid_from: 2026-06-15
+  last_verified: 2026-11-23
+- kbli_code: '56101'
+  conditions: {formal_restaurant: true}
+  risk_level: menengah_tinggi
+  permit_id: nib
+  step_order: 3
+  source_regulation: 'PP 28 Tahun 2025 Lampiran I (KBLI 2025 di Sistem OSS); Pasal 206, 234'
+  source_url: https://oss.go.id/id/kbli/detail/586aff30-3e89-5c99-9bd5-b2333439ebcb
+  valid_from: 2026-06-15
+  last_verified: 2026-11-23
+- kbli_code: '56101'
+  conditions: {formal_restaurant: true}
+  risk_level: menengah_tinggi
+  permit_id: sertifikat-standar-terverifikasi
+  step_order: 4
+  source_regulation: 'PP 28 Tahun 2025 Lampiran I (KBLI 2025 di Sistem OSS); Pasal 222, 234'
+  source_url: https://oss.go.id/id/kbli/detail/586aff30-3e89-5c99-9bd5-b2333439ebcb
+  valid_from: 2026-06-15
+  last_verified: 2026-11-23
+- kbli_code: '56101'
+  conditions: {formal_restaurant: true}
+  risk_level: menengah_tinggi
+  permit_id: slhs
+  step_order: 6
+  source_regulation: 'PP 28 Tahun 2025 Lampiran I (KBLI 2025 di Sistem OSS), kewajiban SLHS; Lampiran II'
+  source_url: https://oss.go.id/id/kbli/detail/586aff30-3e89-5c99-9bd5-b2333439ebcb
+  valid_from: 2026-06-15
+  last_verified: 2026-11-23
+- kbli_code: '56101'
+  conditions: {formal_restaurant: true}
+  risk_level: menengah_tinggi
+  permit_id: sertifikat-halal
+  step_order: 7
+  source_regulation: 'PP 42 Tahun 2024 Pasal 2, 160 jo. PP 40 Tahun 2026; risiko: PP 28 Tahun 2025 Lampiran I (KBLI 2025 di Sistem OSS)'
+  source_url: https://peraturan.bpk.go.id/Details/304896/pp-no-42-tahun-2024
+  valid_from: 2026-10-14
+  last_verified: 2026-11-23
+- kbli_code: '56101'
+  conditions: {formal_restaurant: false}
+  risk_level: menengah_rendah
+  permit_id: kkpr
+  step_order: 1
+  source_regulation: 'PP 28 Tahun 2025 Lampiran I (KBLI 2025 di Sistem OSS); Pasal 8, 12, 32'
+  source_url: https://oss.go.id/id/kbli/detail/586aff30-3e89-5c99-9bd5-b2333439ebcb
+  valid_from: 2026-06-15
+  last_verified: 2026-11-23
+- kbli_code: '56101'
+  conditions: {formal_restaurant: false}
+  risk_level: menengah_rendah
+  permit_id: persetujuan-lingkungan-sppl
+  step_order: 2
+  source_regulation: 'PP 28 Tahun 2025 Lampiran I (KBLI 2025 di Sistem OSS); Pasal 8, 101, 220-222'
+  source_url: https://oss.go.id/id/kbli/detail/586aff30-3e89-5c99-9bd5-b2333439ebcb
+  valid_from: 2026-06-15
+  last_verified: 2026-11-23
+- kbli_code: '56101'
+  conditions: {formal_restaurant: false}
+  risk_level: menengah_rendah
+  permit_id: nib
+  step_order: 3
+  source_regulation: 'PP 28 Tahun 2025 Lampiran I (KBLI 2025 di Sistem OSS); Pasal 206, 234'
+  source_url: https://oss.go.id/id/kbli/detail/586aff30-3e89-5c99-9bd5-b2333439ebcb
+  valid_from: 2026-06-15
+  last_verified: 2026-11-23
+- kbli_code: '56101'
+  conditions: {formal_restaurant: false}
+  risk_level: menengah_rendah
+  permit_id: sertifikat-standar
+  step_order: 4
+  source_regulation: 'PP 28 Tahun 2025 Lampiran I (KBLI 2025 di Sistem OSS); Pasal 221, 234'
+  source_url: https://oss.go.id/id/kbli/detail/586aff30-3e89-5c99-9bd5-b2333439ebcb
+  valid_from: 2026-06-15
+  last_verified: 2026-11-23
+- kbli_code: '56101'
+  conditions: {formal_restaurant: false}
+  risk_level: menengah_rendah
+  permit_id: label-hsp
+  step_order: 6
+  source_regulation: 'PP 28 Tahun 2025 Lampiran I (KBLI 2025 di Sistem OSS), kewajiban Label HSP; Lampiran II'
+  source_url: https://oss.go.id/id/kbli/detail/586aff30-3e89-5c99-9bd5-b2333439ebcb
+  valid_from: 2026-06-15
+  last_verified: 2026-11-23
+- kbli_code: '56101'
+  conditions: {formal_restaurant: false}
+  risk_level: menengah_rendah
+  permit_id: sertifikat-halal
+  step_order: 7
+  source_regulation: 'PP 42 Tahun 2024 Pasal 2, 160 jo. PP 40 Tahun 2026; risiko: PP 28 Tahun 2025 Lampiran I (KBLI 2025 di Sistem OSS)'
+  source_url: https://peraturan.bpk.go.id/Details/304896/pp-no-42-tahun-2024
+  valid_from: 2026-10-14
+  last_verified: 2026-11-23
 - kbli_code: '47222'
   conditions: {}
   risk_level: rendah
@@ -2476,15 +2161,6 @@
   source_url: https://oss.go.id/id/kbli/detail/5b1a2970-f88d-5bc1-8e52-12432368a334
   valid_from: 2026-06-15
   last_verified: 2026-11-23
-- kbli_code: '47222'
-  conditions: {}
-  risk_level: rendah
-  permit_id: pbg-slf
-  step_order: 5
-  source_regulation: 'PP 28 Tahun 2025 Lampiran I (KBLI 2025 di Sistem OSS); Pasal 10, 106, 108'
-  source_url: https://oss.go.id/id/kbli/detail/5b1a2970-f88d-5bc1-8e52-12432368a334
-  valid_from: 2026-06-15
-  last_verified: 2026-11-23
 - kbli_code: '47242'
   conditions: {}
   risk_level: rendah
@@ -2512,15 +2188,6 @@
   source_url: https://oss.go.id/id/kbli/detail/d474c721-3aca-51af-88fd-91e8abd88d20
   valid_from: 2026-06-15
   last_verified: 2026-11-23
-- kbli_code: '47242'
-  conditions: {}
-  risk_level: rendah
-  permit_id: pbg-slf
-  step_order: 5
-  source_regulation: 'PP 28 Tahun 2025 Lampiran I (KBLI 2025 di Sistem OSS); Pasal 10, 106, 108'
-  source_url: https://oss.go.id/id/kbli/detail/d474c721-3aca-51af-88fd-91e8abd88d20
-  valid_from: 2026-06-15
-  last_verified: 2026-11-23
 - kbli_code: '47243'
   conditions: {}
   risk_level: rendah
@@ -2545,15 +2212,6 @@
   permit_id: nib
   step_order: 3
   source_regulation: 'PP 28 Tahun 2025 Lampiran I (KBLI 2025 di Sistem OSS); Pasal 206, 234'
-  source_url: https://oss.go.id/id/kbli/detail/fe19c160-02ab-5568-9d27-e32ed943aab3
-  valid_from: 2026-06-15
-  last_verified: 2026-11-23
-- kbli_code: '47243'
-  conditions: {}
-  risk_level: rendah
-  permit_id: pbg-slf
-  step_order: 5
-  source_regulation: 'PP 28 Tahun 2025 Lampiran I (KBLI 2025 di Sistem OSS); Pasal 10, 106, 108'
   source_url: https://oss.go.id/id/kbli/detail/fe19c160-02ab-5568-9d27-e32ed943aab3
   valid_from: 2026-06-15
   last_verified: 2026-11-23
@@ -2581,15 +2239,6 @@
   permit_id: nib
   step_order: 3
   source_regulation: 'PP 28 Tahun 2025 Lampiran I (KBLI 2025 di Sistem OSS); Pasal 206, 234'
-  source_url: https://oss.go.id/id/kbli/detail/daf29649-baee-53a9-9c62-7c66d9de8d66
-  valid_from: 2026-06-15
-  last_verified: 2026-11-23
-- kbli_code: '47244'
-  conditions: {}
-  risk_level: rendah
-  permit_id: pbg-slf
-  step_order: 5
-  source_regulation: 'PP 28 Tahun 2025 Lampiran I (KBLI 2025 di Sistem OSS); Pasal 10, 106, 108'
   source_url: https://oss.go.id/id/kbli/detail/daf29649-baee-53a9-9c62-7c66d9de8d66
   valid_from: 2026-06-15
   last_verified: 2026-11-23
@@ -2617,15 +2266,6 @@
   permit_id: nib
   step_order: 3
   source_regulation: 'PP 28 Tahun 2025 Lampiran I (KBLI 2025 di Sistem OSS); Pasal 206, 234'
-  source_url: https://oss.go.id/id/kbli/detail/30eb2934-1fa5-55ff-8e0a-86edc08cf53d
-  valid_from: 2026-06-15
-  last_verified: 2026-11-23
-- kbli_code: '47245'
-  conditions: {}
-  risk_level: rendah
-  permit_id: pbg-slf
-  step_order: 5
-  source_regulation: 'PP 28 Tahun 2025 Lampiran I (KBLI 2025 di Sistem OSS); Pasal 10, 106, 108'
   source_url: https://oss.go.id/id/kbli/detail/30eb2934-1fa5-55ff-8e0a-86edc08cf53d
   valid_from: 2026-06-15
   last_verified: 2026-11-23
@@ -2653,15 +2293,6 @@
   permit_id: nib
   step_order: 3
   source_regulation: 'PP 28 Tahun 2025 Lampiran I (KBLI 2025 di Sistem OSS); Pasal 206, 234'
-  source_url: https://oss.go.id/id/kbli/detail/7fefb305-7904-5619-a32d-f07421480b4e
-  valid_from: 2026-06-15
-  last_verified: 2026-11-23
-- kbli_code: '47246'
-  conditions: {}
-  risk_level: rendah
-  permit_id: pbg-slf
-  step_order: 5
-  source_regulation: 'PP 28 Tahun 2025 Lampiran I (KBLI 2025 di Sistem OSS); Pasal 10, 106, 108'
   source_url: https://oss.go.id/id/kbli/detail/7fefb305-7904-5619-a32d-f07421480b4e
   valid_from: 2026-06-15
   last_verified: 2026-11-23
@@ -2689,15 +2320,6 @@
   permit_id: nib
   step_order: 3
   source_regulation: 'PP 28 Tahun 2025 Lampiran I (KBLI 2025 di Sistem OSS); Pasal 206, 234'
-  source_url: https://oss.go.id/id/kbli/detail/4b0c4cb3-93bd-5932-96d7-14914ba67ec0
-  valid_from: 2026-06-15
-  last_verified: 2026-11-23
-- kbli_code: '47249'
-  conditions: {}
-  risk_level: rendah
-  permit_id: pbg-slf
-  step_order: 5
-  source_regulation: 'PP 28 Tahun 2025 Lampiran I (KBLI 2025 di Sistem OSS); Pasal 10, 106, 108'
   source_url: https://oss.go.id/id/kbli/detail/4b0c4cb3-93bd-5932-96d7-14914ba67ec0
   valid_from: 2026-06-15
   last_verified: 2026-11-23

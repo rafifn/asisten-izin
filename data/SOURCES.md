@@ -118,9 +118,10 @@ All accessed 2026-11-23. PP 5/2021 was not used anywhere.
     persetujuan-lingkungan-sppl (Pasal 8 ayat (3), 101, 220-222), nib (Pasal
     206, 207, 220, 234), sertifikat-standar (Pasal 221, 234),
     sertifikat-standar-terverifikasi (Pasal 11, 222-224, 234), pbg-slf
-    (Pasal 10, 12, 13, 106-108), label-hsp (Lampiran I.L kewajiban; Lampiran
-    II.J1 no. 7, p. II.J1.14-15), label-hsp-atau-slhs (Lampiran I.L; Lampiran
-    II.J1 no. 5 and 7, p. II.J1.10-15), izin-edar-pangan-olahan and
+    (Pasal 10, 12, 13, 106-108; no rule uses it), label-hsp (Lampiran I.L
+    kewajiban; Lampiran II.J1 no. 7, p. II.J1.14-15), label-hsp-atau-slhs (Lampiran I.L; Lampiran
+    II.J1 no. 5 and 7, p. II.J1.10-15), slhs (Lampiran I.L no. 13; Lampiran
+    II.J1 no. 5), izin-edar-pangan-olahan and
     izin-edar-bpom (Lampiran II.J2 no. 6-8 and 11-12, p. II.J2.25-36).
   - `rules.yaml`: step order (Pasal 4, 8, 10, 11) and, through section 5, the
     risk level of every rule.
@@ -152,7 +153,7 @@ All accessed 2026-11-23. PP 5/2021 was not used anywhere.
 - Format: HTML (Next.js server-rendered page; the data block embedded in the
   page was read). Every page was checked to be "KBLI 2025" and its title
   matches `kbli_scope.yaml`.
-- Supports: `risk_level` of all 300 rules, the presence of Sertifikat
+- Supports: `risk_level` of all 258 rules, the presence of Sertifikat
   Standar, the hygiene permit (Label HSP / SLHS) per food-service code, and
   which codes list SPP-IRT vs only BPOM izin edar as PB UMKU. Rule rows cite
   the page of their code as `source_url` (except halal rows, see section 8,
@@ -250,7 +251,7 @@ All accessed 2026-11-23. PP 5/2021 was not used anywhere.
   `0863219864c2edaa81bdd2f1b9fcdb4868d2a86cccf13f5855f9c5334a6b0259`).
   Supports: sertifikat-halal (Pasal 2: obligation and "keterangan tidak halal";
   Pasal 98: pernyataan halal for UMK with pendampingan PPH; Pasal 155, 159,
-  160). Source URL of all 42 halal rules.
+  160). Source URL of all 43 halal rules.
 - PP 40/2026 (amends PP 42/2024; set and promulgated 2026-10-14): the official
   PDF could not be found on JDIH BPK or peraturan.go.id on 2026-11-23. The new
   UMK deadline is taken from BPJPH's official article "Penyesuaian Penahapan
@@ -266,44 +267,93 @@ All accessed 2026-11-23. PP 5/2021 was not used anywhere.
 
 ## Method notes (permits and rules)
 
-- Risk levels are for micro and small businesses only. Where an OSS page has
-  several ruang lingkup with different risks, the rule uses the ruang lingkup
-  that fits this app's users and the others are noted here as not covered:
-  - 10503: "Selain pracampur/premix es krim" (rendah) used; premix es krim
-    (menengah rendah) not covered.
-  - 10509: yoghurt, keju, mentega etc. (menengah rendah) used; "Pembuatan
-    laktosa" (tinggi) not covered.
-  - 10799: all ruang lingkup are rendah except "Pembuatan pemanis buatan"
-    (tinggi), which is not covered.
-  - 56101: "Restoran" is menengah rendah for micro but menengah tinggi for
-    small; "Rumah / Warung Makan" is menengah rendah for both. The rule uses
-    menengah rendah. A small-scale restaurant is under-stated (see the Task 4
-    report concerns).
-- The hygiene permit per food-service code follows the OSS kewajiban:
-  Label HSP only (56210, 56290, 56304, 56306); Label HSP or SLHS depending on
-  ruang lingkup/scale (56101, 56102, 56303); none listed for 56305 (Kedai
-  Jamu, Kesehatan sector).
+- Risk levels are for micro and small businesses only, taken from the OSS
+  KBLI 2025 page of each code (section 5). Where a page has several ruang
+  lingkup with different risks, see "Known limitations" below (10503, 10509,
+  10799) and the 56101 split.
+- 56101 is split by the condition attribute `formal_restaurant` (controller
+  ruling R8; source: OSS page for 56101, ruang lingkup "Restoran" and "Rumah /
+  Warung Makan", cross-checked with PP 28/2025 Lampiran I.L no. 13 and 14):
+  - `formal_restaurant: true` (ruang lingkup "Restoran"): risk
+    menengah_tinggi, the Usaha Kecil row (Sertifikat Standar with persyaratan
+    "Penilaian Mandiri Kesiapan Penerapan Standar", kewajiban "sertifikat
+    standar yang diterbitkan oleh LSPr" and SLHS). Permits: kkpr,
+    persetujuan-lingkungan-sppl, nib, sertifikat-standar-terverifikasi, slhs,
+    sertifikat-halal. The Usaha Mikro row for "Restoran" is menengah rendah
+    (Sertifikat Standar, SLHS); the data shows the higher level, so it is
+    conservative for a micro restaurant.
+  - `formal_restaurant: false` (ruang lingkup "Rumah / Warung Makan"): risk
+    menengah_rendah for micro and small. Permits: kkpr,
+    persetujuan-lingkungan-sppl, nib, sertifikat-standar, label-hsp,
+    sertifikat-halal.
+  - Unknown `formal_restaurant` matches both sets (engine rule), so the
+    higher risk and both permit sets are shown. This is intended.
+  - Other 56xxx pages were checked for the same split. 56102 has three ruang
+    lingkup (Kedai Makan; Penyediaan Makanan Keliling / Tempat Tidak Tetap;
+    Restoran dan Penyediaan Makanan Keliling Lainnya), all menengah rendah for
+    micro and small; they differ only in Label HSP vs SLHS by scale, so no
+    split. 56210, 56290, 56303, 56304, 56305, 56306 have one ruang lingkup
+    each. Only 56101 uses `formal_restaurant`.
+- The hygiene permit per food-service code follows the OSS kewajiban: Label
+  HSP only (56210, 56290, 56304, 56306, and 56101 warung); SLHS only (56101
+  restoran); Label HSP or SLHS by scale (56102 Kedai Makan, 56303); none
+  listed for 56305 (Kedai Jamu, Kesehatan sector).
 - Izin edar: codes whose OSS PB UMKU list includes SPP-IRT use
   izin-edar-pangan-olahan; codes whose list has only the BPOM permits (10218,
   10296, 10304, 10307, 10308, 10503, 10504, 10509, 10750, 10792, 10797) use
   izin-edar-bpom. Both apply only when `packaged: true`.
-- Halal rules: every manufacturing code (10xxx, 11xxx) and every food-service
-  code except 56305. 56305 is "Rumah/Kedai Obat Bahan Alam"; obat bahan alam
-  has its own timeline in PP 42/2024 Pasal 161 ayat (1) huruf a, and whether
-  PP 40/2026 changed it for UMK could not be confirmed. Retail codes (472xx)
-  have no halal rule: the obligation attaches to the product (Pasal 2), and
-  PP 42/2024 Pasal 159 ayat (2)-(3) puts services other than slaughter (such
-  as penjualan) in a later phase.
-- PBG/SLF applies only when a building is built (PP 28/2025 Pasal 106); the
-  permit text says so. It is not attached to 56102 and 56306 (non-permanent or
-  mobile premises).
+- PBG/SLF: no rule (controller ruling R10, option b). PP 28/2025 Pasal 106
+  requires PBG and SLF only "bagi Pelaku Usaha yang memerlukan pembangunan
+  Bangunan Gedung sebagai fasilitas tempat usaha", and Pasal 10 ayat (1)
+  huruf b places PBG in the persiapan stage for those who will build. It is
+  conditional on construction, not a standing requirement of any KBLI, and no
+  attribute captures construction. The `pbg-slf` permit row stays in
+  permits.yaml (sourced, not referenced by any rule).
 - `valid_from`: 2025-10-05 for permits based on PP 28/2025; 2026-06-15 for
   rules (OSS applies KBLI 2025 from that date); 2026-10-14 for the halal
   permit and halal rules (PP 40/2026).
-- Not included: NKV (Nomor Kontrol Veteriner) and other conditional PB UMKU
-  (alcohol, import, TKDN, irradiation), sector kewajiban such as wajib lapor
-  Data Industri (SIINas) and laporan kegiatan usaha, and anything specific to
-  selling online (no rule uses `sells_online`).
+
+## Known limitations
+
+1. Rare higher-risk sub-activities are not modelled (controller ruling R9).
+   The rules use the typical ruang lingkup of the code:
+   - 10503 Industri Es Krim: "Pracampur/premix es krim" is menengah rendah;
+     the rules use "Selain pracampur/premix es krim" (rendah).
+     https://oss.go.id/id/kbli/detail/d65a1411-5289-5657-ab20-85276b40e068
+   - 10509 Industri Produk Susu Lainnya: "Pembuatan laktosa" is tinggi; the
+     rules use "Pengolahan produk susu lainnya, seperti mentega, yoghurt,
+     keju ..." (menengah rendah).
+     https://oss.go.id/id/kbli/detail/df436cfe-93f8-5254-8f32-131958dd4b52
+   - 10799 Industri Produk Makanan Lainnya YTDL: "Pembuatan pemanis buatan"
+     is tinggi; all other ruang lingkup are rendah and the rules use rendah.
+     https://oss.go.id/id/kbli/detail/acec5d9d-7daf-5374-8f95-0a46faed81aa
+2. Halal deadline for UMK: the official PDF of PP 40/2026 (amending PP
+   42/2024, set 2026-10-14) was not found on JDIH BPK or peraturan.go.id on
+   2026-11-23. The date 17 Oktober 2028 comes from BPJPH's article of
+   2026-10-24,
+   https://bpjph.halal.go.id/read/penyesuaian-penahapan-kewajiban-sertifikasi-halal-diatur-dalam-pp-40-tahun-2026-begini-rinciannya.
+   Re-verify against the PP text once it is published.
+3. No halal rule for 56305 (Rumah/Kedai Obat Bahan Alam): obat bahan alam has
+   its own timeline in PP 42/2024 Pasal 161 ayat (1) huruf a (until 17
+   Oktober 2026), and whether PP 40/2026 changed it for UMK could not be
+   confirmed. No halal rule for the retail codes 47222, 47242-47246, 47249:
+   the obligation attaches to the product (PP 42/2024 Pasal 2), and Pasal 159
+   ayat (2)-(3) puts services other than slaughter (such as penjualan) in a
+   later phase.
+4. Izin edar for 10762 (Pengolahan Teh) and 10795 (Industri Sari Nabati dan
+   Krimer Nabati): their OSS pages list no PB UMKU at all. These two rules use
+   izin-edar-pangan-olahan and cite Peraturan BPOM 4/2024 (its Lampiran I IRT
+   list includes "08 Kopi dan teh kering" and "Serbuk Minuman Kedelai"). The
+   BPOM-only route for the 11 codes listed above relies on their OSS pages
+   listing BPOM izin edar but not SPP-IRT.
+5. Not covered: NKV (Nomor Kontrol Veteriner) and other conditional PB UMKU
+   (alcohol, import, TKDN, irradiation); anything specific to selling online
+   (no rule uses `sells_online`); sector reporting duties such as wajib lapor
+   Data Industri (SIINas) for industry codes and "laporan kegiatan usaha" for
+   retail and food-service codes, which OSS lists as kewajiban, not permits.
+6. Micro restaurants (56101, `formal_restaurant: true`) are shown as
+   menengah tinggi with a verified Sertifikat Standar, which is the small-scale
+   row; the micro row is menengah rendah. The attributes do not capture scale.
 
 ## Descoped in Task 4
 

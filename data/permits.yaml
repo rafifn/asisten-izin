@@ -165,10 +165,9 @@
   issuer: Bupati/Wali Kota (Dinas Kesehatan)
   description: >-
     Bukti bahwa tempat pengolahan pangan memenuhi syarat higiene sanitasi. Untuk
-    KBLI ini, jenisnya tergantung jenis dan skala usaha: restoran wajib SLHS;
-    rumah/warung makan dan usaha mikro lainnya umumnya cukup Label HSP; kedai
-    makan dan kafe skala kecil wajib SLHS. Label HSP berlaku 2 tahun, SLHS 5
-    tahun.
+    KBLI ini, jenisnya tergantung jenis dan skala usaha: usaha mikro cukup Label
+    HSP; kedai makan dan kafe/rumah minum skala kecil wajib SLHS; penjual
+    makanan keliling cukup Label HSP. Label HSP berlaku 2 tahun, SLHS 5 tahun.
   how_to: >-
     Label HSP: daftar ke Dinas Kesehatan atau puskesmas, lalu tempat usaha
     diperiksa (IKL). SLHS: ajukan melalui OSS dengan dokumen penilaian mandiri
@@ -176,6 +175,24 @@
     dan hasil uji laboratorium.
   source_regulation: PP 28 Tahun 2025 Lampiran I dan Lampiran II
   source_article: Lampiran I.L (kewajiban KBLI penyediaan makanan/minuman); Lampiran II.J1 no. 5 dan no. 7
+  source_url: https://peraturan.bpk.go.id/Details/319773/pp-no-28-tahun-2025
+  valid_from: 2025-10-05
+  last_verified: 2026-11-23
+  regional_note: Prosedur bisa berbeda per daerah. Cek ke dinas setempat.
+- id: slhs
+  name: Sertifikat Laik Higiene Sanitasi (SLHS)
+  issuer: Bupati/Wali Kota (Dinas Kesehatan)
+  description: >-
+    Sertifikat bahwa tempat pengolahan pangan memenuhi syarat higiene sanitasi.
+    Untuk restoran, SLHS wajib dimiliki baik skala mikro maupun kecil. SLHS
+    berlaku 5 tahun, dan logo SLHS wajib dipasang di tempat usaha.
+  how_to: >-
+    Ajukan melalui OSS dengan dokumen penilaian mandiri (formulir Inspeksi
+    Kesehatan Lingkungan), sertifikat kursus keamanan pangan siap saji untuk
+    pengelola, sertifikat kursus penjamah pangan, keterangan sehat penjamah
+    pangan, dan hasil uji laboratorium.
+  source_regulation: PP 28 Tahun 2025 Lampiran I dan Lampiran II
+  source_article: Lampiran I.L no. 13 (Restoran, kewajiban SLHS); Lampiran II.J1 no. 5
   source_url: https://peraturan.bpk.go.id/Details/319773/pp-no-28-tahun-2025
   valid_from: 2025-10-05
   last_verified: 2026-11-23
