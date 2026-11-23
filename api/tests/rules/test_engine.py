@@ -242,3 +242,31 @@ def test_branch_permit_also_unconditional_has_no_note(db: Conn, tmp_path: Path) 
     by_name = {i.name: i for i in items}
     assert set(by_name) == {"NIB", "SLHS"}
     assert by_name["SLHS"].condition_note is None
+
+
+def test_permit_in_both_branches_has_no_branch_note(db: Conn, tmp_path: Path) -> None:
+    release = load_variant(
+        db,
+        tmp_path,
+        [
+            rule(C, "slhs", "menengah_tinggi", 2, {"formal_restaurant": True}),
+            rule(C, "spp-irt", "menengah_rendah", 3, {"formal_restaurant": False}),
+            rule(C, "nib", "menengah_tinggi", 1, {"formal_restaurant": True}),
+            rule(C, "nib", "menengah_rendah", 1, {"formal_restaurant": False}),
+        ],
+    )
+    items, _ = lookup_permits(db, release, [(C, attrs())], TODAY)
+    by_name = {i.name: i for i in items}
+    assert set(by_name) == {"NIB", "SLHS"}
+    assert by_name["NIB"].condition_note is None
+    assert by_name["SLHS"].condition_note == FR_NOTE_TRUE
+
+
+def test_real_data_56101_unknown_formal_restaurant(db: Conn) -> None:
+    data_dir = Path(__file__).parents[3] / "data"
+    release = load_data(db, data_dir, FakeEmbedder())
+    items, _ = lookup_permits(db, release, [("56101", attrs())], TODAY)
+    by_name = {i.name.split(" (")[0]: i for i in items}
+    assert by_name["NIB"].condition_note is None
+    assert by_name["Sertifikat Laik Higiene Sanitasi"].condition_note == FR_NOTE_TRUE
+    assert risk_for(db, release, "56101", attrs(), TODAY) == "menengah_tinggi"

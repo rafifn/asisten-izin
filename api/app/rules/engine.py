@@ -111,8 +111,22 @@ def _applicable(rules: list[_Rule], attrs: Attributes) -> list[tuple[_Rule, list
             continue
         best_true = max(_risk_rank(r) for r, _ in true_rules)
         best_false = max(_risk_rank(r) for r, _ in false_rules)
-        drop = false_rules if best_true >= best_false else true_rules
-        matched = [m for m in matched if m not in drop]
+        keep, drop = (
+            (true_rules, false_rules) if best_true >= best_false else (false_rules, true_rules)
+        )
+        dropped_permits = {r.permit_id for r, _ in drop}
+        kept_ids = {id(m) for m in keep}
+        dropped_ids = {id(m) for m in drop}
+        resolved: list[tuple[_Rule, list[str]]] = []
+        for m in matched:
+            if id(m) in dropped_ids:
+                continue
+            rule, unknown = m
+            if id(m) in kept_ids and rule.permit_id in dropped_permits:
+                # required in both branches: unconditional with respect to this attribute
+                unknown = [k for k in unknown if k != attr]
+            resolved.append((rule, unknown))
+        matched = resolved
     return matched
 
 
