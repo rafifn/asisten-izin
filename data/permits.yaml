@@ -1,0 +1,200 @@
+# Permits (national + food sector) for micro/small food & beverage businesses.
+# Every row is sourced; see data/SOURCES.md. Order of steps follows PP 28/2025
+# Pasal 8-11: persyaratan dasar (KKPR, PL/SPPL) -> perizinan berusaha (NIB,
+# Sertifikat Standar) -> persiapan (PBG/SLF jika membangun) -> PB UMKU / sektor.
+- id: kkpr
+  name: KKPR (Kesesuaian Kegiatan Pemanfaatan Ruang)
+  issuer: Lembaga OSS atau pemerintah daerah, sesuai kewenangan
+  description: >-
+    Persyaratan dasar yang memastikan lokasi usaha sesuai rencana tata ruang.
+    Usaha mikro dengan risiko rendah cukup membuat pernyataan mandiri di OSS.
+    Usaha lain mendapat konfirmasi KKPR jika lokasinya sudah punya RDTR di OSS,
+    atau harus mengajukan persetujuan KKPR (dengan pembayaran PNBP).
+  how_to: >-
+    Isi lokasi usaha saat mengurus perizinan di oss.go.id. Usaha perdagangan/jasa
+    yang berada di gedung atau kompleks yang pengelolanya sudah punya KKPR, PL,
+    PBG, dan/atau SLF tidak perlu memenuhi persyaratan dasar ini.
+  source_regulation: PP 28 Tahun 2025
+  source_article: Pasal 8, 12, 13, 15, 17, 18, 19, 32
+  source_url: https://peraturan.bpk.go.id/Details/319773/pp-no-28-tahun-2025
+  valid_from: 2025-10-05
+  last_verified: 2026-11-23
+  regional_note: Prosedur bisa berbeda per daerah. Cek ke dinas setempat.
+- id: persetujuan-lingkungan-sppl
+  name: Persetujuan Lingkungan berupa SPPL
+  issuer: Sistem OSS (terbit otomatis bersama NIB)
+  description: >-
+    SPPL adalah pernyataan kesanggupan mengelola dan memantau lingkungan hidup,
+    untuk usaha yang tidak wajib Amdal atau UKL-UPL. Untuk risiko rendah, NIB
+    sekaligus berlaku sebagai SPPL. Untuk risiko menengah, Anda mengisi formulir
+    SPPL di OSS.
+  how_to: >-
+    Isi pernyataan atau formulir SPPL di oss.go.id saat mengajukan perizinan.
+    SPPL terbit otomatis bersamaan dengan NIB.
+  source_regulation: PP 28 Tahun 2025
+  source_article: Pasal 8 ayat (3), 101, 220, 221, 222
+  source_url: https://peraturan.bpk.go.id/Details/319773/pp-no-28-tahun-2025
+  valid_from: 2025-10-05
+  last_verified: 2026-11-23
+- id: nib
+  name: NIB (Nomor Induk Berusaha)
+  issuer: Lembaga OSS (Kementerian Investasi dan Hilirisasi/BKPM)
+  description: >-
+    Identitas resmi pelaku usaha dan bukti pendaftaran untuk menjalankan usaha.
+    Setiap pelaku usaha wajib punya satu NIB. Untuk usaha mikro dan kecil dengan
+    risiko rendah, NIB sudah menjadi legalitas usahanya dan juga berlaku sebagai SNI
+    dan/atau pernyataan jaminan halal sesuai peraturan terkait.
+  how_to: >-
+    Daftar akun di oss.go.id, lalu isi data usaha: NIK (untuk perorangan), modal,
+    NPWP, lokasi usaha, dan kode KBLI. NIB terbit melalui OSS.
+  source_regulation: PP 28 Tahun 2025
+  source_article: Pasal 206, 207, 220, 234
+  source_url: https://peraturan.bpk.go.id/Details/319773/pp-no-28-tahun-2025
+  valid_from: 2025-10-05
+  last_verified: 2026-11-23
+- id: sertifikat-standar
+  name: Sertifikat Standar
+  issuer: Lembaga OSS atas nama kementerian atau pemerintah daerah sesuai kewenangan
+  description: >-
+    Izin usaha untuk kegiatan dengan risiko menengah rendah, terbit bersama NIB.
+    Anda menyatakan sanggup memenuhi standar kegiatan usaha, lalu wajib
+    menjalankan standar dan kewajiban yang tercantum untuk KBLI Anda di OSS.
+  how_to: >-
+    Di oss.go.id, isi pernyataan kesanggupan memenuhi standar pelaksanaan
+    kegiatan usaha dan formulir SPPL. NIB dan Sertifikat Standar terbit melalui
+    OSS. Kewajiban untuk KBLI Anda bisa dicek di halaman KBLI di oss.go.id.
+  source_regulation: PP 28 Tahun 2025
+  source_article: Pasal 221, 234 ayat (3) dan (4)
+  source_url: https://peraturan.bpk.go.id/Details/319773/pp-no-28-tahun-2025
+  valid_from: 2025-10-05
+  last_verified: 2026-11-23
+  regional_note: Prosedur bisa berbeda per daerah. Cek ke dinas setempat.
+- id: sertifikat-standar-terverifikasi
+  name: Sertifikat Standar (wajib diverifikasi)
+  issuer: Kementerian atau pemerintah daerah sesuai kewenangan, melalui Sistem OSS
+  description: >-
+    Izin usaha untuk kegiatan dengan risiko menengah tinggi. Setelah mengisi
+    pernyataan kesanggupan, Anda mendapat NIB dan Sertifikat Standar bertanda
+    belum terverifikasi. Anda lalu harus memenuhi standar dalam jangka waktu yang
+    ditentukan, dan instansi berwenang memverifikasinya.
+  how_to: >-
+    Ajukan di oss.go.id dan lengkapi persyaratan yang diminta untuk KBLI Anda.
+    Setelah memenuhi standar, sampaikan pemenuhannya melalui OSS untuk
+    diverifikasi. Jika dinyatakan memenuhi, OSS mencantumkan keterangan bahwa
+    Sertifikat Standar sudah diverifikasi.
+  source_regulation: PP 28 Tahun 2025
+  source_article: Pasal 11 ayat (5), 222, 223, 224, 234 ayat (3) dan (4)
+  source_url: https://peraturan.bpk.go.id/Details/319773/pp-no-28-tahun-2025
+  valid_from: 2025-10-05
+  last_verified: 2026-11-23
+  regional_note: Prosedur bisa berbeda per daerah. Cek ke dinas setempat.
+- id: pbg-slf
+  name: PBG dan SLF (Persetujuan Bangunan Gedung dan Sertifikat Laik Fungsi)
+  issuer: Pemerintah daerah (atau Pemerintah Pusat) sesuai kewenangan
+  description: >-
+    Hanya wajib jika Anda perlu membangun gedung sebagai tempat usaha. PBG
+    harus dimiliki sebelum pembangunan dimulai. SLF adalah sertifikat laik
+    fungsi untuk bangunan gedung tersebut.
+  how_to: >-
+    Sebelum membangun, ajukan PBG ke pemerintah daerah. Prosesnya melalui
+    konsultasi perencanaan lalu penerbitan. Usaha perdagangan/jasa di gedung atau
+    kompleks yang pengelolanya sudah punya PBG/SLF tidak perlu mengurusnya.
+  source_regulation: PP 28 Tahun 2025
+  source_article: Pasal 10, 12, 13, 106, 107, 108
+  source_url: https://peraturan.bpk.go.id/Details/319773/pp-no-28-tahun-2025
+  valid_from: 2025-10-05
+  last_verified: 2026-11-23
+  regional_note: Prosedur bisa berbeda per daerah. Cek ke dinas setempat.
+- id: izin-edar-pangan-olahan
+  name: 'Izin edar pangan olahan: SPP-IRT atau izin edar BPOM (MD)'
+  issuer: Bupati/Wali Kota (SPP-IRT) atau BPOM (izin edar MD)
+  description: >-
+    Pangan olahan yang dijual dalam kemasan eceran berlabel wajib punya izin
+    edar. Produksi rumahan (di rumah tinggal, alat manual sampai semi otomatis)
+    untuk jenis pangan yang ada di daftar BPOM memakai SPP-IRT. Produk lain,
+    misalnya yang perlu penanganan khusus atau memakai klaim, memakai izin edar
+    BPOM (nomor MD). Pangan dengan umur simpan kurang dari 7 hari dan pangan
+    siap saji tidak wajib.
+  how_to: >-
+    Setelah punya NIB, ajukan SPP-IRT melalui OSS dengan data produk dan
+    rancangan label, lalu penuhi komitmennya (antara lain ikut penyuluhan
+    keamanan pangan) paling lambat 3 bulan. Untuk izin edar MD, daftar di sistem
+    registrasi pangan BPOM yang terhubung dengan OSS.
+  source_regulation: Peraturan BPOM Nomor 4 Tahun 2024; PP 28 Tahun 2025 Lampiran II
+  source_article: Pasal 3, 4, 5, 8, 9, 10, 15, 20 (Peraturan BPOM 4/2024); Lampiran II.J2 no. 6-8, 11 (PP 28/2025)
+  source_url: https://sppirt.pom.go.id/uploads/regulasi/8b6f95b8e4c2385a433627a4bff97014.pdf
+  valid_from: 2025-10-05
+  last_verified: 2026-11-23
+  regional_note: Prosedur bisa berbeda per daerah. Cek ke dinas setempat.
+- id: izin-edar-bpom
+  name: Izin edar pangan olahan dari BPOM (MD)
+  issuer: BPOM
+  description: >-
+    Untuk KBLI ini, OSS mencantumkan izin edar pangan olahan dari BPOM (bukan
+    SPP-IRT). Pangan olahan dalam kemasan eceran wajib punya nomor izin edar
+    BPOM RI MD sebelum dijual. Pangan dengan umur simpan kurang dari 7 hari dan
+    pangan siap saji tidak wajib.
+  how_to: >-
+    Setelah punya NIB, daftarkan produk di sistem registrasi pangan BPOM
+    (ereg-rba.pom.go.id) yang terhubung dengan OSS. Produk yang masih dalam
+    proses pendaftaran belum boleh diedarkan.
+  source_regulation: PP 28 Tahun 2025 Lampiran II; ketentuan registrasi pangan olahan BPOM
+  source_article: Lampiran II.J2 no. 6-8 (PP 28/2025)
+  source_url: https://registrasipangan.pom.go.id/layanan
+  valid_from: 2025-10-05
+  last_verified: 2026-11-23
+- id: label-hsp
+  name: Label Higiene Sanitasi Pangan (HSP)
+  issuer: Bupati/Wali Kota (Dinas Kesehatan)
+  description: >-
+    Label yang menyatakan tempat pengolahan pangan Anda memenuhi syarat
+    kesehatan. Untuk KBLI ini, usaha mikro dan kecil wajib memiliki Label HSP.
+    Label berlaku 2 tahun dan wajib dipasang di tempat usaha.
+  how_to: >-
+    Daftar ke Dinas Kesehatan kabupaten/kota atau puskesmas. Tempat usaha
+    diperiksa dengan formulir Inspeksi Kesehatan Lingkungan (IKL), dan pengelola
+    serta penjamah pangan mengikuti penyuluhan keamanan pangan siap saji.
+  source_regulation: PP 28 Tahun 2025 Lampiran I dan Lampiran II
+  source_article: Lampiran I.L (kewajiban KBLI penyediaan makanan/minuman); Lampiran II.J1 no. 7
+  source_url: https://peraturan.bpk.go.id/Details/319773/pp-no-28-tahun-2025
+  valid_from: 2025-10-05
+  last_verified: 2026-11-23
+  regional_note: Prosedur bisa berbeda per daerah. Cek ke dinas setempat.
+- id: label-hsp-atau-slhs
+  name: Label HSP atau Sertifikat Laik Higiene Sanitasi (SLHS)
+  issuer: Bupati/Wali Kota (Dinas Kesehatan)
+  description: >-
+    Bukti bahwa tempat pengolahan pangan memenuhi syarat higiene sanitasi. Untuk
+    KBLI ini, jenisnya tergantung jenis dan skala usaha: restoran wajib SLHS;
+    rumah/warung makan dan usaha mikro lainnya umumnya cukup Label HSP; kedai
+    makan dan kafe skala kecil wajib SLHS. Label HSP berlaku 2 tahun, SLHS 5
+    tahun.
+  how_to: >-
+    Label HSP: daftar ke Dinas Kesehatan atau puskesmas, lalu tempat usaha
+    diperiksa (IKL). SLHS: ajukan melalui OSS dengan dokumen penilaian mandiri
+    (IKL), sertifikat kursus keamanan pangan, keterangan sehat penjamah pangan,
+    dan hasil uji laboratorium.
+  source_regulation: PP 28 Tahun 2025 Lampiran I dan Lampiran II
+  source_article: Lampiran I.L (kewajiban KBLI penyediaan makanan/minuman); Lampiran II.J1 no. 5 dan no. 7
+  source_url: https://peraturan.bpk.go.id/Details/319773/pp-no-28-tahun-2025
+  valid_from: 2025-10-05
+  last_verified: 2026-11-23
+  regional_note: Prosedur bisa berbeda per daerah. Cek ke dinas setempat.
+- id: sertifikat-halal
+  name: Sertifikat Halal
+  issuer: BPJPH (Badan Penyelenggara Jaminan Produk Halal)
+  description: >-
+    Produk makanan dan minuman yang beredar di Indonesia wajib bersertifikat
+    halal. Untuk usaha mikro dan kecil, masa penahapan kewajiban ini berlaku
+    sampai 17 Oktober 2028. Produk dari bahan yang diharamkan tidak disertifikasi
+    halal, tetapi wajib diberi keterangan tidak halal.
+  how_to: >-
+    Ajukan ke BPJPH melalui ptsp.halal.go.id. Usaha mikro dan kecil dengan
+    produk tidak berisiko dan proses produksi sederhana bisa memakai pernyataan
+    halal pelaku usaha (self declare) dengan pendampingan PPH. Selain itu, ajukan
+    lewat jalur reguler.
+  source_regulation: PP 42 Tahun 2024 sebagaimana diubah dengan PP 40 Tahun 2026
+  source_article: Pasal 2, 98, 155, 159, 160 (PP 42/2024); penahapan UMK diubah PP 40/2026
+  source_url: https://bpjph.halal.go.id/read/penyesuaian-penahapan-kewajiban-sertifikasi-halal-diatur-dalam-pp-40-tahun-2026-begini-rinciannya
+  valid_from: 2026-10-14
+  last_verified: 2026-11-23
