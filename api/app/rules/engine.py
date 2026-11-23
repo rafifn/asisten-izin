@@ -27,6 +27,15 @@ ATTR_LABELS = {
     "formal_restaurant": "usaha berbentuk restoran",
 }
 
+NEG_LABELS = {
+    "packaged": "produk tidak dijual dalam kemasan",
+    "served_on_site": "makanan tidak disantap di tempat",
+    "has_seating": "tidak ada tempat makan",
+    "sells_online": "tidak dijual online",
+    "animal_products": "tidak memakai bahan hewani",
+    "formal_restaurant": "bukan usaha berbentuk restoran",
+}
+
 RISK_ORDER = ["rendah", "menengah_rendah", "menengah_tinggi", "tinggi"]
 STALE_DAYS = 183
 
@@ -57,14 +66,14 @@ select r.permit_id, r.risk_level, r.step_order, r.conditions, r.last_verified,
 from permit_rule r
 join permit p on p.id = r.permit_id and p.data_release_id = r.data_release_id
 where r.data_release_id = %s and r.kbli_code = %s
-  and (r.valid_to is null or r.valid_to > %s)
-  and (p.valid_to is null or p.valid_to > %s)
+  and r.valid_from <= %s and (r.valid_to is null or r.valid_to > %s)
+  and p.valid_from <= %s and (p.valid_to is null or p.valid_to > %s)
 order by r.id
 """
 
 
 def _fetch(conn: Conn, release_id: int, code: str, today: date) -> list[_Rule]:
-    rows = conn.execute(_SQL, (release_id, code, today, today))
+    rows = conn.execute(_SQL, (release_id, code, today, today, today, today))
     return [_Rule(*row) for row in rows.fetchall()]
 
 
@@ -107,8 +116,8 @@ def _applicable(rules: list[_Rule], attrs: Attributes) -> list[tuple[_Rule, list
     return matched
 
 
-def risk_for(conn: Conn, release_id: int, code: str, attrs: Attributes) -> str | None:
-    rules = _fetch(conn, release_id, code, date.today())
+def risk_for(conn: Conn, release_id: int, code: str, attrs: Attributes, today: date) -> str | None:
+    rules = _fetch(conn, release_id, code, today)
     applicable = _applicable(rules, attrs)
     if not applicable:
         return None
@@ -186,5 +195,5 @@ def lookup_permits(
 
 
 def _note_for(rule: _Rule, unknown: list[str]) -> str:
-    labels = [("" if rule.conditions[k] else "tidak ") + ATTR_LABELS[k] for k in unknown]
+    labels = [(ATTR_LABELS if rule.conditions[k] else NEG_LABELS)[k] for k in unknown]
     return "Berlaku jika " + " dan ".join(labels)

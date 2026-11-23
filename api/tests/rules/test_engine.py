@@ -9,7 +9,7 @@ from app.data.loader import load_data
 from app.db import Conn
 from app.pipeline.schemas import Attributes
 from app.retrieval.embedder import FakeEmbedder
-from app.rules.engine import ATTR_LABELS, lookup_permits, risk_for
+from app.rules.engine import ATTR_LABELS, NEG_LABELS, lookup_permits, risk_for
 from tests.fixtures.codes import FIXTURE_CATERING_CODE, FIXTURE_DRINK_CODE, FIXTURE_PACKAGED_CODE
 
 TODAY = date(2026, 11, 23)
@@ -18,7 +18,7 @@ B = FIXTURE_CATERING_CODE  # nib + slhs
 C = FIXTURE_DRINK_CODE  # nib
 FIXTURE_DIR = Path(__file__).parents[1] / "fixtures" / "data"
 FR_NOTE_TRUE = "Berlaku jika usaha berbentuk restoran"
-FR_NOTE_FALSE = "Berlaku jika tidak usaha berbentuk restoran"
+FR_NOTE_FALSE = "Berlaku jika bukan usaha berbentuk restoran"
 
 
 def attrs(**kw: bool | None) -> Attributes:
@@ -65,6 +65,21 @@ def branching(db: Conn, tmp_path: Path, true_risk: str, false_risk: str) -> int:
 
 def test_labels_cover_all_attributes() -> None:
     assert set(ATTR_LABELS) == set(Attributes.model_fields)
+
+
+def test_neg_labels_cover_all_attributes() -> None:
+    assert set(NEG_LABELS) == set(Attributes.model_fields)
+
+
+def test_future_valid_from_ignored(db: Conn, tmp_path: Path) -> None:
+    future = rule(B, "spp-irt", "tinggi", 3, {})
+    future["valid_from"] = TODAY + timedelta(days=1)
+    release = load_variant(db, tmp_path, [future])
+    items, _ = lookup_permits(db, release, [(B, attrs())], TODAY)
+    assert "SPP-IRT" not in {i.name for i in items}
+    assert risk_for(db, release, B, attrs(), TODAY) == "menengah_rendah"
+    items, _ = lookup_permits(db, release, [(B, attrs())], TODAY + timedelta(days=1))
+    assert "SPP-IRT" in {i.name for i in items}
 
 
 def test_merges_and_labels_shared_permit(db: Conn, loaded_fixture: int) -> None:
@@ -171,7 +186,7 @@ def test_risk_is_highest_applicable(db: Conn, loaded_fixture: int, tmp_path: Pat
 def test_branch_unknown_picks_higher_risk_branch(db: Conn, tmp_path: Path) -> None:
     release = branching(db, tmp_path, "menengah_tinggi", "menengah_rendah")
     a = attrs(formal_restaurant=None)
-    assert risk_for(db, release, C, a) == "menengah_tinggi"
+    assert risk_for(db, release, C, a, TODAY) == "menengah_tinggi"
     items, _ = lookup_permits(db, release, [(C, a)], TODAY)
     by_name = {i.name: i for i in items}
     assert set(by_name) == {"NIB", "SLHS"}  # no permit that exists only in the false branch
@@ -182,7 +197,7 @@ def test_branch_unknown_picks_higher_risk_branch(db: Conn, tmp_path: Path) -> No
 def test_branch_unknown_picks_false_when_higher(db: Conn, tmp_path: Path) -> None:
     release = branching(db, tmp_path, "menengah_rendah", "menengah_tinggi")
     a = attrs(formal_restaurant=None)
-    assert risk_for(db, release, C, a) == "menengah_tinggi"
+    assert risk_for(db, release, C, a, TODAY) == "menengah_tinggi"
     items, _ = lookup_permits(db, release, [(C, a)], TODAY)
     by_name = {i.name: i for i in items}
     assert set(by_name) == {"NIB", "SPP-IRT"}
@@ -198,7 +213,7 @@ def test_branch_tie_chooses_true(db: Conn, tmp_path: Path) -> None:
 def test_branch_attribute_true_uses_only_true_branch(db: Conn, tmp_path: Path) -> None:
     release = branching(db, tmp_path, "menengah_rendah", "menengah_tinggi")
     a = attrs(formal_restaurant=True)
-    assert risk_for(db, release, C, a) == "menengah_rendah"
+    assert risk_for(db, release, C, a, TODAY) == "menengah_rendah"
     items, _ = lookup_permits(db, release, [(C, a)], TODAY)
     assert {i.name for i in items} == {"NIB", "SLHS"}
     assert all(i.condition_note is None for i in items)
@@ -207,7 +222,7 @@ def test_branch_attribute_true_uses_only_true_branch(db: Conn, tmp_path: Path) -
 def test_branch_attribute_false_uses_only_false_branch(db: Conn, tmp_path: Path) -> None:
     release = branching(db, tmp_path, "menengah_tinggi", "menengah_rendah")
     a = attrs(formal_restaurant=False)
-    assert risk_for(db, release, C, a) == "menengah_rendah"
+    assert risk_for(db, release, C, a, TODAY) == "menengah_rendah"
     items, _ = lookup_permits(db, release, [(C, a)], TODAY)
     assert {i.name for i in items} == {"NIB", "SPP-IRT"}
     assert all(i.condition_note is None for i in items)
