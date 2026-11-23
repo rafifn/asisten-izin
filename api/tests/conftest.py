@@ -26,23 +26,42 @@ def test_db_url() -> str:
     return _test_url()
 
 
-@pytest.fixture
-def raw_conn(test_db_url: str) -> Iterator[Conn]:
-    """Connection to an empty, unmigrated database."""
+@pytest.fixture(scope="session")
+def migrated_db_url(test_db_url: str) -> str:
+    """Reset the test database and migrate it once per session (committed)."""
     conn = connect(test_db_url)
+    _reset(conn)
+    migrate(conn)
+    conn.close()
+    return test_db_url
+
+
+def _reset(conn: Conn) -> None:
     conn.execute("drop schema public cascade")
     conn.execute("create schema public")
     conn.commit()
+
+
+@pytest.fixture
+def raw_conn(test_db_url: str) -> Iterator[Conn]:
+    """Connection to an empty, unmigrated database; it is re-migrated afterwards."""
+    conn = connect(test_db_url)
+    _reset(conn)
     yield conn
     conn.rollback()
+    _reset(conn)
+    migrate(conn)
     conn.close()
 
 
 @pytest.fixture
-def db(test_db_url: str) -> Iterator[Conn]:
-    """Migrated database; changes are rolled back after each test."""
-    conn = connect(test_db_url)
-    migrate(conn)
+def db(migrated_db_url: str) -> Iterator[Conn]:
+    """Migrated database. The whole test runs in one transaction that is rolled back.
+
+    `conn.transaction()` inside a test is therefore a savepoint.
+    """
+    conn = connect(migrated_db_url)
+    conn.execute("select 1")  # open the outer transaction
     yield conn
     conn.rollback()
     conn.close()

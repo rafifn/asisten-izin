@@ -12,11 +12,9 @@ Conn = psycopg.Connection[Any]
 
 
 def _register(conn: Conn) -> None:
-    try:
+    row = conn.execute("select 1 from pg_extension where extname = 'vector'").fetchone()
+    if row is not None:
         register_vector(conn)
-    except psycopg.ProgrammingError:
-        # The vector extension does not exist yet (before the first migration).
-        conn.rollback()
 
 
 def connect(url: str | None = None) -> Conn:
@@ -25,22 +23,29 @@ def connect(url: str | None = None) -> Conn:
     return conn
 
 
-def migrate(conn: Conn) -> list[str]:
+def migrate(conn: Conn, migrations_dir: Path | None = None) -> list[str]:
+    """Apply pending migrations, one transaction per file.
+
+    Commits any open transaction on `conn` first. A failing file is rolled back
+    and re-raised; files applied before it stay committed.
+    """
     conn.execute(
         "create table if not exists schema_migrations ("
         "name text primary key, applied_at timestamptz not null default now())"
     )
     done = {r[0] for r in conn.execute("select name from schema_migrations")}
+    conn.commit()
     applied: list[str] = []
-    for path in sorted(MIGRATIONS_DIR.glob("*.sql")):
+    for path in sorted((migrations_dir or MIGRATIONS_DIR).glob("*.sql")):
         if path.name in done:
             continue
-        conn.execute(path.read_text())
-        conn.execute("insert into schema_migrations (name) values (%s)", (path.name,))
+        with conn.transaction():
+            conn.execute(path.read_text())
+            conn.execute("insert into schema_migrations (name) values (%s)", (path.name,))
         applied.append(path.name)
-    conn.commit()
     if applied:
         _register(conn)
+        conn.commit()
     return applied
 
 
