@@ -10,7 +10,7 @@ FastAPI (Python 3.12, uv) in `api/`, Next.js in `web/`, Postgres 17 + pgvector
 
 ## Commands
 
-- `make dev`: start db, apply migrations, run API on port 8000
+- `make dev`: start db, apply migrations, run API (8000) and web (3000); `make e2e` runs Playwright against a running fake-mode stack
 - `make check`: ruff format --check, ruff check, mypy app, pytest
 - `make db-reset`: wipe the local db volume and re-migrate
 
