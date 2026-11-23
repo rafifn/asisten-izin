@@ -15,5 +15,40 @@ services:
       timeout: 3s
       retries: 30
 
+  # Everything below runs only with `--profile full`; `make dev` stays native.
+  api:
+    profiles: ["full"]
+    build:
+      context: .
+      dockerfile: api/Dockerfile
+    environment:
+      DATABASE_URL: postgresql://asisten:asisten@db:5432/asisten_izin
+      LLM_MODE: ${LLM_MODE:-fake}
+      EMBEDDER: ${EMBEDDER:-fake}
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "127.0.0.1:8000:8000"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/healthz')"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+      start_period: 10s
+
+  web:
+    profiles: ["full"]
+    build:
+      context: ./web
+      args:
+        # Inlined into the browser bundle at build time: must be reachable from the browser.
+        NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:8000}
+    depends_on:
+      - api
+    ports:
+      - "127.0.0.1:3000:3000"
+
 volumes:
   pgdata:
