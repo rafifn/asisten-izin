@@ -1,4 +1,4 @@
-.PHONY: dev check db-reset data-load
+.PHONY: dev check db-reset data-load data-sample
 
 dev:
 	docker compose up -d --wait db
@@ -18,3 +18,6 @@ db-reset:
 
 data-load:
 	cd api && uv run python -m app.data.loader ../data
+
+data-sample:
+	cd api && uv run python -m app.data.sample ../data ../docs/spot-checks
