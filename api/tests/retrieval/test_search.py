@@ -6,7 +6,6 @@ from tests.fixtures.codes import (
     FIXTURE_DRINK_CODE,
     FIXTURE_OUT_OF_SCOPE_CODE,
     FIXTURE_OUT_OF_SCOPE_TITLE,
-    FIXTURE_PACKAGED_CODE,
 )
 
 
@@ -25,7 +24,16 @@ def test_extra_codes_included(db: Conn, loaded_fixture: int) -> None:
     result = search_kbli(
         db, loaded_fixture, "zzz", FakeEmbedder(), extra_codes=[FIXTURE_DRINK_CODE], limit=1
     )
-    assert FIXTURE_DRINK_CODE in {c.code for c in result}
+    assert [c.code for c in result] == [FIXTURE_DRINK_CODE]
+
+
+def test_extras_never_exceed_limit(db: Conn, loaded_fixture: int) -> None:
+    result = search_kbli(
+        db, loaded_fixture, "katering", FakeEmbedder(), extra_codes=[FIXTURE_DRINK_CODE], limit=2
+    )
+    codes = [c.code for c in result]
+    assert len(codes) <= 2 and FIXTURE_DRINK_CODE in codes
+    assert FIXTURE_CATERING_CODE in codes  # remaining slot filled in RRF order
 
 
 def test_out_of_scope_extra_code_ignored(db: Conn, loaded_fixture: int) -> None:
@@ -36,11 +44,21 @@ def test_out_of_scope_extra_code_ignored(db: Conn, loaded_fixture: int) -> None:
 
 
 def test_limit_and_no_duplicates(db: Conn, loaded_fixture: int) -> None:
+    # "katering" ranks 90002 first; the extra 90003 would rank outside a limit of 1
     result = search_kbli(
-        db, loaded_fixture, "keripik", FakeEmbedder(), extra_codes=[FIXTURE_PACKAGED_CODE], limit=2
+        db,
+        loaded_fixture,
+        "katering",
+        FakeEmbedder(),
+        extra_codes=[FIXTURE_DRINK_CODE] * 2,
+        limit=1,
     )
-    codes = [c.code for c in result]
-    assert len(codes) == len(set(codes)) == 2
+    assert [c.code for c in result] == [FIXTURE_DRINK_CODE]
+
+
+def test_partial_multiword_query_still_matches(db: Conn, loaded_fixture: int) -> None:
+    result = search_kbli(db, loaded_fixture, "katering pernikahan xyz", FakeEmbedder())
+    assert result[0].code == FIXTURE_CATERING_CODE
 
 
 def test_vector_only_match_still_returned(db: Conn, loaded_fixture: int) -> None:

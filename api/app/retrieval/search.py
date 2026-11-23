@@ -40,7 +40,7 @@ def search_kbli(
 
     Keyword rank orders by the greater of ts_rank and trigram similarity; vector rank
     orders by cosine distance; the two are merged with reciprocal rank fusion (k=60).
-    In-scope `extra_codes` are appended when not already within the top `limit`.
+    In-scope `extra_codes` are pinned; the rest of the `limit` slots are filled in RRF order.
     """
     keyword = [
         r[0] for r in conn.execute(_KEYWORD_SQL, {"q": query, "rel": release_id, "pool": _POOL})
@@ -54,10 +54,16 @@ def search_kbli(
     for ranking in (keyword, vector):
         for rank, code in enumerate(ranking, start=1):
             scores[code] = scores.get(code, 0.0) + 1.0 / (RRF_K + rank)
-    ordered = sorted(scores, key=lambda c: (-scores[c], c))[:limit]
-    for code in extra_codes or []:
-        if code not in ordered:
-            ordered.append(code)
+    in_scope_extras = [
+        r[0]
+        for r in conn.execute(
+            "select code from kbli where data_release_id = %s and in_scope and code = any(%s)",
+            [release_id, list(extra_codes or [])],
+        )
+    ]
+    pinned = [c for c in dict.fromkeys(extra_codes or []) if c in set(in_scope_extras)][:limit]
+    ranked = [c for c in sorted(scores, key=lambda c: (-scores[c], c)) if c not in pinned]
+    ordered = pinned + ranked[: limit - len(pinned)]
 
     rows = conn.execute(
         "select code, title, definition from kbli"
