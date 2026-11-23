@@ -139,5 +139,7 @@ docker compose --profile full down -v           # also delete the database volum
 
 The api container runs `python -m app.db` (idempotent migrations) before starting uvicorn.
 `NEXT_PUBLIC_API_URL` is baked into the web image at build time; rebuild `web` when it changes.
-The API's CORS allow-list is currently fixed to `http://localhost:3000`, so a staging web origin
-needs a code change first.
+The API's CORS allow-list comes from `CORS_ORIGINS` (comma-separated, default
+`http://localhost:3000`); set it to the staging web origin. `make dev` and the `full` profile share
+ports 8000/3000, so stop one before starting the other. `make db-reset CONFIRM=1` deletes the local
+database (all data releases and `query_log`) and stops api/web.

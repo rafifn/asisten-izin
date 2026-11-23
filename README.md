@@ -48,11 +48,12 @@ and `make`.
 
 ```bash
 cp .env.example .env          # works as-is: fake mode, local database
-make db-reset                 # start Postgres on 127.0.0.1:5433 and apply migrations
-make data-load                # load data/*.yaml as a new data release
+make setup                    # start Postgres (127.0.0.1:5433), migrate, load data/*.yaml
 corepack pnpm@10.28.2 --dir web install
 make dev                      # API on :8000, web on :3000 (Ctrl-C stops both)
 ```
+
+`make dev` and the `full` container profile both use ports 8000 and 3000: stop one before starting the other.
 
 Open <http://localhost:3000>. Check the API with `curl http://localhost:8000/healthz`.
 
@@ -66,9 +67,9 @@ docker compose --profile full run --rm api python -m app.data.loader /app/data
 
 The web app is on <http://localhost:3000>, the API on <http://localhost:8000>. The `api` image
 bundles the bge-m3 weights (no download at start), runs as a non-root user, applies migrations on
-start, and contains `data/`. `NEXT_PUBLIC_API_URL` is inlined into the web bundle at build time:
+start, and contains `data/`. The API's CORS allow-list is `CORS_ORIGINS` (default `http://localhost:3000`). `NEXT_PUBLIC_API_URL` is inlined into the web bundle at build time:
 set it in `.env` (or the shell) before `--build` if the browser must reach the API elsewhere.
-Stop with `docker compose --profile full down` (add `-v` to delete the database).
+Stop with `docker compose --profile full down` (add `-v` only if you mean to delete the database).
 
 ### Real mode
 
@@ -101,7 +102,8 @@ after switching.
 | `make dev-api` / `make dev-web` | Run one side only |
 | `make check` | ruff format and lint, mypy, pytest, web lint, typecheck, vitest |
 | `make e2e` | Playwright smoke test against a running fake-mode stack |
-| `make db-reset` | Wipe the local database volume and re-migrate |
+| `make setup` | Start db, apply migrations, load data (non-destructive) |
+| `make db-reset CONFIRM=1` | **Deletes** the local database (all loaded data and query logs), stops the `full` containers, re-migrates. Refuses without `CONFIRM=1` |
 | `make data-load` | Validate `data/*.yaml` and insert a new data release |
 | `make data-sample` | Write a random spot-check sheet to `docs/spot-checks/` |
 | `make eval` | Eval dry run: case count and cost estimate, no API calls |

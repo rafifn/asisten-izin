@@ -6,11 +6,18 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+DEFAULT_CORS_ORIGINS = "http://localhost:3000"
 DEFAULT_DATABASE_URL = "postgresql://asisten:asisten@127.0.0.1:5433/asisten_izin"
 
 
 def database_url() -> str:
     return os.environ.get("DATABASE_URL", DEFAULT_DATABASE_URL)
+
+
+def parse_origins(raw: str | None) -> tuple[str, ...]:
+    """Comma-separated origins; blank or unset falls back to the local web origin."""
+    origins = tuple(o.strip() for o in (raw or "").split(",") if o.strip())
+    return origins or (DEFAULT_CORS_ORIGINS,)
 
 
 def _choice(name: str, allowed: tuple[str, ...], default: str) -> str:
@@ -25,6 +32,7 @@ class Settings:
     database_url: str = field(default_factory=database_url)
     llm_mode: Literal["real", "fake"] = "real"
     embedder: Literal["bge", "fake"] = "bge"
+    cors_origins: tuple[str, ...] = (DEFAULT_CORS_ORIGINS,)
 
     @classmethod
     def from_env(cls) -> "Settings":
@@ -32,4 +40,5 @@ class Settings:
             database_url=database_url(),
             llm_mode=cast(Literal["real", "fake"], _choice("LLM_MODE", ("real", "fake"), "real")),
             embedder=cast(Literal["bge", "fake"], _choice("EMBEDDER", ("bge", "fake"), "bge")),
+            cors_origins=parse_origins(os.environ.get("CORS_ORIGINS")),
         )

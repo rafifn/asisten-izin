@@ -1,4 +1,4 @@
-.PHONY: dev dev-api dev-web check e2e db-reset data-load data-sample eval eval-gen
+.PHONY: setup dev dev-api dev-web check e2e db-reset data-load data-sample eval eval-gen
 
 PNPM = corepack pnpm@10.28.2
 
@@ -36,8 +36,20 @@ check:
 e2e:
 	$(PNPM) --dir web exec playwright test
 
+# Non-destructive first-run setup: start db, migrate, load data (EMBEDDER from .env: fake or bge).
+setup:
+	docker compose up -d --wait db
+	cd api && uv run python -m app.db
+	cd api && uv run python -m app.data.loader ../data
+
+# DESTRUCTIVE: deletes the local database volume (all data releases and query logs) and also
+# stops the `full` profile containers. Requires CONFIRM=1.
 db-reset:
-	docker compose down -v
+	@if [ "$(CONFIRM)" != "1" ]; then \
+	  echo "db-reset DELETES the local database (loaded data and query logs). Re-run: make db-reset CONFIRM=1" >&2; \
+	  exit 1; \
+	fi
+	docker compose --profile full down -v
 	docker compose up -d --wait db
 	cd api && uv run python -m app.db
 

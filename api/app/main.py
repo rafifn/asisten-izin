@@ -11,6 +11,8 @@ from app.routes import router
 
 
 def create_app(settings: Settings | None = None) -> FastAPI:
+    cors_cfg = settings or Settings.from_env()
+
     @asynccontextmanager
     async def lifespan(app: FastAPI) -> AsyncIterator[None]:
         # Built once at startup; tests bypass this by overriding the dependencies.
@@ -23,7 +25,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     app = FastAPI(title="Asisten Izin Kuliner", lifespan=lifespan)
     app.add_middleware(
         CORSMiddleware,
-        allow_origins=["http://localhost:3000"],
+        allow_origins=list(cors_cfg.cors_origins),
         allow_methods=["GET", "POST"],
         allow_headers=["content-type"],
     )

@@ -26,6 +26,7 @@ services:
       LLM_MODE: ${LLM_MODE:-fake}
       EMBEDDER: ${EMBEDDER:-fake}
       ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+      CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:3000}
     depends_on:
       db:
         condition: service_healthy
