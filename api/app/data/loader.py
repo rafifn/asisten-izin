@@ -131,10 +131,12 @@ def main(argv: list[str]) -> int:
     if len(argv) != 2:
         print("usage: python -m app.data.loader <data_dir>", file=sys.stderr)
         return 2
-    embedder: Embedder = FakeEmbedder() if os.environ.get("EMBEDDER") == "fake" else BgeM3Embedder()
+    name = "fake" if os.environ.get("EMBEDDER") == "fake" else "bge"
+    embedder: Embedder = FakeEmbedder() if name == "fake" else BgeM3Embedder()
     try:
         with connect() as conn:
-            rid = load_data(conn, Path(argv[1]), embedder)
+            # The embedder is recorded so the eval runner can check retrieval is real.
+            rid = load_data(conn, Path(argv[1]), embedder, notes=f"embedder={name}")
     except DataError as e:
         print(f"data error: {e}", file=sys.stderr)
         return 1

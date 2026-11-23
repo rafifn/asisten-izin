@@ -1,4 +1,4 @@
-.PHONY: dev dev-api dev-web check e2e db-reset data-load data-sample
+.PHONY: dev dev-api dev-web check e2e db-reset data-load data-sample eval eval-gen
 
 PNPM = corepack pnpm@10.28.2
 
@@ -46,3 +46,16 @@ data-load:
 
 data-sample:
 	cd api && uv run python -m app.data.sample ../data ../docs/spot-checks
+
+# Eval set (design: Task 11). Without --yes it only prints the case count and a cost estimate.
+#   make eval                      dry run, no API calls
+#   make eval EVAL_ARGS=--yes      real Claude API, costs money; needs `make data-load` with bge
+#   LLM_MODE=fake EMBEDDER=fake make eval   free plumbing check (report is labelled fake)
+eval:
+	cd api && uv run python ../evals/run.py $(EVAL_ARGS)
+
+# Regenerate expected permits/risk in evals/cases.yaml (and EVAL_GEN_ARGS=--review for REVIEW.md).
+eval-gen:
+	docker compose up -d --wait db
+	cd api && uv run python -m app.db
+	cd api && uv run python ../evals/gen_expected.py $(EVAL_GEN_ARGS)

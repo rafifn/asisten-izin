@@ -6,3 +6,6 @@ __pycache__/
 .ruff_cache/
 node_modules/
 .next/
+
+# Eval reports: fake-mode runs are not committed (only evals/reports/example-fake.md)
+evals/reports/fake-*.md
