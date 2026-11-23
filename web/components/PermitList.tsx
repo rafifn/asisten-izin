@@ -1,7 +1,19 @@
 import type { PermitItem } from "@/lib/api";
 import { formatDate } from "@/lib/format";
 
+export const NO_PERMITS_MESSAGE = "Belum ada data izin untuk kode ini. Cek langsung di oss.go.id.";
+
 export function PermitList({ permits }: { permits: PermitItem[] }) {
+  if (permits.length === 0) {
+    return (
+      <section aria-labelledby="permits-h" className="space-y-3">
+        <h2 id="permits-h" className="text-xl font-bold">
+          Izin yang perlu diurus (berurutan)
+        </h2>
+        <p className="rounded-xl border border-border bg-card p-3 text-sm">{NO_PERMITS_MESSAGE}</p>
+      </section>
+    );
+  }
   return (
     <section aria-labelledby="permits-h" className="space-y-3">
       <h2 id="permits-h" className="text-xl font-bold">

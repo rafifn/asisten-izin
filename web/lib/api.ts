@@ -61,7 +61,7 @@ export type AnalyzeResponse =
   | { status: "ok"; request_id: string; result: AnalyzeResult };
 
 export type PermitsRequest = { request_id: string; primary_codes: string[] };
-export type PermitsResponse = { permits: PermitItem[]; stale_warning: boolean };
+export type PermitsResponse = { permits: PermitItem[]; data_as_of: string; stale_warning: boolean };
 export type FeedbackRequest = { request_id: string; helpful: boolean; comment?: string };
 
 export class ApiError extends Error {
@@ -77,16 +77,26 @@ export class ApiError extends Error {
 
 const baseUrl = () => process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
 
+/** Longer than the API's own LLM timeout (60 s per call), so the API's 503 normally wins. */
+export const REQUEST_TIMEOUT_MS = 90_000;
+export const TIMEOUT_MESSAGE = "Permintaan terlalu lama. Coba lagi sebentar lagi.";
+
 async function post<T>(path: string, body: unknown): Promise<T> {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
   let res: Response;
   try {
     res = await fetch(`${baseUrl()}${path}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),
+      signal: controller.signal,
     });
   } catch {
+    if (controller.signal.aborted) throw new ApiError(0, "timeout", TIMEOUT_MESSAGE);
     throw new ApiError(0, "network", "Tidak dapat terhubung ke layanan.");
+  } finally {
+    clearTimeout(timer);
   }
   if (!res.ok) {
     let code = "internal";

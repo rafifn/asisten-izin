@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import type { ActivityOut } from "@/lib/api";
+import { formatRisk } from "@/lib/format";
 
 type Option = {
   code: string;
@@ -46,7 +47,7 @@ export function ActivityCard({
                 {o.note}
               </p>
               <p className="mt-1 inline-block rounded-md border border-border px-2 py-0.5 text-sm font-medium">
-                {o.risk_level ? `risiko: ${o.risk_level}` : "risiko: belum ada data"}
+                {o.risk_level ? `risiko: ${formatRisk(o.risk_level)}` : "risiko: belum ada data"}
               </p>
               <details className="text-sm">
                 <summary className="min-h-11 cursor-pointer py-2 font-medium text-primary">

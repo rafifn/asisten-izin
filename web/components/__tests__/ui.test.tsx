@@ -46,7 +46,7 @@ describe("Result", () => {
   it("always shows the disclaimer, date and assumptions", () => {
     render(<Result result={okResult()} />);
     expect(screen.getByText("Bukan nasihat hukum. Cek ulang di oss.go.id")).toBeInTheDocument();
-    expect(screen.getByText(/Data per 15 Nov 2026/)).toBeInTheDocument();
+    expect(screen.getByText("Data per 15 Nov 2026")).toBeInTheDocument(); // no dangling "·"
     expect(screen.getByText("Dianggap usaha mikro/kecil")).toBeInTheDocument();
     expect(screen.getByText("risiko: menengah rendah")).toBeInTheDocument();
   });
@@ -55,11 +55,15 @@ describe("Result", () => {
     expect(screen.queryByRole("alert")).not.toBeInTheDocument();
     first.unmount();
     render(<Result result={okResult({ stale_warning: true })} />);
-    expect(screen.getByRole("alert")).toHaveTextContent(/belum diverifikasi/);
+    expect(screen.getByRole("alert")).toHaveTextContent(
+      "Sebagian data sudah lama tidak diverifikasi",
+    );
+    expect(screen.getByRole("alert")).not.toHaveTextContent("6 bulan");
   });
   it("picking an alternative requests new permits", async () => {
     vi.mocked(api.permits).mockResolvedValue({
-      permits: [permit({ name: "SPP-IRT" })],
+      permits: [permit({ name: "SPP-IRT", last_verified: "2026-10-02" })],
+      data_as_of: "2026-10-02",
       stale_warning: false,
     });
     render(<Result result={okResult()} />);
@@ -69,6 +73,7 @@ describe("Result", () => {
       primary_codes: ["10793"],
     });
     expect(await screen.findByText("SPP-IRT")).toBeInTheDocument();
+    expect(screen.getByText("Data per 2 Okt 2026")).toBeInTheDocument();
   });
   it("sends feedback on thumbs up", async () => {
     vi.mocked(api.feedback).mockResolvedValue(undefined);
@@ -232,6 +237,7 @@ describe("Result with multiple activities", () => {
   it("picks an alternative in the second activity, keeping activity order", async () => {
     vi.mocked(api.permits).mockResolvedValue({
       permits: [permit({ name: "Izin Baru" })],
+      data_as_of: "2026-11-01",
       stale_warning: false,
     });
     render(<Result result={two()} />);
@@ -250,5 +256,58 @@ describe("Result with multiple activities", () => {
     expect(await screen.findByText("Gagal memperbarui daftar izin. Coba lagi.")).toBeInTheDocument();
     expect(screen.getByText("NIB")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Pilih 47912" })).toBeInTheDocument();
+  });
+});
+
+describe("Result edge cases", () => {
+  const unsure = () =>
+    okResult({ activities: [], permits: [], scope_note: "Kami belum yakin kode KBLI yang tepat." });
+  it("shows only the note and a retell action when no activity was found", async () => {
+    const onRetell = vi.fn();
+    render(<Result result={unsure()} onRetell={onRetell} />);
+    expect(screen.getByText("Kami belum yakin kode KBLI yang tepat.")).toBeInTheDocument();
+    expect(screen.queryByText("KBLI 2025 yang perlu didaftarkan")).not.toBeInTheDocument();
+    expect(screen.queryByText("Izin yang perlu diurus (berurutan)")).not.toBeInTheDocument();
+    expect(screen.queryByText(/Prosedur bisa berbeda per daerah/)).not.toBeInTheDocument();
+    await userEvent.click(screen.getByRole("button", { name: "Ceritakan lebih rinci" }));
+    expect(onRetell).toHaveBeenCalled();
+  });
+  it("retell returns to the form with the description kept", async () => {
+    vi.mocked(api.analyze).mockResolvedValueOnce({ status: "ok", request_id: "r", result: unsure() });
+    render(<Page />);
+    await userEvent.type(screen.getByLabelText("Ceritakan usahamu"), "jualan apa saja");
+    await userEvent.click(screen.getByRole("button", { name: "Cek izinku" }));
+    await userEvent.click(await screen.findByRole("button", { name: "Ceritakan lebih rinci" }));
+    expect(screen.getByLabelText("Ceritakan usahamu")).toHaveValue("jualan apa saja");
+    expect(screen.queryByRole("button", { name: "Mulai dari awal" })).not.toBeInTheDocument();
+  });
+  it("says so when a chosen code has no permit data", () => {
+    render(<Result result={okResult({ permits: [] })} />);
+    expect(
+      screen.getByText("Belum ada data izin untuk kode ini. Cek langsung di oss.go.id."),
+    ).toBeInTheDocument();
+    expect(screen.queryByText(/Prosedur bisa berbeda per daerah/)).not.toBeInTheDocument();
+  });
+  it("shows risk levels without underscores", () => {
+    const base = okResult();
+    const act = { ...base.activities[0], primary: { ...base.activities[0].primary, risk_level: "menengah_tinggi" } };
+    render(<Result result={okResult({ activities: [act] })} />);
+    expect(screen.getByText("risiko: menengah tinggi")).toBeInTheDocument();
+  });
+  it("explains an old code without in-scope targets", () => {
+    render(
+      <Result
+        result={okResult({
+          kbli_2020_mapping: [
+            { from: "11051", to: [] },
+            { from: "10794", to: ["10793"] },
+          ],
+        })}
+      />,
+    );
+    expect(
+      screen.getByText("kode lama 11051 tidak punya padanan dalam cakupan aplikasi ini"),
+    ).toBeInTheDocument();
+    expect(screen.getByText("kode lama 10794 → kode baru 10793")).toBeInTheDocument();
   });
 });

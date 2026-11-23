@@ -4,16 +4,43 @@ import { useState } from "react";
 import { ActivityCard } from "@/components/ActivityCard";
 import { Feedback } from "@/components/Feedback";
 import { PermitList } from "@/components/PermitList";
+import { Button } from "@/components/ui/button";
 import * as api from "@/lib/api";
 import type { AnalyzeResult, PermitItem } from "@/lib/api";
 import { formatDate } from "@/lib/format";
 
-export function Result({ result }: { result: AnalyzeResult }) {
+export const STALE_MESSAGE =
+  "Sebagian data sudah lama tidak diverifikasi. Pastikan cek ulang di oss.go.id.";
+
+/**
+ * `onRetell` returns to the form with the description kept; it is offered when the API was
+ * not sure about any code (no activities).
+ */
+export function Result({ result, onRetell }: { result: AnalyzeResult; onRetell?: () => void }) {
+  if (result.activities.length === 0) {
+    return (
+      <div className="space-y-4">
+        {result.scope_note && (
+          <p className="rounded-xl border border-border bg-card p-3 text-sm">{result.scope_note}</p>
+        )}
+        {onRetell && (
+          <Button onClick={onRetell} className="w-full">
+            Ceritakan lebih rinci
+          </Button>
+        )}
+      </div>
+    );
+  }
+  return <ResultBody result={result} />;
+}
+
+function ResultBody({ result }: { result: AnalyzeResult }) {
   const [selected, setSelected] = useState<string[]>(() =>
     result.activities.map((a) => a.primary.code),
   );
   const [permits, setPermits] = useState<PermitItem[]>(result.permits);
   const [stale, setStale] = useState(result.stale_warning);
+  const [dataAsOf, setDataAsOf] = useState(result.data_as_of);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -26,6 +53,7 @@ export function Result({ result }: { result: AnalyzeResult }) {
       setSelected(next);
       setPermits(res.permits);
       setStale(res.stale_warning);
+      setDataAsOf(res.data_as_of);
     } catch {
       setError("Gagal memperbarui daftar izin. Coba lagi.");
     } finally {
@@ -35,10 +63,7 @@ export function Result({ result }: { result: AnalyzeResult }) {
 
   return (
     <div className="space-y-6">
-      <p className="text-sm text-muted">
-        Data per {formatDate(result.data_as_of)}
-        {result.assumptions.length > 0 && " · "}
-      </p>
+      <p className="text-sm text-muted">Data per {formatDate(dataAsOf)}</p>
       {result.assumptions.length > 0 && (
         <ul className="-mt-4 text-sm text-muted">
           {result.assumptions.map((a) => (
@@ -48,7 +73,7 @@ export function Result({ result }: { result: AnalyzeResult }) {
       )}
       {stale && (
         <p role="alert" className="rounded-xl bg-warn-bg p-3 text-sm font-medium text-warn-fg">
-          ⚠ Sebagian data belum diverifikasi lebih dari 6 bulan. Pastikan cek ulang di oss.go.id.
+          ⚠ {STALE_MESSAGE}
         </p>
       )}
       {result.scope_note && (
@@ -56,7 +81,9 @@ export function Result({ result }: { result: AnalyzeResult }) {
       )}
       {result.kbli_2020_mapping?.map((m) => (
         <p key={m.from} className="text-sm text-muted">
-          kode lama {m.from} → kode baru {m.to.join(", ")}
+          {m.to.length > 0
+            ? `kode lama ${m.from} → kode baru ${m.to.join(", ")}`
+            : `kode lama ${m.from} tidak punya padanan dalam cakupan aplikasi ini`}
         </p>
       ))}
       <section aria-labelledby="kbli-h" className="space-y-3">

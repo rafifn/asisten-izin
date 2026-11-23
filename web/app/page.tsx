@@ -82,8 +82,10 @@ export default function Page() {
           <p className="text-sm">
             <span className="font-semibold">Usaha:</span> {description}
           </p>
-          <Result result={res.result} />
-          <Button variant="outline" onClick={reset} className="w-full">Mulai dari awal</Button>
+          <Result result={res.result} onRetell={reset} />
+          {res.result.activities.length > 0 && (
+            <Button variant="outline" onClick={reset} className="w-full">Mulai dari awal</Button>
+          )}
         </>
       )}
     </main>
