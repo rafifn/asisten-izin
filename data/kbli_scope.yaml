@@ -1,0 +1,445 @@
+# KBLI 2025 food & beverage scope. Source: BPS, Klasifikasi Baku Lapangan Usaha Indonesia (KBLI) 2025
+# (Peraturan BPS Nomor 7 Tahun 2025). Titles/definitions verbatim; see data/SOURCES.md.
+- code: '10120'
+  title: Pengolahan dan Pengawetan Daging dan Produk Daging
+  definition: |-
+    Kelompok ini mencakup
+    - kegiatan pengolahan dan pengawetan daging produk daging dengan cara pengalengan, pengasapan, penggaraman, pembekuan, pemanisan, pengiradiasian (dengan iradiator), dan sebagainya;
+    - produksi daging beku dalam bentuk karkas;
+    - produksi daging beku dalam bentuk daging potong;
+    - produksi daging beku dalam porsi tersendiri;
+    - produksi daging kering, daging asin, atau daging asap;
+    - produksi produk-produk daging, seperti sosis, salami, puding, "andouilettes", saveloy, bologna, pates, rillettes, bakso daging, dan daging ham;
+    - kegiatan pengolahan daging paus di darat atau di kapal khusus.
+    Kelompok ini tidak mencakup
+    - pembuatan makanan siap saji dari daging dan unggas, lihat kelompok 10750;
+    - pembuatan sup mengandung daging, lihat kelompok 10799.
+  in_scope: true
+- code: '10218'
+  title: Pengolahan dan Pengawetan Ikan Menjadi Produk Olahan
+  definition: Kelompok ini mencakup kegiatan pengolahan dan pengawetan ikan berbasis lumatan atau surimi menjadi produk olahan lanjutan, seperti bakso, nuget, otak-otak, kamaboko, sosis, pempek, siomai, dimsum, cikuwa, dan stik kepiting imitasi.
+  in_scope: true
+- code: '10296'
+  title: Pengolahan dan Pengawetan Biota Air Lainnya dengan Pelumatan
+  definition: Kelompok ini mencakup kegiatan pengolahan dan pengawetan krustasea, moluska, ekinodermata, dan biota air lainnya melalui proses pelumatan/penggilingan daging yang menghasilkan produk seperti lumatan cumi, lumatan udang, bakso udang, bakso cumi, bakso kepiting, dan kaki naga udang.
+  in_scope: true
+- code: '10301'
+  title: Pengasinan Buah-buahan dan Sayuran
+  definition: |-
+    Kelompok ini mencakup kegiatan pengawetan buah-buahan dan sayuran dengan proses pengasinan, baik dalam bentuk kemasan maupun tidak, yang menghasilkan produk seperti asinan kedondong dan asinan wortel.
+    Kelompok ini tidak mencakup kegiatan pengawetan buah-buahan dan sayuran dalam gula (lihat kelompok 10733).
+  in_scope: true
+- code: '10302'
+  title: Pelumatan Buah-buahan dan Sayuran
+  definition: Kelompok ini mencakup kegiatan pengawetan buah-buahan dan sayuran dengan proses pelumatan, baik dalam bentuk kemasan maupun tidak, yang menghasilkan produk seperti selai mangga, marmelade (selai jeruk), jeli murbei, pure dari buah-buahan dan sayuran, pasta kacang-kacangan, dan cabai giling.
+  in_scope: true
+- code: '10303'
+  title: Pengeringan Buah-buahan dan Sayuran
+  definition: Kelompok ini mencakup kegiatan pengawetan buah-buahan dan sayuran dengan cara pengeringan, baik dalam bentuk kemasan maupun tidak, yang menghasilkan produk seperti kismis (anggur), bawang merah kering, bawang putih kering, cabai kering, rebung kering, tepung kentang, kentang tumbuk kering, dan jamur kering. Kelompok ini juga mencakup kegiatan pembuatan keripik dari buah-buahan dan sayuran, misalnya keripik kentang dan makanan ringan kentang; kegiatan pembuatan buah-buahan kering beku/freeze-dried; dan kegiatan pengeringan umbi-umbian, seperti pengeringan ubi kayu dan porang.
+  in_scope: true
+- code: '10304'
+  title: Pembekuan Buah-buahan dan Sayuran
+  definition: Kelompok ini mencakup kegiatan pengawetan buah-buahan dan sayuran dengan proses pembekuan yang menghasilkan produk siap konsumsi maupun produk input untuk kegiatan produksi berikutnya, seperti mangga beku, stroberi beku, dan kentang beku. Kelompok ini juga mencakup kegiatan pembekuan untuk umbi-umbian, misalnya pembekuan ubi kayu dan porang.
+  in_scope: true
+- code: '10306'
+  title: Pengolahan Sari Buah-buahan dan Sayuran
+  definition: |-
+    Kelompok ini mencakup kegiatan pengolahan dan pengawetan buah-buahan dan sayuran menjadi sari buah-buahan dan sayuran yang menghasilkan produk seperti jus buah-buahan dan sayuran, bubuk sari buah-buahan, konsentrat sari buah-buahan, konsentrat sari sayuran, serta nektar buah-buahan dan sayuran. Kelompok ini juga mencakup kegiatan pengolahan sari buah-buahan dan sayuran menjadi produk turunannya.
+    Kelompok ini tidak mencakup
+    - kegiatan pembuatan konsentrat buatan, lihat kelompok 10799;
+    - kegiatan pembuatan minuman rasa buah, lihat kelompok 11053.
+  in_scope: true
+- code: '10307'
+  title: Pembuatan Tempe Kedelai
+  definition: Kelompok ini mencakup kegiatan pembuatan tempe dari kedelai. Kegiatan pembuatan tempe yang bahan bakunya bukan kedelai (misalnya kacang tanah atau kacang-kacangan lainnya), seperti tempe bongkrek, dimasukkan dalam kelompok 10309.
+  in_scope: true
+- code: '10308'
+  title: Pembuatan Tahu Kedelai
+  definition: Kelompok ini mencakup kegiatan pembuatan tahu dari kedelai. Kegiatan pembuatan tahu yang bahan bakunya bukan kedelai (misalnya kacang tanah atau kacang-kacangan lainnya) dimasukkan dalam kelompok 10309.
+  in_scope: true
+- code: '10309'
+  title: Pengolahan dan Pengawetan Lainnya untuk Buah-buahan dan Sayuran
+  definition: |-
+    Kelompok ini mencakup kegiatan pengawetan buah-buahan dan sayuran dengan cara selain yang dicakup dalam kelompok 10301 s.d. 10308, seperti:
+    - pembuatan makanan yang utamanya terbuat dari buah-buahan atau sayuran, kecuali makanan siap saji yang dibekukan atau dikalengkan;
+    - pembuatan makanan yang tidak tahan lama dari buah-buahan dan sayuran, misalnya pembuatan salad buah atau salad sayur;
+    - pengolahan dan pengawetan kedelai dan kacang-kacangan selain tahu dan tempe seperti natto, yuba/kembang tahu, fu zhu, dan douchi, termasuk tempe gembus dan tempe bongkrek;
+    - pemanggangan berbagai jenis kacang, seperti pemanggangan kacang kapri, kacang asin, kacang telur, kacang bogor, kacang atom, kacang mete, dan enting-enting.
+    Kelompok ini tidak mencakup kegiatan pembuatan makanan olahan dari sayuran, lihat subgolongan 1075.
+  in_scope: true
+- code: '10503'
+  title: Industri Es Krim
+  definition: Kelompok ini mencakup kegiatan berbagai macam es krim yang bahan utamanya dari susu, termasuk pembuatan pracampur/premix es krim, baik yang berupa bubuk atau cairan. Kelompok ini tidak mencakup kegiatan pembuatan es yang bahan utamanya bukan dari susu, lihat kelompok 10504.
+  in_scope: true
+- code: '10504'
+  title: Industri Es yang Dapat Dimakan dan Es Pencuci Mulut
+  definition: |-
+    Kelompok ini mencakup kegiatan berbagai macam es yang bahan utamanya bukan dari susu, seperti sorbet, es lilin, ice drop, es dengan berbagai rasa lainnya, es mambo, es puter, dan pracampur/premix es berbagai rasa.
+    Kelompok ini tidak mencakup
+    - pembuatan es kering/dry ice, lihat kelompok 20112;
+    - pembuatan es batu dan es balok, lihat kelompok 35302.
+  in_scope: true
+- code: '10509'
+  title: Industri Produk Susu Lainnya
+  definition: |-
+    Kelompok ini mencakup kegiatan pengolahan produk susu lainnya, seperti mentega, yoghurt, keju dan dadih, air dadih, kasein atau laktosa (susu manis), susu fermentasi, wei/whey, dan kefir susu. Kelompok ini juga mencakup kegiatan pemurnian dan penuaan keju.
+    Kelompok ini tidak mencakup
+    - pembuatan es krim yang bahan utamanya dari susu, lihat kelompok 10503;
+    - pembuatan kefir buah dan kefir air, lihat subgolongan 1102).
+  in_scope: true
+- code: '10710'
+  title: Industri Produk Bakeri
+  definition: |-
+    Kelompok ini mencakup kegiatan pembuatan bakeri segar, beku, atau kering, seperti:
+    - pembuatan roti tawar dan roti kadet;
+    - pembuatan pastri, kue, pai, dan kue tar;
+    - pembuatan roti panggang, biskuit, dan produk roti kering lainnya;
+    - pembuatan produk pastri dan kue yang diawetkan;
+    - pembuatan produk makanan ringan (kukis, kraker, pretzel, dsb.), baik yang manis maupun asin;
+    - pembuatan tortila;
+    - pembuatan produk roti yang dibekukan, seperti panekuk, wafel, dan roti kadet.
+    Kelompok ini tidak mencakup
+    - pembuatan tepung campuran dan adonan tepung untuk roti, biskuit, atau panekuk, lihat subgolongan 1061;
+    - pembuatan pasta, lihat kelompok 10740;
+    - pembuatan makanan ringan dari kentang, lihat subgolongan 1030;
+    - pemanasan produk bakeri untuk konsumsi segera, lihat golongan pokok 56.
+  in_scope: true
+- code: '10722'
+  title: Industri Gula Merah
+  definition: Kelompok ini mencakup kegiatan pembuatan gula merah yang murni, baik berbentuk cetakan, serbuk/granul, maupun cair, dengan nira sebagai bahan baku, baik nira yang berasal dari tebu maupun tanaman palem (aren, kelapa dan sejenisnya).
+  in_scope: true
+- code: '10723'
+  title: Industri Sirop
+  definition: Kelompok ini mencakup kegiatan pengolahan gula menjadi sirop, seperti sirop gula serta sirop dan gula mapel. Kegiatan pembuatan sirop yang tergabung dengan pabrik gula dan tidak dapat dipisahkan tersendiri dimasukkan dalam kelompok 10721 atau 10722.
+  in_scope: true
+- code: '10732'
+  title: Industri Cokelat dan Kembang Gula dari Cokelat
+  definition: Kelompok ini mencakup kegiatan pembuatan berbagai jenis cokelat, seperti cokelat kompon, cokelat couverture, cokelat imitasi, cokelat putih, serta pembuatan gula-gula dari cokelat, olesan, dan isian berbasis cokelat. Kelompok ini juga mencakup pembuatan minuman dari cokelat dalam bentuk bubuk maupun cair.
+  in_scope: true
+- code: '10733'
+  title: Industri Manisan Buah-buahan dan Sayuran Kering
+  definition: Kelompok ini mencakup kegiatan pengawetan buah, kacang, kulit buah, dan bagian lain dari tumbuhan dengan proses pemanisan dan pengeringan, baik dalam bentuk kemasan ataupun tidak, seperti manisan pala dan manisan mangga kering.
+  in_scope: true
+- code: '10739'
+  title: Industri Kembang Gula Lainnya
+  definition: Kelompok ini mencakup kegiatan pembuatan kembang gula lainnya yang tidak terbuat dari cokelat, seperti karamel, cachous, nugat, fondan, marsepen, permen karet, permen obat batuk, dan pastiles.
+  in_scope: true
+- code: '10740'
+  title: Industri Makaroni, Mi, Couscous, dan Produk Sejenisnya
+  definition: |-
+    Kelompok ini mencakup
+    - pembuatan pasta, seperti makaroni, mi, spageti, bihun, dan sohun, baik dimasak maupun tidak;
+    - pembuatan semolina (couscous) dan nasi analog.
+    Kelompok ini tidak mencakup
+    - pembuatan makanan olahan berbahan dasar pasta atau couscous, lihat subgolongan 1075;
+    - pembuatan sup yang mengandung pasta, lihat subgolongan 1079.
+  in_scope: true
+- code: '10750'
+  title: Industri Makanan dan Masakan Olahan
+  definition: |-
+    Kelompok ini mencakup kegiatan pembuatan makanan siap saji (diolah, dibumbui dan dimasak). Makanan ini diolah diawetkan, misalnya disimpan dalam kaleng atau dibekukan, dan biasanya dikemas dan dilabeli untuk dijual kembali. Kelompok ini tidak mencakup pengolahan makanan untuk konsumsi segera, seperti di restoran atau katering. Untuk dapat dianggap sebagai masakan, makanan olahan ini harus mengandung sedikitnya dua bahan utama yang berbeda (selain bumbu).
+    Kelompok ini mencakup
+    - pembuatan masakan daging atau unggas;
+    - pembuatan masakan ikan, seperti pepes, presto, dendeng ikan, baby fish goreng, udang tepung, ikan tepung, serta fish and chips;
+    - pembuatan masakan yang mengandung pasta dan nasi;
+    - pembuatan masakan sayur-sayuran;
+    - pembuatan piza beku dan croquet-monsieur.
+    Kelompok ini tidak mencakup
+    - pembuatan makanan segar atau makanan dengan kurang dari dua macam bahan utama, lihat golongan pokok 10;
+    - pembuatan makanan siap saji yang tidak tahan lama dari buah-buahan dan sayur-sayuran saja, lihat subgolongan 1030;
+    - pembuatan sup, kaldu, dan makanan lainnya, lihat subgolongan 1079;
+    - perdagangan eceran makanan siap saji, lihat subgolongan 4711 dan 4721;
+    - perdagangan besar makanan olahan, lihat golongan 463;
+    - kegiatan kontraktor jasa makanan, lihat subgolongan 5640.
+  in_scope: true
+- code: '10761'
+  title: Pengolahan Kopi
+  definition: |-
+    Kelompok ini mencakup kegiatan, pengeringan, penyangraian, penggilingan dan penyarian (ekstraksi) kopi menjadi kopi sangrai, kopi bubuk, kopi instan, kopi dekafein, ekstrak dan sari kopi, serta produk kopi lainnya, termasuk pengganti kopi.
+    Kelompok ini tidak mencakup kegiatan penggilingan kopi bubuk di tempat pedagang kopi, lihat kelompok 47222.
+  in_scope: true
+- code: '10762'
+  title: Pengolahan Teh
+  definition: Kelompok ini mencakup kegiatan pengolahan daun teh menjadi teh kering yang dikemas dalam kantong, bantalan, kapsul, atau kemasan lainnya, termasuk produk turunannya, kecuali minuman teh siap minum, termasuk kegiatan pencampuran teh dengan bahan alami seperti mate, rempah, herbal, bunga kering, dan bunga kering. Kelompok ini juga mencakup kegiatan ekstraksi daun teh, seperti konsentrat ekstrak teh cair maupun bubuk.
+  in_scope: true
+- code: '10771'
+  title: Industri Kecap
+  definition: Kelompok ini mencakup kegiatan pembuatan kecap dari kedelai/kacang-kacangan lainnya, termasuk pembuatan taoco, baik dari kedelai/kacang-kacangan lainnya yang masih segar maupun dari hasil sisa pembuatan kecap. Kelompok ini tidak mencakup kegiatan pembuatan kecap ikan, lihat kelompok 10215.
+  in_scope: true
+- code: '10779'
+  title: Industri Bumbu Masakan Lainnya
+  definition: |-
+    Kelompok ini mencakup kegiatan pembuatan bumbu masakan, baik dalam keadaan sudah diramu maupun belum, baik berbentuk bubuk maupun lainnya, seperti bumbu gulai, bumbu kari, bubuk merica, bubuk jahe, bubuk jinten, bubuk pala, bubuk cabai, dan bubuk kayu manis.
+    Kelompok ini juga mencakup kegiatan pembuatan penyedap masakan, baik yang asli maupun sintetis kimia, seperti monosodium glutamat (MSG), serbuk vanili, serta pembuatan saus dan rempah-rempah, seperti mayones, tepung moster, moster olahan, saus tomat, saus tiram, dan saus selada; dan pengganti garam yang digunakan sebagai bumbu pada produk pangan. Kelompok ini juga mencakup kegiatan pembuatan petis dan cuka makan. Kelompok ini tidak mencakup kegiatan pembuatan terasi udang, lihat kelompok 10295.
+  in_scope: true
+- code: '10792'
+  title: Industri Kue Basah
+  definition: Kelompok ini mencakup kegiatan pembuatan macam-macam kue basah, yaitu sejenis kue yang relatif tidak tahan lama, seperti wajik, lemper, kue lapis, lumpia, dan martabak, termasuk pembuatan tape dan lempok.
+  in_scope: true
+- code: '10793'
+  title: Industri Produk Makanan dari Kelapa
+  definition: Kelompok ini mencakup kegiatan pembuatan produk makanan dari kelapa, seperti santan pekat dan santan cair, santan bubuk, kecap kelapa, sari kelapa (nata de coco), kelapa parut kering (desiccated coconut), krim kelapa, dan tepung kelapa.
+  in_scope: true
+- code: '10794'
+  title: Industri Kerupuk, Keripik, Peyek, dan Sejenisnya
+  definition: Kelompok ini mencakup kegiatan pembuatan berbagai macam kerupuk, keripik, peyek dan sejenisnya, seperti keripik dan peyek dari berbagai macam kacang-kacangan, kerupuk udang, kerupuk ikan, dan kerupuk pati (kerupuk terung), serta pembuatan berbagai macam makanan sejenis kerupuk, seperti macam-macam emping, kecimpring, karak, gendar, opak, keripik paru, keripik bekicot, keripik kulit, peyek teri, dan peyek udang.
+  in_scope: true
+- code: '10795'
+  title: Industri Sari Nabati dan Krimer Nabati
+  definition: |-
+    Kelompok ini mencakup kegiatan pembuatan sari nabati dari berbagai jenis tanaman, misalnya sari kedelai, sari gandum/oat milk, dan sari almon, mede maupun jenis kacang-kacangan lainnya, serta pembuatan krimer nabati dan emulsi lemak nabati yang berasal dari kelapa atau kelapa sawit yang digunakan sebagai campuran makanan atau minuman.
+    Kelompok ini juga mencakup kegiatan pembuatan keju pengganti.
+  in_scope: true
+- code: '10796'
+  title: Industri Dodol
+  definition: Kelompok ini mencakup kegiatan pembuatan dodol yang terbuat dari bahan utama tepung beras atau tepung beras ketan, santan kelapa dan gula, dengan atau tanpa bahan tambahan lain yang dimasak hingga mencapai tekstur yang diinginkan. Kegiatan pembuatan lempok masuk ke dalam kelompok 10792.
+  in_scope: true
+- code: '10797'
+  title: Industri Infusi Herbal/Herb Infusion
+  definition: Kelompok ini mencakup kegiatan pengolahan infusi herbal, seperti min, vervain, dan kamomil, termasuk pembuatan seduhan herbal bukan teh dan minuman penyegar.
+  in_scope: true
+- code: '10799'
+  title: Industri Produk Makanan Lainnya YTDL
+  definition: Kelompok ini mencakup kegiatan pembuatan produk makanan jadi lainnya yang tidak diklasifikasikan di tempat lain, sup dan kaldu; madu dan karamel tiruan; makanan yang tidak tahan lama seperti roti lapis/sandwich dan piza mentah; selongsong sosis dari kolagen, selulosa, usus hewan, dan lainnya; probiotik; ragi; ekstrak dan jus dari daging, ikan, krustasea, dan moluska; produk telur, misalnya telur asin, dan albumin telur; konsentrat buatan, misalnya esens; pangan protein produk seperti protein kedelai, protein nabati tertekstur/texturized vegetable protein, dan protein nabati terhidrolisis/hydrolised vegetable protein (HVP); bahan tambahan pangan yang berasal dari tanaman, hewan, atau mikroorganisme, seperti pektin; pemanis buatan, seperti stevia; dan produk makanan lainnya yang belum dicakup dalam golongan manapun, seperti cincau.
+  in_scope: true
+- code: '11053'
+  title: Industri Minuman Ringan
+  definition: |-
+    Kelompok ini mencakup
+    - pembuatan minuman yang tidak mengandung alkohol, kecuali bir dan anggur tanpa alkohol;
+    - pembuatan minuman ringan beraroma dan/atau berpemanis tanpa alkohol, seperti limun/lemonade, orangeade, kola, minuman rasa buah-buahan, minuman rasa susu, minuman rasa kopi, minuman rasa teh, dan air tonik;
+    - pembuatan minuman tidak beralkohol lainnya, seperti minuman berbahan dasar kedelai;
+    - pembuatan minuman dari nektar buah;
+    - pembuatan minuman ringan serbuk.
+    Kelompok ini tidak mencakup
+    - pembuatan jus buah dan sayuran, lihat kelompok 10306;
+    - pembuatan minuman berbasis susu, lihat subgolongan 1050;
+    - pembuatan produk teh, kopi, dan mate, lihat subgolongan 1076;
+    - pembuatan minuman beralkohol, lihat subgolongan 1101 s.d. 1103;
+    - pembuatan anggur tanpa alkohol, lihat kelompok 11020;
+    - pembuatan bir tanpa alkohol, lihat kelompok 11030;
+    - pembuatan es batu untuk konsumsi, lihat kelompok 35302;
+    - pengemasan dalam botol dan pelabelan, lihat subgolongan 4633 (jika pengemasan dilakukan sebagai bagian dari kegiatan perdagangan besar) atau subgolongan 8292 (jika pengemasan dilakukan atas dasar balas jasa atau kontrak).
+  in_scope: true
+- code: '11059'
+  title: Industri Minuman Lainnya
+  definition: Kelompok ini mencakup kegiatan pembuatan minuman lainnya yang tidak termasuk dalam kelompok 11051 s.d. 11053 dan biasanya tidak dikemas secara pabrikasi, seperti air nira, air tebu, air kelapa, dan serbuk sekoteng.
+  in_scope: true
+- code: '56101'
+  title: Aktivitas Penyediaan Makanan di Bangunan Tetap
+  definition: |-
+    Kelompok ini mencakup aktivitas penyediaan layanan makanan kepada pelanggan yang bertempat di sebagian atau seluruh bangunan tetap/permanen, tidak bisa dibongkar pasang, tidak berpindah-pindah dan tidak dapat dipindahkan, baik yang menyediakan pelayanan di meja melalui proses memasak terlebih dahulu sesuai dengan pesanan, maupun pelanggan mengambil sendiri/diambilkan dari etalase makanan yang telah tersedia (prasmanan). Konsumsi dapat dilakukan di tempat tersebut, dibawa pulang atau diantar ke rumah.
+    Kelompok ini mencakup pengoperasian
+    - restoran;
+    - rumah makan;
+    - kantin/kafetaria;
+    - restoran cepat saji;
+    - restoran take-away.
+    Kelompok ini juga mencakup
+    - pengoperasian restoran di dalam alat transportasi (seperti kereta api, kapal pesiar, pesawat) dan dalam fasilitas transportasi (seperti bandara, stasiun), jika restoran merupakan unit terpisah dan bukan menjadi bagian dari penyedia layanan transportasi;
+    - pengoperasian restoran dalam hotel, jika restoran merupakan unit terpisah dan bukan menjadi bagian dari hotel;
+    - pengoperasian restoran take-away di dalam supermarket jika dioperasikan oleh unit terpisah dari supermarket;
+    - pengoperasian restoran adiboga;
+    - pengoperasian gerai ice cream/yoghurt.
+  in_scope: true
+- code: '56102'
+  title: Aktivitas Penyediaan Makanan di Bangunan Tidak Tetap
+  definition: Kelompok ini mencakup aktivitas penyediaan layanan makanan kepada pelanggan yang bertempat di bangunan tidak tetap/tidak permanen, baik yang memiliki kemampuan untuk berpindah-pindah dan dibongkar pasang maupun tidak, serta yang dijual secara keliling menggunakan kendaraan bermotor/bukan, seperti warung tenda, penjual makanan keliling dengan gerobak dorong, food truck, dan stan makanan.
+  in_scope: true
+- code: '56210'
+  title: Aktivitas Jasa Boga untuk Acara Tertentu (Event Catering)
+  definition: |-
+    Kelompok ini mencakup aktivitas penyiapan dan penyediaan makanan atas dasar kontrak perjanjian dengan pelanggan, di lokasi yang ditentukan oleh pelanggan untuk suatu acara tertentu. Kelompok ini mencakup jasa penyediaan makanan jadi (siap dikonsumsi) yang terselenggara melalui pesanan-pesanan acara kantor, perayaan, pesta, seminar, rapat, dan sejenisnya. Biasanya, makanan siap saji diantar ke tempat kerja, pesta, seminar, rapat, dan sejenisnya, berikut pramusaji yang akan melayani tamu-tamu/peserta seminar atau rapat pada saat pesta, seminar/kegiatan acara berlangsung.
+    Kelompok ini tidak mencakup
+    - pembuatan jenis makanan yang tidak tahan lama untuk dijual kembali, lihat kelompok 10750;
+    - perdagangan eceran jenis makanan yang tidak tahan lama, lihat golongan 472.
+  in_scope: true
+- code: '56290'
+  title: Aktivitas Penyediaan Jasa Boga Lainnya
+  definition: |-
+    Kelompok ini mencakup kegiatan yang menyediakan jasa penyedia makanan lainnya atas dasar kontrak perjanjian dengan pelanggan, untuk periode waktu tertentu, termasuk jasa katering berdasarkan perjanjian di fasilitas olahraga dan tempat lain yang sejenis. Makanan dapat disiapkan langsung di tempat klien atau di unit pusat.
+    Kelompok ini juga mencakup
+    - kegiatan kontraktor jasa makanan, misalnya untuk perusahaan transportasi;
+    - jasa katering yang melayani penyediaan makanan jangka panjang di tempat pengeboran minyak, lokasi pertambangan, rumah sakit, jasa angkutan;
+    - jasa katering berdasarkan perjanjian di fasilitas olahraga dan fasilitas sejenis;
+    - kegiatan kantin atau kafetaria (misalnya untuk pabrik, perkantoran, rumah sakit, atau sekolah) atas dasar konsesi;
+    - jasa katering yang melayani rumah tangga;
+    - jasa penyediaan makanan bergizi dan penyalurannya kepada kelompok sasaran;
+    - jasa kontraktor penyedia makanan untuk restoran/cloud kitchen.
+    Kelompok ini tidak mencakup
+    - pembuatan jenis makanan yang tidak tahan lama untuk dijual kembali, lihat kelompok 10750;
+    - perdagangan eceran jenis makanan yang tidak tahan lama, lihat golongan 472.
+  in_scope: true
+- code: '56303'
+  title: Aktivitas Rumah Minum/Kafe
+  definition: Kelompok ini mencakup penyediaan utamanya minuman, baik panas maupun dingin, yang dikonsumsi di tempat usahanya, bertempat di sebagian atau seluruh bangunan permanen, baik dilengkapi dengan peralatan/perlengkapan untuk proses pembuatan dan penyimpanan maupun tidak.
+  in_scope: true
+- code: '56304'
+  title: Aktivitas Kedai Minuman
+  definition: Kelompok ini mencakup penyediaan jasa pelayanan minum yang utamanya menyajikan minuman siap dikonsumsi yang melalui proses pembuatan di tempat tetap yang dapat dipindah-pindahkan atau dibongkar pasang, biasanya dengan menggunakan tenda, seperti kedai kopi dan kedai jus.
+  in_scope: true
+- code: '56305'
+  title: Aktivitas Rumah/Kedai Obat Bahan Alam
+  definition: Kelompok ini mencakup jenis kegiatan yang bertempat di sebagian atau seluruh bangunan permanen yang menjual dan menyajikan minuman jamu atau obat bahan alam untuk umum di tempat usahanya, baik dilengkapi dengan peralatan/perlengkapan untuk proses pembuatan dan penyimpanan maupun tidak. Kelompok ini juga mencakup penyediaan jasa pelayanan minum yang menyajikan minuman jamu siap dikonsumsi yang melalui proses pembuatan di tempat tetap yang dapat dipindah-pindahkan atau dibongkar pasang, biasanya dengan menggunakan tenda, seperti kedai jamu.
+  in_scope: true
+- code: '56306'
+  title: Aktivitas Penyediaan Minuman Keliling/Tempat Tidak Tetap
+  definition: Kelompok ini mencakup penyediaan jasa pelayanan minum yang menyajikan minuman siap dikonsumsi yang didahului dengan proses pembuatan dan biasanya dijual dengan cara berkeliling, seperti penyedia minuman es doger, penyedia minuman es cincau, dan penyedia jamu gendong.
+  in_scope: true
+- code: '47222'
+  title: Perdagangan Eceran Minuman Tidak Beralkohol
+  definition: Kelompok ini mencakup usaha perdagangan eceran khusus minuman tidak beralkohol yang tidak dikonsumsi langsung di tempat, seperti minuman ringan (limun, air soda, markisa, teh botol, air mineral, dan beras kencur), minuman kopi, dan berbagai jenis minuman tidak beralkohol lainnya yang tidak langsung diminum di tempat. Kegiatan ini dapat dilakukan di dalam bangunan maupun di lokasi lain seperti pinggir jalan (kaki lima), serambi toko (emper), tempat tetap di pasar yang bersifat fleksibel dan dapat dipindah-pindah (los pasar), dan media lainnya, termasuk melalui internet.
+  in_scope: true
+- code: '47242'
+  title: Perdagangan Eceran Roti, Kue Kering, serta Kue Basah dan Sejenisnya
+  definition: Kelompok ini mencakup perdagangan eceran khusus berbagai jenis roti, kue kering dan kue basah, seperti roti manis, roti tawar, bolu, kue, kue tar, biskuit, wafer, kue semprong, dan kukis.
+  in_scope: true
+- code: '47243'
+  title: Perdagangan Eceran Kopi, Gula Pasir, Gula Merah, dan Sejenisnya
+  definition: Kelompok ini mencakup perdagangan eceran khusus kopi, gula pasir, gula merah, dan teh.
+  in_scope: true
+- code: '47244'
+  title: Perdagangan Eceran Tahu, Tempe, Tauco, dan Oncom
+  definition: Kelompok ini mencakup perdagangan eceran khusus tahu, tempe, tauco, dan oncom.
+  in_scope: true
+- code: '47245'
+  title: Perdagangan Eceran Daging Olahan
+  definition: Kelompok ini mencakup perdagangan eceran khusus berbagai jenis produk daging olahan (daging sapi, babi, unggas, domba, kelinci, kambing, unta, dan daging segar lainnya), seperti sosis, bakso, dan abon.
+  in_scope: true
+- code: '47246'
+  title: Perdagangan Eceran Ikan Olahan
+  definition: Kelompok ini mencakup perdagangan eceran berbagai jenis produk olahan ikan, udang, dan kerang yang diasinkan atau dikeringkan di dalam bangunan, seperti sosis, bakso, abon, serta olahan ikan teri, cucut, selar, kerapu, udang, rebon, petek, gabus, sepat, cumi-cumi, kepah, remis, dan kerang.
+  in_scope: true
+- code: '47249'
+  title: Perdagangan Eceran Makanan Lainnya
+  definition: Kelompok ini mencakup perdagangan eceran khusus komoditas makanan hasil industri yang belum tercakup dalam kelompok 47241 s.d. 47246, seperti asinan buah-buahan dan sayuran, buah-buahan dan sayuran yang diawetkan, kerupuk, dan emping/ceriping.
+  in_scope: true
+- code: '10213'
+  title: Pengolahan dan Pengawetan Ikan dengan Pembekuan
+  definition: Kelompok ini mencakup kegiatan pengawetan ikan bersirip melalui proses pembekuan yang menghasilkan produk seperti ikan bandeng beku, ikan tuna beku, ikan cakalang beku, dan kakap beku. Pembekuan yang dimaksud dapat dilakukan untuk ikan utuh maupun ikan yang dipotong, misalnya berupa filet, loin, saku, steik, chunk, dan brown meat. Kelompok ini tidak mencakup kegiatan jasa pendinginan ikan dengan es yang bertujuan untuk mempertahankan kesegaran ikan tersebut, lihat kelompok 03300.
+  in_scope: false
+- code: '10216'
+  title: Pengolahan dan Pengawetan Ikan dengan Pelumatan
+  definition: Kelompok ini mencakup kegiatan pengolahan dan pengawetan ikan bersirip melalui proses pelumatan daging ikan/penggilingan untuk menghasilkan daging lumatan atau surimi.
+  in_scope: false
+- code: '10305'
+  title: Pengalengan Buah-buahan dan Sayuran
+  definition: Kelompok ini mencakup kegiatan pengolahan dan pengawetan buah-buahan dan sayuran melalui proses pengemasan kedap udara/airtight atau pengalengan yang disertai proses retort atau pasteurisasi yang menghasilkan produk seperti nanas dalam kaleng, rambutan dalam kaleng, kacang dalam kaleng, jamur dalam kaleng, dan wortel dalam kaleng. Kegiatan pengalengan yang dimaksud bukan hanya mencakup kegiatan pengemasan, tetapi merupakan proses pengawetan.
+  in_scope: false
+- code: '10501'
+  title: Industri Susu Segar dan Krim
+  definition: Kelompok ini mencakup kegiatan pengolahan susu cair segar, susu pasteurisasi, susu steril, susu homogen, dan susu ultra-high temperature (UHT) dan kegiatan pembuatan krim dari susu cair segar, susu pasteurisasi, susu steril, dan susu homogen dalam bentuk cair atau semicair.
+  in_scope: false
+- code: '10791'
+  title: Industri Makanan Bayi dan Makanan Khusus
+  definition: Kelompok ini mencakup kegiatan pembuatan makanan bayi, makanan untuk keperluan diet, dan makanan untuk keperluan medis, termasuk di dalamnya formula bayi, susu lanjutan dan makanan lanjutan lainnya, makanan bayi dan makanan yang mengandung bahan yang dihomogenisasi, formula pertumbuhan, makanan pendamping ASI, makanan selingan untuk anak, minuman untuk ibu hamil dan menyusui, serta makanan untuk penderita penyakit tertentu.
+  in_scope: false
+- code: '10801'
+  title: Industri Ransum Pakan Hewan
+  definition: Kelompok ini mencakup kegiatan pembuatan berbagai macam ransum pakan hewan, baik untuk hewan kesayangan maupun untuk hewan ternak.
+  in_scope: false
+- code: '11010'
+  title: Industri Penyulingan, Pemurnian, dan Pencampuran Minuman Beralkohol
+  definition: |-
+    Kelompok ini mencakup
+    - kegiatan pembuatan minuman beralkohol hasil distilasi/penyulingan siap minum, baik secara modern maupun tradisional, misalnya wiski/whisky, brendi/brandy, gin, vodka, tequila, arak, genever, soju, minuman keras/liqueurs, dan "minuman campuran";
+    - pencampuran minuman beralkohol hasil distilasi atau proses pencampuran bahan baku minuman beralkohol untuk mencapai kadar etanol yang diinginkan;
+    - produksi minuman beralkohol netral (tanpa rasa/flavor).
+    Kelompok ini tidak mencakup
+    - kegiatan pembuatan alkohol tanpa distilasi/penyulingan, lihat subgolongan 1102 dan 1103;
+    - pembuatan etil alkohol sintetis, lihat subgolongan 2011;
+    - pembuatan etil alkohol dari bahan yang difermentasi, lihat subgolongan 2011;
+    - pengemasan dalam botol dan pelabelan, lihat subgolongan 4633 (jika pengemasan dilakukan sebagai bagian dari kegiatan perdagangan besar) atau subgolongan 8292 (jika pengemasan dilakukan atas dasar balas jasa atau kontrak).
+  in_scope: false
+- code: '11020'
+  title: Industri Minuman Beralkohol Hasil Fermentasi Anggur dan Hasil Pertanian Lainnya
+  definition: |-
+    Kelompok ini mencakup
+    - pembuatan wine (baik dari anggur ataupun buah selain anggur), seperti grape wine, still grape wine, sparkling wine, mead, anggur buah, anggur beras, anggur beras ketan, anggur brem bali, anggur sayur, tuak, anggur tonikum, sake;
+    - pembuatan wine bersoda/sparkling wine;
+    - pembuatan wine dari sari buah anggur yang terkonsentrasi;
+    - pembuatan minuman beralkohol dari hasil fermentasi yang tidak didistilasi, seperti sake, sari buah apel (sider/cider), sari buah pir/perry, mead, wine dari buah lainnya, dan minuman campuran yang mengandung alkohol;
+    - pembuatan vermouth dan sejenisnya;
+    - pencampuran wine;
+    - pembuatan wine dengan alkohol rendah atau nonalkohol.
+    Kelompok ini tidak mencakup
+    - pembuatan cuka, lihat subgolongan 1079;
+    - pengemasan wine dalam botol dan pelabelan, lihat subgolongan 4633 (jika pengemasan dilakukan sebagai bagian dari perdagangan besar) dan 8292 (jika pengemasan dilakukan atas dasar balas jasa atau kontrak).
+  in_scope: false
+- code: '11030'
+  title: Industri Minuman Beralkohol Hasil Fermentasi Malt
+  definition: Kelompok ini mencakup kegiatan pembuatan minuman beralkohol dari malt, seperti bir, ale, porter, dan stout, termasuk kegiatan pembuatan bir dengan alkohol rendah atau tanpa alkohol.
+  in_scope: false
+- code: '11051'
+  title: Industri Air Kemasan
+  definition: Kelompok ini mencakup kegiatan pengolahan air baku menjadi air minum yang dikemas dan siap dikonsumsi langsung; baik mengandung mineral maupun tidak; dengan atau tanpa penambahan gas, seperti oksigen atau karbon dioksida; dengan atau tanpa penambahan mineral.
+  in_scope: false
+- code: '11052'
+  title: Industri Air Minum Isi Ulang
+  definition: Kelompok ini kegiatan pembuatan air minum yang dapat langsung dikonsumsi berupa depot air isi ulang baik yang dioperasikan manual oleh manusia maupun mesin pengisi otomatis (automatic tap water machine). Kegiatan ini meliputi pemrosesan air baku menjadi air minum menggunakan alat filtrasi.
+  in_scope: false
+- code: '35302'
+  title: Produksi Es
+  definition: Kelompok ini mencakup kegiatan produksi dan distribusi air dingin/air es untuk kebutuhan pendinginan dan produksi es, seperti es kristal, ice tube, dan ice cube.
+  in_scope: false
+- code: '56301'
+  title: Aktivitas Bar
+  definition: |-
+    Kelompok ini mencakup aktivitas yang utamanya menghidangkan minuman, baik minuman beralkohol (seperti minuman keras, bir, wine, wiski) maupun minuman nonalkohol.
+    Kelompok ini juga mencakup
+    - beach club yang utamanya menyediakan minuman;
+    - aktivitas bar di atas alat transportasi seperti kereta api atau kapal, ketika dilakukan oleh unit terpisah.
+  in_scope: false
+- code: '56302'
+  title: Aktivitas Kelab Malam atau Diskotek yang Utamanya Menyediakan Minuman
+  definition: Kelompok ini mencakup suatu penyediaan jasa pelayanan minum sebagai kegiatan utama, disertai dengan penyediaan tempat dan fasilitas untuk menari dengan diiringi musik hidup, atraksi pertunjukkan lampu sebagai layanan tambahan, serta pramuria.
+  in_scope: false
+- code: '56400'
+  title: Aktivitas Jasa Intermediasi Penyediaan Makanan dan Minuman
+  definition: |-
+    Kelompok ini mencakup aktivitas penyediaan jasa intermediasi makanan dan minuman yang mempertemuan klien dengan jasa penyedia makanan dan minuman berdasarkan balas jasa atau komisi, dengan penyedia jasa perantara tidak menyediakan makanan dan minuman tersebut. Aktivitas intermediasi ini dapat dilakukan melalui platform digital atau melalui saluran nondigital (tatap muka, telepon, pos, dll.). Balas jasa atau komisi dapat diterima baik dari klien atau dari penyedia makanan dan minuman. Pendapatan aktivitas intermediasi juga didapatkan dari sumber pemasukan lainnya, seperti pendapatan dari iklan.
+    Kelompok ini mencakup
+    - jasa reservasi restoran.
+    Kelompok ini tidak mencakup
+    - pengoperasian platform daring yang mengizinkan orang untuk memesan layanan pengiriman makanan, lihat subgolonogan 5330.
+  in_scope: false
+- code: '46333'
+  title: Perdagangan Besar Minuman Beralkohol
+  definition: Kelompok ini mencakup perdagangan besar minuman beralkohol, seperti minuman keras, wine, malt, dan bir.
+  in_scope: false
+- code: '47221'
+  title: Perdagangan Eceran Minuman Beralkohol
+  definition: Kelompok ini mencakup perdagangan eceran khusus minuman beralkohol di dalam bangunan yang tidak langsung diminum di tempat, seperti minuman keras (wiski/whisky, genever, brendi/brandy, gin, arak, rum, sake, tuak), wine dan minuman yang mengandung malt (bir, ale, stout, temulawak). Kegiatan ini dapat dilakukan di dalam bangunan maupun di lokasi lain seperti pinggir jalan (kaki lima), serambi toko (emper), tempat tetap di pasar yang bersifat fleksibel dan dapat dipindah-pindah (los pasar), dan media lainnya, termasuk melalui internet.
+  in_scope: false
+- code: '47230'
+  title: Perdagangan Eceran Rokok dan Tembakau
+  definition: |-
+    Kelompok ini mencakup:
+    - perdagangan eceran tembakau dalam berbagai bentuk, seperti rokok kretek, rokok putih, rokok cerutu, rokok kelembak, tembakau krosok, tembakau susur, dan tembakau pipa/papier;
+    - perdagangan eceran produk dan aksesori rokok, seperti pemantik, cangklong, alat linting rokok;
+    - perdagangan eceran rokok elektrik dan cairan rokok elektrik (e-liquid).
+  in_scope: false
+- code: '47241'
+  title: Perdagangan Eceran Beras
+  definition: Kelompok ini mencakup perdagangan eceran khusus berbagai jenis beras, seperti beras cianjur, beras cisadane, beras saigon, dan beras ketan.
+  in_scope: false
+- code: '47111'
+  title: Perdagangan Eceran Berbagai Macam Barang yang Utamanya Makanan, Minuman, atau Tembakau dengan Sistem Swalayan
+  definition: Kelompok ini mencakup perdagangan eceran berbagai jenis barang kebutuhan yang utamanya bahan makanan, makanan, minuman, atau tembakau dengan harga yang sudah ditentukan serta pembeli mengambil dan membayar sendiri kepada kasir (self service/swalayan). Di samping itu, kegiatan ini juga dapat melakukan perdagangan eceran beberapa barang bukan makanan seperti perabot rumah tangga, mainan anak-anak, obat-obatan, alat kesehatan, dan pakaian, namun tetap didominasi oleh barang makanan, minuman, atau tembakau misalnya minimarket, supermarket, atau hipermarket.
+  in_scope: false
+- code: '47112'
+  title: Perdagangan Eceran Berbagai Macam Barang yang Utamanya Makanan, Minuman, atau Tembakau Selain dengan Sistem Swalayan
+  definition: Kelompok ini mencakup perdagangan eceran berbagai jenis barang kebutuhan yang utamanya bahan makanan/makanan, minuman atau tembakau bukan dengan sistem swalayan/minimarket/supermarket/hypermarket. Di samping itu, kegiatan ini juga dapat melakukan penjualan beberapa barang bukan makanan seperti pakaian, perabot rumah tangga, dan mainan anak, misalnya warung atau toko bahan kebutuhan pokok.
+  in_scope: false
+- code: '47214'
+  title: Perdagangan Eceran Hasil Peternakan
+  definition: Kelompok ini mencakup perdagangan eceran khusus hasil peternakan, seperti susu, telur, daging ternak, dan daging unggas.
+  in_scope: false
+- code: '47215'
+  title: Perdagangan Eceran Hasil Perikanan
+  definition: Kelompok ini mencakup perdagangan eceran khusus hasil perikanan, seperti udang segar, ikan segar, cumi-cumi segar, dan rumput laut.
+  in_scope: false
+- code: '47901'
+  title: Platform Digital Intermediasi Perdagangan Eceran
+  definition: Kelompok ini mencakup pengoperasian platform digital (misalnya situs web, aplikasi seluler) yang memfasilitasi perdagangan eceran antara penjual dan pembeli untuk pemesanan suatu barang berdasarkan imbalan atau komisi tanpa penyediaan atau mengambil kepemilikan barang yang diintermediasikan. Balas jasa atau komisi dapat diterima dari pihak penjual atau pembeli.
+  in_scope: false
