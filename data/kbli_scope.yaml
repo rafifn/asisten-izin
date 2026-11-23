@@ -382,6 +382,10 @@
   title: Produksi Es
   definition: Kelompok ini mencakup kegiatan produksi dan distribusi air dingin/air es untuk kebutuhan pendinginan dan produksi es, seperti es kristal, ice tube, dan ice cube.
   in_scope: false
+- code: '21022'
+  title: Industri Produk Obat Bahan Alam untuk Manusia
+  definition: Kelompok ini mencakup kegiatan pengolahan macam-macam produk obat bahan alam yang bahannya memakai sumber daya alam bentuk mentah atau belum melalui proses lanjutan dari tumbuhan, hewan, jasad renik, mineral, atau campuran dari bahan tersebut yang berbentuk sediaan berupa serbuk, serbuk instan, rajangan, pil, dodol/jenang, pilis, tapel, pastiles, tablet, kapsul, cairan, larutan, emulsi dan suspensi, efervesen, film, strip, gummy chewable, salep, losion, krim dan gel, aerosol untuk obat luar, plester, supositoria; pembuatan minuman jamu dan suplemen kesehatan/makanan bukan produk farmasi.
+  in_scope: false
 - code: '56301'
   title: Aktivitas Bar
   definition: |-
