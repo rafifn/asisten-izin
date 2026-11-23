@@ -29,7 +29,7 @@ export default function Page() {
       setView({
         kind: "error",
         busy: api.isBusy(e),
-        message: e instanceof Error ? e.message : "Terjadi kesalahan.",
+        message: e instanceof api.ApiError ? e.message : "Terjadi kesalahan. Coba lagi.",
       });
     }
   }

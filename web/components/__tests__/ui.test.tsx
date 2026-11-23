@@ -187,3 +187,68 @@ describe("Page", () => {
     );
   });
 });
+
+describe("Page error paths", () => {
+  async function submit() {
+    render(<Page />);
+    await userEvent.type(screen.getByLabelText("Ceritakan usahamu"), "jual keripik pisang");
+    await userEvent.click(screen.getByRole("button", { name: "Cek izinku" }));
+  }
+  it.each([
+    [new ApiError(400, "invalid_input", "Input tidak valid.")],
+    [new ApiError(500, "internal", "Terjadi kesalahan pada server.")],
+    [new ApiError(0, "network", "Tidak dapat terhubung ke layanan.")],
+  ])("shows the Indonesian message for %s and allows retry and edit", async (err) => {
+    vi.mocked(api.analyze).mockRejectedValueOnce(err);
+    await submit();
+    expect(await screen.findByText(err.message)).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Coba lagi" })).toBeInTheDocument();
+    await userEvent.click(screen.getByRole("button", { name: "Ubah cerita" }));
+    expect(screen.getByLabelText("Ceritakan usahamu")).toHaveValue("jual keripik pisang");
+  });
+  it("falls back to an Indonesian message for unknown errors", async () => {
+    vi.mocked(api.analyze).mockRejectedValueOnce(new Error("Failed to fetch"));
+    await submit();
+    expect(await screen.findByText("Terjadi kesalahan. Coba lagi.")).toBeInTheDocument();
+  });
+});
+
+describe("Result with multiple activities", () => {
+  const two = () => {
+    const base = okResult();
+    return okResult({
+      activities: [
+        base.activities[0],
+        {
+          label: "jualan online",
+          primary: { ...base.activities[0].primary, code: "47911", title: "Perdagangan Online" },
+          alternatives: [
+            { ...base.activities[0].alternatives[0], code: "47912", title: "Perdagangan Lain" },
+          ],
+        },
+      ],
+    });
+  };
+  it("picks an alternative in the second activity, keeping activity order", async () => {
+    vi.mocked(api.permits).mockResolvedValue({
+      permits: [permit({ name: "Izin Baru" })],
+      stale_warning: false,
+    });
+    render(<Result result={two()} />);
+    await userEvent.click(screen.getByRole("button", { name: "Pilih 47912" }));
+    expect(api.permits).toHaveBeenCalledWith({
+      request_id: "11111111-1111-1111-1111-111111111111",
+      primary_codes: ["10791", "47912"],
+    });
+    expect(await screen.findByText("Izin Baru")).toBeInTheDocument();
+    expect(screen.queryByText("NIB")).not.toBeInTheDocument();
+  });
+  it("keeps selection and permits when the permits call fails", async () => {
+    vi.mocked(api.permits).mockRejectedValue(new ApiError(500, "internal", "x"));
+    render(<Result result={two()} />);
+    await userEvent.click(screen.getByRole("button", { name: "Pilih 47912" }));
+    expect(await screen.findByText("Gagal memperbarui daftar izin. Coba lagi.")).toBeInTheDocument();
+    expect(screen.getByText("NIB")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Pilih 47912" })).toBeInTheDocument();
+  });
+});
