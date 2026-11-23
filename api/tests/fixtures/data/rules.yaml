@@ -1,0 +1,45 @@
+- kbli_code: "90001"
+  conditions: {}
+  risk_level: rendah
+  permit_id: nib
+  step_order: 1
+  source_regulation: PP 28 Tahun 2025
+  source_url: https://example.go.id/pp-28-2025
+  valid_from: 2025-10-05
+  last_verified: 2026-11-01
+- kbli_code: "90001"
+  conditions: {packaged: true}
+  risk_level: rendah
+  permit_id: spp-irt
+  step_order: 2
+  source_regulation: PP 28 Tahun 2025
+  source_url: https://example.go.id/pp-28-2025
+  valid_from: 2025-10-05
+  last_verified: 2026-11-01
+- kbli_code: "90002"
+  conditions: {}
+  risk_level: menengah_rendah
+  permit_id: nib
+  step_order: 1
+  source_regulation: PP 28 Tahun 2025
+  source_url: https://example.go.id/pp-28-2025
+  valid_from: 2025-10-05
+  last_verified: 2026-11-01
+- kbli_code: "90002"
+  conditions: {}
+  risk_level: menengah_rendah
+  permit_id: slhs
+  step_order: 2
+  source_regulation: PP 28 Tahun 2025
+  source_url: https://example.go.id/pp-28-2025
+  valid_from: 2025-10-05
+  last_verified: 2026-11-01
+- kbli_code: "90003"
+  conditions: {}
+  risk_level: rendah
+  permit_id: nib
+  step_order: 1
+  source_regulation: PP 28 Tahun 2025
+  source_url: https://example.go.id/pp-28-2025
+  valid_from: 2025-10-05
+  last_verified: 2026-11-01

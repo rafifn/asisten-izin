@@ -1,4 +1,4 @@
-.PHONY: dev check db-reset
+.PHONY: dev check db-reset data-load
 
 dev:
 	docker compose up -d --wait db
@@ -15,3 +15,6 @@ db-reset:
 	docker compose down -v
 	docker compose up -d --wait db
 	cd api && uv run python -m app.db
+
+data-load:
+	cd api && uv run python -m app.data.loader ../data

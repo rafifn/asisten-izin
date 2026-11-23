@@ -1,0 +1,30 @@
+- id: nib
+  name: NIB
+  issuer: Lembaga OSS (BKPM)
+  description: Nomor Induk Berusaha, identitas pelaku usaha yang berlaku sebagai izin dasar untuk menjalankan usaha.
+  how_to: Daftar melalui oss.go.id dengan NIK, lalu isi data usaha dan pilih kode KBLI yang sesuai.
+  source_regulation: PP 28 Tahun 2025
+  source_article: Pasal 1
+  source_url: https://example.go.id/pp-28-2025
+  valid_from: 2025-10-05
+  last_verified: 2026-11-01
+- id: spp-irt
+  name: SPP-IRT
+  issuer: Dinas Kesehatan Kabupaten/Kota
+  description: Sertifikat Produksi Pangan Industri Rumah Tangga untuk pangan olahan kemasan yang diproduksi rumahan.
+  how_to: Ajukan melalui OSS setelah mengikuti penyuluhan keamanan pangan dari Dinas Kesehatan setempat.
+  source_regulation: Peraturan BPOM Nomor 22 Tahun 2018
+  source_url: https://example.go.id/bpom-22-2018
+  valid_from: 2025-10-05
+  last_verified: 2026-11-01
+- id: slhs
+  name: SLHS
+  issuer: Dinas Kesehatan Kabupaten/Kota
+  description: Sertifikat Laik Higiene Sanitasi untuk jasa boga dan usaha pengolahan makanan yang disajikan.
+  how_to: Ajukan inspeksi kesehatan lingkungan ke Puskesmas atau Dinas Kesehatan, lalu unggah hasilnya di OSS.
+  source_regulation: Permenkes Nomor 17 Tahun 2024
+  source_article: Pasal 12
+  source_url: https://example.go.id/permenkes-17-2024
+  valid_from: 2025-10-05
+  last_verified: 2026-11-01
+  regional_note: Prosedur dan biaya inspeksi dapat berbeda di tiap kabupaten/kota; hubungi Dinas Kesehatan setempat.

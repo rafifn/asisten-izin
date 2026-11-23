@@ -7,6 +7,8 @@ dependencies = [
     "pgvector>=0.5.1",
     "psycopg[binary]>=3.3.9",
     "python-dotenv>=1.2.4",
+    "pyyaml>=6.0.4",
+    "sentence-transformers>=6.3.0",
     "uvicorn[standard]>=0.54.0",
 ]
 
@@ -17,6 +19,7 @@ dev = [
     "mypy>=2.4.1",
     "pytest>=9.2.0",
     "ruff>=0.17.6",
+    "types-pyyaml>=6.0.12.20261122",
 ]
 
 [tool.ruff]

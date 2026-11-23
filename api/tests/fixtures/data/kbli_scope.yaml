@@ -1,0 +1,16 @@
+- code: "90001"
+  title: Industri Keripik dan Makanan Ringan Kemasan
+  definition: Usaha pembuatan keripik pisang, keripik singkong, dan makanan ringan lainnya yang dikemas untuk dijual kepada konsumen.
+  in_scope: true
+- code: "90002"
+  title: Jasa Boga dan Katering
+  definition: Usaha penyediaan makanan jadi untuk acara atau pelanggan tertentu berdasarkan pesanan, termasuk katering pernikahan dan katering perusahaan.
+  in_scope: true
+- code: "90003"
+  title: Industri Minuman Ringan Non-Alkohol
+  definition: Usaha pembuatan minuman ringan non-alkohol seperti es teh, sari buah, dan minuman kemasan siap minum.
+  in_scope: true
+- code: "90004"
+  title: Industri Minuman Beralkohol
+  definition: Usaha pembuatan minuman beralkohol seperti bir, anggur, dan minuman keras hasil penyulingan.
+  in_scope: false
