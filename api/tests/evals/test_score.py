@@ -100,21 +100,52 @@ def test_exact_primary_preferred_over_alternative_match():
     assert scores == {"top1": 1.0, "top3": 1.0}
 
 
+IDS = {"A name": "a", "B name": "b", "C name": "c"}
+
+
+def pexp(primary: str, permits: dict[str, list[str]]) -> dict[str, object]:
+    return {"primary": primary, "acceptable": list(permits), "permits": permits}
+
+
+WARUNG = pexp("56101", {"56101": ["a", "b"], "56102": ["a", "c"]})
+
+
 def test_permit_set_order_insensitive():
-    ids = {"A name": "a", "B name": "b"}
-    assert score_permits(["b", "a"], [permit("A name"), permit("B name")], ids)
-    assert score_permits(["a", "b"], [permit("B name"), permit("A name")], ids)
+    items = [permit("B name"), permit("A name")]
+    assert score_permits([WARUNG], [got("56101")], items, IDS)
+
+
+def test_permit_check_uses_chosen_acceptable_alternative():
+    # 56102 is acceptable; its own permit set is the expected one.
+    assert score_permits([WARUNG], [got("56102")], [permit("A name"), permit("C name")], IDS)
+    # ...and the primary's permit set no longer matches when 56102 was chosen.
+    assert not score_permits([WARUNG], [got("56102")], [permit("A name"), permit("B name")], IDS)
+
+
+def test_permit_check_fails_for_unacceptable_primary():
+    items = [permit("A name"), permit("B name")]
+    assert not score_permits([WARUNG], [got("10710", ["56101"])], items, IDS)
 
 
 def test_permit_set_must_match_exactly():
-    ids = {"A name": "a", "B name": "b"}
-    assert not score_permits(["a"], [permit("A name"), permit("B name")], ids)
-    assert not score_permits(["a", "b"], [permit("A name")], ids)
-    assert score_permits([], [], ids)
+    assert not score_permits([WARUNG], [got("56101")], [permit("A name")], IDS)
+    assert not score_permits(
+        [WARUNG], [got("56101")], [permit("A name"), permit("B name"), permit("C name")], IDS
+    )
+
+
+def test_permit_check_multi_activity_unions_and_rejects_extras():
+    exp2 = [pexp("56101", {"56101": ["a", "b"]}), pexp("10710", {"10710": ["b", "c"]})]
+    both = [got("10710", label="x"), got("56101", label="y")]
+    assert score_permits(exp2, both, [permit(n) for n in IDS.keys()], IDS)
+    assert not score_permits(exp2, both[:1], [permit("B name"), permit("C name")], IDS)
+    assert not score_permits(
+        [WARUNG], [got("56101"), got("10710", label="z")], [permit("A name"), permit("B name")], IDS
+    )
 
 
 def test_unknown_permit_name_never_matches():
-    assert not score_permits(["a"], [permit("Mystery")], {"A name": "a"})
+    assert not score_permits([pexp("56101", {"56101": ["a"]})], [got("56101")], [permit("?")], IDS)
 
 
 DATA = DataCodes(codes={"10792", "10710"}, permit_names={"NIB"})

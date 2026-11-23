@@ -22,7 +22,7 @@ from app.db import Conn, connect
 from app.deps import AnyLlm, build_embedder, build_llm
 from app.errors import ApiError
 from app.evals.cases import CASES_PATH, REPO_ROOT, Case, load_cases
-from app.evals.score import DataCodes, invented, score_kbli, score_permits
+from app.evals.score import DataCodes, invented, match_primaries, score_kbli, score_permits
 from app.pipeline.analyze import UNSURE_NOTE, NeedsClarification, Ok, OutOfScope, analyze
 from app.retrieval.embedder import Embedder
 
@@ -142,18 +142,29 @@ def score_case(
             r.failures.append(f"kbli: expected {want}; got {have or 'none'}")
         elif r.kbli["top1"] < 1.0:
             r.failures.append("kbli: top-3 hit but not top-1")
-    if exp.permits is not None:
-        r.permits_ok = bool(ok) and score_permits(exp.permits, ok.result.permits, name_to_id)  # type: ignore[union-attr]
+    if exp.activities and exp.activities[0].permits is not None:
+        dumped = [a.model_dump() for a in exp.activities]
+        got_acts = ok.result.activities if ok else []
+        r.permits_ok = ok is not None and score_permits(
+            dumped, got_acts, ok.result.permits, name_to_id
+        )
         if not r.permits_ok:
             have_ids = (
                 sorted(name_to_id.get(p.name, p.name) for p in ok.result.permits) if ok else []
             )
-            r.failures.append(f"permits: expected {sorted(exp.permits)}; got {have_ids}")
-    if exp.risk and ok is not None:
-        by_code = {a.primary.code: a.primary.risk_level for a in ok.result.activities}
-        checked = {c: lvl for c, lvl in exp.risk.items() if c in by_code}
-        if checked:
-            r.risk_ok = all(by_code[c] == lvl for c, lvl in checked.items())
+            r.failures.append(
+                f"permits: got {have_ids} for primaries {[a.primary.code for a in got_acts]}"
+                " (not matching the expected set for the chosen acceptable codes)"
+            )
+    if ok is not None and exp.activities and exp.activities[0].risk is not None:
+        matched = match_primaries([a.model_dump() for a in exp.activities], ok.result.activities)
+        checks = [
+            m.primary.risk_level == a.risk[m.primary.code]  # type: ignore[index]
+            for a, m in zip(exp.activities, matched, strict=True)
+            if m is not None
+        ]
+        if checks:
+            r.risk_ok = all(checks)
     return r
 
 
@@ -228,7 +239,7 @@ def render_report(
         f"| KBLI top-1 | {s['top1']:.3f} | |",
         f"| KBLI top-3 | {s['top3']:.3f} | >= {BAR_TOP3:.2f} {_mark(s['top3'] >= BAR_TOP3)} |",
         f"| Permit exact match ({s['permit_cases']} cases) | {s['permit_exact']:.3f} | |",
-        f"| Risk match when primary exact ({s['risk_cases']} cases) | {s['risk_match']:.3f} | |",
+        f"| Risk match, primary acceptable ({s['risk_cases']} cases) | {s['risk_match']:.3f} | |",
         f"| Scope accuracy | {s['scope']:.3f} | "
         f">= {BAR_SCOPE:.2f} {_mark(s['scope'] >= BAR_SCOPE)} |",
         f"| Clarification rate | {s['clarification_rate']:.3f} | |",

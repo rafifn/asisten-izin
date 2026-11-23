@@ -32,19 +32,26 @@ def permit_names(conn: Conn, release_id: int) -> dict[str, str]:
 
 def compute_expected(
     conn: Conn, release_id: int, case: Case, today: date
-) -> tuple[list[str], dict[str, str]] | None:
-    """Permit ids (engine order) and primary-code risk levels; None if no expected activities."""
+) -> list[tuple[dict[str, list[str]], dict[str, str]]] | None:
+    """Per expected activity: permit ids (engine order) and risk level for each acceptable code.
+
+    None if the case has no expected activities.
+    """
     if not case.expect.activities:
         return None
-    primaries = [(a.primary, a.attributes) for a in case.expect.activities]
-    items, _ = lookup_permits(conn, release_id, primaries, today)
     ids = permit_names(conn, release_id)
-    risk: dict[str, str] = {}
-    for code, attrs in primaries:
-        level = risk_for(conn, release_id, code, attrs, today)
-        if level is not None:
-            risk[code] = level
-    return [ids[i.name] for i in items], risk
+    out: list[tuple[dict[str, list[str]], dict[str, str]]] = []
+    for a in case.expect.activities:
+        permits: dict[str, list[str]] = {}
+        risk: dict[str, str] = {}
+        for code in a.acceptable:
+            items, _ = lookup_permits(conn, release_id, [(code, a.attributes)], today)
+            permits[code] = [ids[i.name] for i in items]
+            level = risk_for(conn, release_id, code, a.attributes, today)
+            if level is not None:
+                risk[code] = level
+        out.append((permits, risk))
+    return out
 
 
 def _dump(cases: list[dict[str, Any]]) -> str:
@@ -59,12 +66,15 @@ def fill(conn: Conn, release_id: int, today: date, path: Path = CASES_PATH) -> s
     for item in raw:
         case = Case.model_validate(item)
         expected = compute_expected(conn, release_id, case, today)
-        expect = item["expect"]
-        expect.pop("permits", None)
-        expect.pop("risk", None)
-        if expected is not None:
-            expect["permits"], expect["risk"] = expected
+        for act, exp in zip(item["expect"].get("activities", []), expected or [], strict=True):
+            act.pop("permits", None)
+            act.pop("risk", None)
+            act["permits"], act["risk"] = exp
     return _dump(raw)
+
+
+def _tri(v: bool | None) -> str:
+    return "?" if v is None else ("yes" if v else "no")
 
 
 def review_markdown(cases: list[Case]) -> str:
@@ -79,7 +89,8 @@ def review_markdown(cases: list[Case]) -> str:
         "and are the listed alternatives genuinely acceptable? Write OK or a note in the last",
         "column. Expected permits and risk are generated from the rules engine, not reviewed here.",
         "",
-        "`primary` is the expected code; `also ok` lists extra acceptable codes. Vague cases are",
+        "`?` means the description does not say (expected attribute is null). `primary` is the",
+        "expected code; `also ok` lists extra acceptable codes. Vague cases are",
         "expected to trigger a clarification question first; their second pass is scored for",
         "scope only.",
         "",
@@ -90,15 +101,19 @@ def review_markdown(cases: list[Case]) -> str:
         if c.expect.activities:
             parts = []
             for a in c.expect.activities:
+                at = a.attributes
                 text = f"**{a.primary}** {titles[a.primary]}"
                 extra = [f"{x} {titles[x]}" for x in a.acceptable if x != a.primary]
                 if extra:
                     text += " (also ok: " + "; ".join(extra) + ")"
+                text += f" [packaged={_tri(at.packaged)}, formal={_tri(at.formal_restaurant)}]"
                 parts.append(text)
             codes = "<br>".join(parts)
         else:
             codes = "(clarify first)" if c.expect.clarify else "(none)"
         desc = c.description.replace("|", "/")
+        if c.owner_note:
+            desc += f"<br>**Owner judgement:** {c.owner_note}"
         lines.append(f"| {c.id} | {desc} | {c.expect.scope} | {codes} | |")
     return "\n".join(lines) + "\n"
 

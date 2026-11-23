@@ -48,12 +48,43 @@ def score_kbli(
     return {"top1": top1 / n, "top3": top3 / n}
 
 
+def match_primaries(
+    expected_activities: Sequence[Mapping[str, Any]], got_activities: Sequence[ActivityOut]
+) -> list[ActivityOut | None]:
+    """For each expected activity, the (unused) got activity whose primary is acceptable."""
+    unused = list(got_activities)
+    matched: list[ActivityOut | None] = []
+    for exp in expected_activities:
+        ok = _acceptable(exp)
+        hit = next((g for g in unused if g.primary.code in ok), None)
+        if hit is not None:
+            unused.remove(hit)
+        matched.append(hit)
+    return matched
+
+
 def score_permits(
-    expected_ids: Sequence[str], got_items: Sequence[PermitItem], name_to_id: Mapping[str, str]
+    expected_activities: Sequence[Mapping[str, Any]],
+    got_activities: Sequence[ActivityOut],
+    got_items: Sequence[PermitItem],
+    name_to_id: Mapping[str, str],
 ) -> bool:
-    """Exact set equality of permit ids. Items are identified by name (the API has no id)."""
+    """Exact set equality of permit ids, for the primaries the system actually chose.
+
+    Each expected activity stores its permits per acceptable code. The expected set is the
+    union of those for the chosen primaries. Every chosen primary must be acceptable for a
+    distinct expected activity (no misses, no extra activities), otherwise the check fails.
+    Items are identified by name (the API has no id).
+    """
+    matched = match_primaries(expected_activities, got_activities)
+    if any(m is None for m in matched) or len(got_activities) != len(expected_activities):
+        return False
+    want: set[str] = set()
+    for exp, m in zip(expected_activities, matched, strict=True):
+        assert m is not None
+        want |= set(exp["permits"][m.primary.code])
     got = {name_to_id.get(i.name, f"?{i.name}") for i in got_items}
-    return got == set(expected_ids)
+    return got == want
 
 
 def invented(got: Result, data: DataCodes) -> list[str]:

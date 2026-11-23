@@ -45,10 +45,10 @@ def test_scope_and_expectations_are_consistent():
         if e.scope == "out":
             assert not e.activities, case.id
         if e.clarify:
-            assert not e.activities and e.permits is None, case.id
+            assert not e.activities, case.id
         if e.activities:
-            assert e.permits, f"{case.id}: permits not generated (run make eval-gen)"
-            assert e.risk, case.id
+            for a in e.activities:
+                assert a.permits and a.risk, f"{case.id}: not generated (run make eval-gen)"
 
 
 def test_committed_expected_permits_and_risk_match_the_engine(db: Conn):
@@ -59,9 +59,9 @@ def test_committed_expected_permits_and_risk_match_the_engine(db: Conn):
         computed = compute_expected(db, release, case, today)
         if computed is None:
             continue
-        permits, risk = computed
-        assert case.expect.permits == permits, case.id
-        assert case.expect.risk == risk, case.id
+        for act, (permits, risk) in zip(case.expect.activities, computed, strict=True):
+            assert act.permits == permits, case.id
+            assert act.risk == risk, case.id
 
 
 def test_review_lists_every_case_with_titles():
@@ -70,3 +70,19 @@ def test_review_lists_every_case_with_titles():
     for c in cases:
         assert f"| {c.id} |" in text
     assert "Aktivitas Penyediaan Makanan di Bangunan Tetap" in text
+
+
+def test_attributes_are_null_unless_the_description_states_them():
+    # Spot checks of the null-by-default rule (review round 1).
+    by_id = {c.id: c for c in load_cases()}
+    warung = by_id["single-warung-02"].expect.activities[0].attributes
+    assert warung.animal_products is None
+    p1 = by_id["partial-01"].expect.activities[0].attributes
+    assert p1.has_seating is None and p1.served_on_site is None
+    assert by_id["single-coklat-01"].expect.activities[0].attributes.animal_products is None
+
+
+def test_widened_acceptable_codes_each_have_their_own_permits():
+    act = {c.id: c for c in load_cases()}["single-warung-02"].expect.activities[0]
+    assert act.permits is not None
+    assert act.permits["56101"] != act.permits["56102"]

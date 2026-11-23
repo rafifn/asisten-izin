@@ -6,10 +6,11 @@
     activities:
     - primary: '56101'
       acceptable: ['56101']
-      attributes: {packaged: false, served_on_site: true, has_seating: true, sells_online: false, animal_products: true,
+      attributes: {packaged: null, served_on_site: true, has_seating: true, sells_online: null, animal_products: true,
         formal_restaurant: false}
-    permits: [kkpr, persetujuan-lingkungan-sppl, nib, sertifikat-standar, label-hsp, sertifikat-halal]
-    risk: {'56101': menengah_rendah}
+      permits:
+        '56101': [kkpr, persetujuan-lingkungan-sppl, nib, sertifikat-standar, label-hsp, sertifikat-halal]
+      risk: {'56101': menengah_rendah}
 - id: single-warung-02
   description: jualan seblak depan rumah, pembeli makan di situ pakai bangku plastik
   expect:
@@ -17,10 +18,12 @@
     activities:
     - primary: '56101'
       acceptable: ['56101', '56102']
-      attributes: {packaged: false, served_on_site: true, has_seating: true, sells_online: false, animal_products: true,
+      attributes: {packaged: null, served_on_site: true, has_seating: true, sells_online: null, animal_products: null,
         formal_restaurant: false}
-    permits: [kkpr, persetujuan-lingkungan-sppl, nib, sertifikat-standar, label-hsp, sertifikat-halal]
-    risk: {'56101': menengah_rendah}
+      permits:
+        '56101': [kkpr, persetujuan-lingkungan-sppl, nib, sertifikat-standar, label-hsp, sertifikat-halal]
+        '56102': [kkpr, persetujuan-lingkungan-sppl, nib, sertifikat-standar, label-hsp-atau-slhs, sertifikat-halal]
+      risk: {'56101': menengah_rendah, '56102': menengah_rendah}
 - id: single-resto-01
   description: Restoran seafood keluarga dengan pelayan, 60 kursi dan AC, bayar di kasir, sebagian pesanan
     lewat GoFood
@@ -29,10 +32,11 @@
     activities:
     - primary: '56101'
       acceptable: ['56101']
-      attributes: {packaged: false, served_on_site: true, has_seating: true, sells_online: true, animal_products: true,
+      attributes: {packaged: null, served_on_site: true, has_seating: true, sells_online: true, animal_products: true,
         formal_restaurant: true}
-    permits: [kkpr, persetujuan-lingkungan-sppl, nib, sertifikat-standar-terverifikasi, slhs, sertifikat-halal]
-    risk: {'56101': menengah_tinggi}
+      permits:
+        '56101': [kkpr, persetujuan-lingkungan-sppl, nib, sertifikat-standar-terverifikasi, slhs, sertifikat-halal]
+      risk: {'56101': menengah_tinggi}
 - id: single-gerobak-01
   description: Jualan bakso keliling pakai gerobak dorong, pembeli makan di pinggir jalan
   expect:
@@ -40,10 +44,11 @@
     activities:
     - primary: '56102'
       acceptable: ['56102']
-      attributes: {packaged: false, served_on_site: true, has_seating: false, sells_online: false, animal_products: true,
-        formal_restaurant: false}
-    permits: [kkpr, persetujuan-lingkungan-sppl, nib, sertifikat-standar, label-hsp-atau-slhs, sertifikat-halal]
-    risk: {'56102': menengah_rendah}
+      attributes: {packaged: null, served_on_site: true, has_seating: null, sells_online: null, animal_products: true,
+        formal_restaurant: null}
+      permits:
+        '56102': [kkpr, persetujuan-lingkungan-sppl, nib, sertifikat-standar, label-hsp-atau-slhs, sertifikat-halal]
+      risk: {'56102': menengah_rendah}
 - id: single-foodtruck-01
   description: Food truck burger dan kentang goreng, parkir di acara bazar dan car free day
   expect:
@@ -51,10 +56,11 @@
     activities:
     - primary: '56102'
       acceptable: ['56102']
-      attributes: {packaged: false, served_on_site: true, has_seating: false, sells_online: false, animal_products: true,
-        formal_restaurant: false}
-    permits: [kkpr, persetujuan-lingkungan-sppl, nib, sertifikat-standar, label-hsp-atau-slhs, sertifikat-halal]
-    risk: {'56102': menengah_rendah}
+      attributes: {packaged: null, served_on_site: null, has_seating: null, sells_online: null, animal_products: true,
+        formal_restaurant: null}
+      permits:
+        '56102': [kkpr, persetujuan-lingkungan-sppl, nib, sertifikat-standar, label-hsp-atau-slhs, sertifikat-halal]
+      risk: {'56102': menengah_rendah}
 - id: single-kafe-01
   description: Kafe kecil di ruko, jual kopi susu dan teh, pelanggan nongkrong di dalam, ada wifi
   expect:
@@ -62,10 +68,11 @@
     activities:
     - primary: '56303'
       acceptable: ['56303']
-      attributes: {packaged: false, served_on_site: true, has_seating: true, sells_online: false, animal_products: true,
-        formal_restaurant: false}
-    permits: [kkpr, persetujuan-lingkungan-sppl, nib, sertifikat-standar, label-hsp-atau-slhs, sertifikat-halal]
-    risk: {'56303': menengah_rendah}
+      attributes: {packaged: null, served_on_site: true, has_seating: true, sells_online: null, animal_products: true,
+        formal_restaurant: null}
+      permits:
+        '56303': [kkpr, persetujuan-lingkungan-sppl, nib, sertifikat-standar, label-hsp-atau-slhs, sertifikat-halal]
+      risk: {'56303': menengah_rendah}
 - id: single-kedaikopi-01
   description: Kedai kopi pakai tenda di pinggir jalan, es kopi susu gula aren, bisa bawa pulang atau
     duduk di bangku
@@ -74,10 +81,11 @@
     activities:
     - primary: '56304'
       acceptable: ['56304']
-      attributes: {packaged: false, served_on_site: true, has_seating: true, sells_online: false, animal_products: true,
-        formal_restaurant: false}
-    permits: [kkpr, persetujuan-lingkungan-sppl, nib, sertifikat-standar, label-hsp, sertifikat-halal]
-    risk: {'56304': menengah_rendah}
+      attributes: {packaged: null, served_on_site: true, has_seating: true, sells_online: null, animal_products: true,
+        formal_restaurant: null}
+      permits:
+        '56304': [kkpr, persetujuan-lingkungan-sppl, nib, sertifikat-standar, label-hsp, sertifikat-halal]
+      risk: {'56304': menengah_rendah}
 - id: single-jamu-01
   description: Jamu gendong keliling kampung tiap pagi
   expect:
@@ -85,10 +93,11 @@
     activities:
     - primary: '56306'
       acceptable: ['56306']
-      attributes: {packaged: false, served_on_site: true, has_seating: false, sells_online: false, animal_products: false,
-        formal_restaurant: false}
-    permits: [kkpr, persetujuan-lingkungan-sppl, nib, sertifikat-standar, label-hsp, sertifikat-halal]
-    risk: {'56306': menengah_rendah}
+      attributes: {packaged: null, served_on_site: null, has_seating: null, sells_online: null, animal_products: null,
+        formal_restaurant: null}
+      permits:
+        '56306': [kkpr, persetujuan-lingkungan-sppl, nib, sertifikat-standar, label-hsp, sertifikat-halal]
+      risk: {'56306': menengah_rendah}
 - id: single-jamu-02
   description: Kedai jamu di ruko permanen, pelanggan minum jamu di tempat, ada bangku
   expect:
@@ -96,10 +105,11 @@
     activities:
     - primary: '56305'
       acceptable: ['56305']
-      attributes: {packaged: false, served_on_site: true, has_seating: true, sells_online: false, animal_products: false,
-        formal_restaurant: false}
-    permits: [kkpr, persetujuan-lingkungan-sppl, nib, sertifikat-standar, sertifikat-halal-obat-bahan-alam]
-    risk: {'56305': menengah_rendah}
+      attributes: {packaged: null, served_on_site: true, has_seating: true, sells_online: null, animal_products: null,
+        formal_restaurant: null}
+      permits:
+        '56305': [kkpr, persetujuan-lingkungan-sppl, nib, sertifikat-standar, sertifikat-halal-obat-bahan-alam]
+      risk: {'56305': menengah_rendah}
 - id: single-catering-01
   description: Terima pesanan nasi box untuk acara kantor, arisan dan pengajian, dimasak di rumah lalu
     diantar
@@ -108,10 +118,11 @@
     activities:
     - primary: '56210'
       acceptable: ['56210']
-      attributes: {packaged: false, served_on_site: false, has_seating: false, sells_online: false, animal_products: true,
-        formal_restaurant: false}
-    permits: [kkpr, persetujuan-lingkungan-sppl, nib, sertifikat-standar, label-hsp, sertifikat-halal]
-    risk: {'56210': menengah_rendah}
+      attributes: {packaged: null, served_on_site: false, has_seating: null, sells_online: null, animal_products: null,
+        formal_restaurant: null}
+      permits:
+        '56210': [kkpr, persetujuan-lingkungan-sppl, nib, sertifikat-standar, label-hsp, sertifikat-halal]
+      risk: {'56210': menengah_rendah}
 - id: single-catering-02
   description: Katering harian untuk karyawan pabrik, kontrak bulanan, makan siang diantar tiap hari
   expect:
@@ -119,10 +130,11 @@
     activities:
     - primary: '56290'
       acceptable: ['56290']
-      attributes: {packaged: false, served_on_site: false, has_seating: false, sells_online: false, animal_products: true,
-        formal_restaurant: false}
-    permits: [kkpr, persetujuan-lingkungan-sppl, nib, sertifikat-standar, label-hsp, sertifikat-halal]
-    risk: {'56290': menengah_rendah}
+      attributes: {packaged: null, served_on_site: false, has_seating: null, sells_online: null, animal_products: null,
+        formal_restaurant: null}
+      permits:
+        '56290': [kkpr, persetujuan-lingkungan-sppl, nib, sertifikat-standar, label-hsp, sertifikat-halal]
+      risk: {'56290': menengah_rendah}
 - id: single-tempe-01
   description: Produksi tempe kedelai rumahan, dibungkus plastik per papan dan dijual ke pasar
   expect:
@@ -130,10 +142,13 @@
     activities:
     - primary: '10307'
       acceptable: ['10307']
-      attributes: {packaged: true, served_on_site: false, has_seating: false, sells_online: false, animal_products: false,
-        formal_restaurant: false}
-    permits: [kkpr, persetujuan-lingkungan-sppl, nib, izin-edar-bpom, sertifikat-halal]
-    risk: {'10307': rendah}
+      attributes: {packaged: true, served_on_site: null, has_seating: null, sells_online: null, animal_products: false,
+        formal_restaurant: null}
+      permits:
+        '10307': [kkpr, persetujuan-lingkungan-sppl, nib, izin-edar-bpom, sertifikat-halal]
+      risk: {'10307': rendah}
+  owner_note: 'Is plastic-wrapped fresh tempe sold at the pasar ''packaged'' (izin edar needed)? Expected
+    here: yes (packaged=true).'
 - id: single-tahu-01
   description: Bikin tahu putih tiap hari, dijual curah ke pedagang pasar tanpa kemasan
   expect:
@@ -141,10 +156,11 @@
     activities:
     - primary: '10308'
       acceptable: ['10308']
-      attributes: {packaged: false, served_on_site: false, has_seating: false, sells_online: false, animal_products: false,
-        formal_restaurant: false}
-    permits: [kkpr, persetujuan-lingkungan-sppl, nib, sertifikat-halal]
-    risk: {'10308': rendah}
+      attributes: {packaged: false, served_on_site: null, has_seating: null, sells_online: null, animal_products: false,
+        formal_restaurant: null}
+      permits:
+        '10308': [kkpr, persetujuan-lingkungan-sppl, nib, sertifikat-halal]
+      risk: {'10308': rendah}
 - id: single-keripik-01
   description: Bikin kerupuk udang dan peyek kacang kemasan plastik, dititip di warung-warung sekitar
   expect:
@@ -152,10 +168,11 @@
     activities:
     - primary: '10794'
       acceptable: ['10794']
-      attributes: {packaged: true, served_on_site: false, has_seating: false, sells_online: false, animal_products: true,
-        formal_restaurant: false}
-    permits: [kkpr, persetujuan-lingkungan-sppl, nib, izin-edar-pangan-olahan, sertifikat-halal]
-    risk: {'10794': rendah}
+      attributes: {packaged: true, served_on_site: null, has_seating: null, sells_online: null, animal_products: true,
+        formal_restaurant: null}
+      permits:
+        '10794': [kkpr, persetujuan-lingkungan-sppl, nib, izin-edar-pangan-olahan, sertifikat-halal]
+      risk: {'10794': rendah}
 - id: single-bakery-01
   description: Toko roti kecil, bikin roti manis, bolu dan kue ulang tahun pesanan, dijual di etalase
     sendiri tanpa kemasan bermerek
@@ -164,10 +181,11 @@
     activities:
     - primary: '10710'
       acceptable: ['10710']
-      attributes: {packaged: false, served_on_site: false, has_seating: false, sells_online: false, animal_products: true,
-        formal_restaurant: false}
-    permits: [kkpr, persetujuan-lingkungan-sppl, nib, sertifikat-halal]
-    risk: {'10710': rendah}
+      attributes: {packaged: false, served_on_site: null, has_seating: null, sells_online: null, animal_products: null,
+        formal_restaurant: null}
+      permits:
+        '10710': [kkpr, persetujuan-lingkungan-sppl, nib, sertifikat-halal]
+      risk: {'10710': rendah}
 - id: single-kuebasah-01
   description: Buat kue basah lemper, kue lapis dan risoles, dibungkus plastik mika dan dititip ke warung
     dan pasar pagi
@@ -176,10 +194,11 @@
     activities:
     - primary: '10792'
       acceptable: ['10792']
-      attributes: {packaged: true, served_on_site: false, has_seating: false, sells_online: false, animal_products: true,
-        formal_restaurant: false}
-    permits: [kkpr, persetujuan-lingkungan-sppl, nib, izin-edar-bpom, sertifikat-halal]
-    risk: {'10792': rendah}
+      attributes: {packaged: true, served_on_site: null, has_seating: null, sells_online: null, animal_products: null,
+        formal_restaurant: null}
+      permits:
+        '10792': [kkpr, persetujuan-lingkungan-sppl, nib, izin-edar-bpom, sertifikat-halal]
+      risk: {'10792': rendah}
 - id: single-bumbu-01
   description: Produksi bumbu rempah bubuk, bubuk jahe dan bumbu gulai, dikemas sachet dan dijual online
   expect:
@@ -187,10 +206,11 @@
     activities:
     - primary: '10779'
       acceptable: ['10779']
-      attributes: {packaged: true, served_on_site: false, has_seating: false, sells_online: true, animal_products: false,
-        formal_restaurant: false}
-    permits: [kkpr, persetujuan-lingkungan-sppl, nib, izin-edar-pangan-olahan, sertifikat-halal]
-    risk: {'10779': rendah}
+      attributes: {packaged: true, served_on_site: null, has_seating: null, sells_online: true, animal_products: null,
+        formal_restaurant: null}
+      permits:
+        '10779': [kkpr, persetujuan-lingkungan-sppl, nib, izin-edar-pangan-olahan, sertifikat-halal]
+      risk: {'10779': rendah}
 - id: single-kopi-01
   description: Sangrai dan giling biji kopi sendiri, jual kopi bubuk kemasan 200 gram lewat Instagram
     dan Tokopedia
@@ -199,10 +219,11 @@
     activities:
     - primary: '10761'
       acceptable: ['10761']
-      attributes: {packaged: true, served_on_site: false, has_seating: false, sells_online: true, animal_products: false,
-        formal_restaurant: false}
-    permits: [kkpr, persetujuan-lingkungan-sppl, nib, izin-edar-pangan-olahan, sertifikat-halal]
-    risk: {'10761': rendah}
+      attributes: {packaged: true, served_on_site: null, has_seating: null, sells_online: true, animal_products: null,
+        formal_restaurant: null}
+      permits:
+        '10761': [kkpr, persetujuan-lingkungan-sppl, nib, izin-edar-pangan-olahan, sertifikat-halal]
+      risk: {'10761': rendah}
 - id: single-dodol-01
   description: Bikin dodol garut tradisional, dijual per kotak sebagai oleh-oleh
   expect:
@@ -210,10 +231,11 @@
     activities:
     - primary: '10796'
       acceptable: ['10796']
-      attributes: {packaged: true, served_on_site: false, has_seating: false, sells_online: false, animal_products: false,
-        formal_restaurant: false}
-    permits: [kkpr, persetujuan-lingkungan-sppl, nib, izin-edar-pangan-olahan, sertifikat-halal]
-    risk: {'10796': rendah}
+      attributes: {packaged: true, served_on_site: null, has_seating: null, sells_online: null, animal_products: null,
+        formal_restaurant: null}
+      permits:
+        '10796': [kkpr, persetujuan-lingkungan-sppl, nib, izin-edar-pangan-olahan, sertifikat-halal]
+      risk: {'10796': rendah}
 - id: single-asinan-01
   description: Asinan sayur dan asinan kedondong botolan untuk dijual ke toko
   expect:
@@ -221,10 +243,11 @@
     activities:
     - primary: '10301'
       acceptable: ['10301']
-      attributes: {packaged: true, served_on_site: false, has_seating: false, sells_online: false, animal_products: false,
-        formal_restaurant: false}
-    permits: [kkpr, persetujuan-lingkungan-sppl, nib, izin-edar-pangan-olahan, sertifikat-halal]
-    risk: {'10301': rendah}
+      attributes: {packaged: true, served_on_site: null, has_seating: null, sells_online: null, animal_products: false,
+        formal_restaurant: null}
+      permits:
+        '10301': [kkpr, persetujuan-lingkungan-sppl, nib, izin-edar-pangan-olahan, sertifikat-halal]
+      risk: {'10301': rendah}
 - id: single-jus-01
   description: Jus buah segar dalam botol plastik, dijual keliling ke kantor-kantor dan dititip di kantin
   expect:
@@ -232,10 +255,11 @@
     activities:
     - primary: '10306'
       acceptable: ['10306']
-      attributes: {packaged: true, served_on_site: false, has_seating: false, sells_online: false, animal_products: false,
-        formal_restaurant: false}
-    permits: [kkpr, persetujuan-lingkungan-sppl, nib, izin-edar-pangan-olahan, sertifikat-halal]
-    risk: {'10306': rendah}
+      attributes: {packaged: true, served_on_site: null, has_seating: null, sells_online: null, animal_products: false,
+        formal_restaurant: null}
+      permits:
+        '10306': [kkpr, persetujuan-lingkungan-sppl, nib, izin-edar-pangan-olahan, sertifikat-halal]
+      risk: {'10306': rendah}
 - id: single-eskrim-01
   description: Es krim susu homemade dalam cup, dititip di freezer toko
   expect:
@@ -243,10 +267,11 @@
     activities:
     - primary: '10503'
       acceptable: ['10503']
-      attributes: {packaged: true, served_on_site: false, has_seating: false, sells_online: false, animal_products: true,
-        formal_restaurant: false}
-    permits: [kkpr, persetujuan-lingkungan-sppl, nib, izin-edar-bpom, sertifikat-halal]
-    risk: {'10503': rendah}
+      attributes: {packaged: true, served_on_site: null, has_seating: null, sells_online: null, animal_products: true,
+        formal_restaurant: null}
+      permits:
+        '10503': [kkpr, persetujuan-lingkungan-sppl, nib, izin-edar-bpom, sertifikat-halal]
+      risk: {'10503': rendah}
 - id: single-yogurt-01
   description: Yoghurt dan keju mozzarella rumahan dalam kemasan botol
   expect:
@@ -254,10 +279,11 @@
     activities:
     - primary: '10509'
       acceptable: ['10509']
-      attributes: {packaged: true, served_on_site: false, has_seating: false, sells_online: false, animal_products: true,
-        formal_restaurant: false}
-    permits: [kkpr, persetujuan-lingkungan-sppl, nib, sertifikat-standar, izin-edar-bpom, sertifikat-halal]
-    risk: {'10509': menengah_rendah}
+      attributes: {packaged: true, served_on_site: null, has_seating: null, sells_online: null, animal_products: true,
+        formal_restaurant: null}
+      permits:
+        '10509': [kkpr, persetujuan-lingkungan-sppl, nib, sertifikat-standar, izin-edar-bpom, sertifikat-halal]
+      risk: {'10509': menengah_rendah}
 - id: single-coklat-01
   description: Bikin cokelat praline dan cokelat batang, kemasan hampers, PO-an lewat IG
   expect:
@@ -265,10 +291,12 @@
     activities:
     - primary: '10732'
       acceptable: ['10732']
-      attributes: {packaged: true, served_on_site: false, has_seating: false, sells_online: true, animal_products: false,
-        formal_restaurant: false}
-    permits: [kkpr, persetujuan-lingkungan-sppl, nib, sertifikat-standar, izin-edar-pangan-olahan, sertifikat-halal]
-    risk: {'10732': menengah_rendah}
+      attributes: {packaged: true, served_on_site: null, has_seating: null, sells_online: true, animal_products: null,
+        formal_restaurant: null}
+      permits:
+        '10732': [kkpr, persetujuan-lingkungan-sppl, nib, sertifikat-standar, izin-edar-pangan-olahan,
+          sertifikat-halal]
+      risk: {'10732': menengah_rendah}
 - id: single-mie-01
   description: Produksi mi basah dan bihun, dijual ke penjual bakso dan warung, dikemas plastik
   expect:
@@ -276,10 +304,12 @@
     activities:
     - primary: '10740'
       acceptable: ['10740']
-      attributes: {packaged: true, served_on_site: false, has_seating: false, sells_online: false, animal_products: false,
-        formal_restaurant: false}
-    permits: [kkpr, persetujuan-lingkungan-sppl, nib, sertifikat-standar, izin-edar-pangan-olahan, sertifikat-halal]
-    risk: {'10740': menengah_rendah}
+      attributes: {packaged: true, served_on_site: null, has_seating: null, sells_online: null, animal_products: null,
+        formal_restaurant: null}
+      permits:
+        '10740': [kkpr, persetujuan-lingkungan-sppl, nib, sertifikat-standar, izin-edar-pangan-olahan,
+          sertifikat-halal]
+      risk: {'10740': menengah_rendah}
 - id: single-pempek-01
   description: Pempek dan siomai ikan frozen kemasan, dikirim ke reseller
   expect:
@@ -287,10 +317,11 @@
     activities:
     - primary: '10218'
       acceptable: ['10218']
-      attributes: {packaged: true, served_on_site: false, has_seating: false, sells_online: false, animal_products: true,
-        formal_restaurant: false}
-    permits: [kkpr, persetujuan-lingkungan-sppl, nib, sertifikat-standar, izin-edar-bpom, sertifikat-halal]
-    risk: {'10218': menengah_rendah}
+      attributes: {packaged: true, served_on_site: null, has_seating: null, sells_online: null, animal_products: true,
+        formal_restaurant: null}
+      permits:
+        '10218': [kkpr, persetujuan-lingkungan-sppl, nib, sertifikat-standar, izin-edar-bpom, sertifikat-halal]
+      risk: {'10218': menengah_rendah}
 - id: single-bakso-01
   description: Produksi bakso sapi dan sosis, dibekukan dan dikemas, dijual ke toko-toko kecil
   expect:
@@ -298,10 +329,12 @@
     activities:
     - primary: '10120'
       acceptable: ['10120']
-      attributes: {packaged: true, served_on_site: false, has_seating: false, sells_online: false, animal_products: true,
-        formal_restaurant: false}
-    permits: [kkpr, persetujuan-lingkungan-sppl, nib, sertifikat-standar, izin-edar-pangan-olahan, sertifikat-halal]
-    risk: {'10120': menengah_rendah}
+      attributes: {packaged: true, served_on_site: null, has_seating: null, sells_online: null, animal_products: true,
+        formal_restaurant: null}
+      permits:
+        '10120': [kkpr, persetujuan-lingkungan-sppl, nib, sertifikat-standar, izin-edar-pangan-olahan,
+          sertifikat-halal]
+      risk: {'10120': menengah_rendah}
 - id: single-bakso-02
   description: Produksi bakso udang dan bakso cumi beku kemasan
   expect:
@@ -309,10 +342,11 @@
     activities:
     - primary: '10296'
       acceptable: ['10296']
-      attributes: {packaged: true, served_on_site: false, has_seating: false, sells_online: false, animal_products: true,
-        formal_restaurant: false}
-    permits: [kkpr, persetujuan-lingkungan-sppl, nib, sertifikat-standar, izin-edar-bpom, sertifikat-halal]
-    risk: {'10296': menengah_rendah}
+      attributes: {packaged: true, served_on_site: null, has_seating: null, sells_online: null, animal_products: true,
+        formal_restaurant: null}
+      permits:
+        '10296': [kkpr, persetujuan-lingkungan-sppl, nib, sertifikat-standar, izin-edar-bpom, sertifikat-halal]
+      risk: {'10296': menengah_rendah}
 - id: single-nabati-01
   description: Susu kedelai dan susu oat botolan, dijual online
   expect:
@@ -320,10 +354,12 @@
     activities:
     - primary: '10795'
       acceptable: ['10795', '11053']
-      attributes: {packaged: true, served_on_site: false, has_seating: false, sells_online: true, animal_products: false,
-        formal_restaurant: false}
-    permits: [kkpr, persetujuan-lingkungan-sppl, nib, izin-edar-pangan-olahan, sertifikat-halal]
-    risk: {'10795': rendah}
+      attributes: {packaged: true, served_on_site: null, has_seating: null, sells_online: true, animal_products: false,
+        formal_restaurant: null}
+      permits:
+        '10795': [kkpr, persetujuan-lingkungan-sppl, nib, izin-edar-pangan-olahan, sertifikat-halal]
+        '11053': [kkpr, persetujuan-lingkungan-sppl, nib, izin-edar-pangan-olahan, sertifikat-halal]
+      risk: {'10795': rendah, '11053': rendah}
 - id: single-minuman-01
   description: Produksi minuman teh rasa lemon dalam botol, dijual ke warung dan minimarket
   expect:
@@ -331,10 +367,11 @@
     activities:
     - primary: '11053'
       acceptable: ['11053']
-      attributes: {packaged: true, served_on_site: false, has_seating: false, sells_online: false, animal_products: false,
-        formal_restaurant: false}
-    permits: [kkpr, persetujuan-lingkungan-sppl, nib, izin-edar-pangan-olahan, sertifikat-halal]
-    risk: {'11053': rendah}
+      attributes: {packaged: true, served_on_site: null, has_seating: null, sells_online: null, animal_products: null,
+        formal_restaurant: null}
+      permits:
+        '11053': [kkpr, persetujuan-lingkungan-sppl, nib, izin-edar-pangan-olahan, sertifikat-halal]
+      risk: {'11053': rendah}
 - id: single-frozen-01
   description: 'PO-an lewat IG: rendang dan gulai dikemas vakum frozen, dikirim ke seluruh kota'
   expect:
@@ -342,10 +379,11 @@
     activities:
     - primary: '10750'
       acceptable: ['10750']
-      attributes: {packaged: true, served_on_site: false, has_seating: false, sells_online: true, animal_products: true,
-        formal_restaurant: false}
-    permits: [kkpr, persetujuan-lingkungan-sppl, nib, sertifikat-standar, izin-edar-bpom, sertifikat-halal]
-    risk: {'10750': menengah_rendah}
+      attributes: {packaged: true, served_on_site: null, has_seating: null, sells_online: true, animal_products: true,
+        formal_restaurant: null}
+      permits:
+        '10750': [kkpr, persetujuan-lingkungan-sppl, nib, sertifikat-standar, izin-edar-bpom, sertifikat-halal]
+      risk: {'10750': menengah_rendah}
 - id: single-retail-01
   description: Toko kecil jual roti dan kue kering eceran
   expect:
@@ -353,10 +391,11 @@
     activities:
     - primary: '47242'
       acceptable: ['47242']
-      attributes: {packaged: true, served_on_site: false, has_seating: false, sells_online: false, animal_products: false,
-        formal_restaurant: false}
-    permits: [kkpr, persetujuan-lingkungan-sppl, nib]
-    risk: {'47242': rendah}
+      attributes: {packaged: null, served_on_site: null, has_seating: null, sells_online: null, animal_products: null,
+        formal_restaurant: null}
+      permits:
+        '47242': [kkpr, persetujuan-lingkungan-sppl, nib]
+      risk: {'47242': rendah}
 - id: single-retail-02
   description: Jual kopi bubuk dan gula pasir eceran di kios kecil
   expect:
@@ -364,10 +403,11 @@
     activities:
     - primary: '47243'
       acceptable: ['47243']
-      attributes: {packaged: true, served_on_site: false, has_seating: false, sells_online: false, animal_products: false,
-        formal_restaurant: false}
-    permits: [kkpr, persetujuan-lingkungan-sppl, nib]
-    risk: {'47243': rendah}
+      attributes: {packaged: null, served_on_site: null, has_seating: null, sells_online: null, animal_products: null,
+        formal_restaurant: null}
+      permits:
+        '47243': [kkpr, persetujuan-lingkungan-sppl, nib]
+      risk: {'47243': rendah}
 - id: single-retail-03
   description: Lapak tahu dan tempe di pasar, jual eceran
   expect:
@@ -375,10 +415,11 @@
     activities:
     - primary: '47244'
       acceptable: ['47244']
-      attributes: {packaged: false, served_on_site: false, has_seating: false, sells_online: false, animal_products: false,
-        formal_restaurant: false}
-    permits: [kkpr, persetujuan-lingkungan-sppl, nib]
-    risk: {'47244': rendah}
+      attributes: {packaged: null, served_on_site: null, has_seating: null, sells_online: null, animal_products: null,
+        formal_restaurant: null}
+      permits:
+        '47244': [kkpr, persetujuan-lingkungan-sppl, nib]
+      risk: {'47244': rendah}
 - id: single-retail-04
   description: Kios kecil jual minuman ringan botol dan es teh bungkus bawa pulang, tidak ada tempat duduk
   expect:
@@ -386,10 +427,11 @@
     activities:
     - primary: '47222'
       acceptable: ['47222']
-      attributes: {packaged: true, served_on_site: false, has_seating: false, sells_online: false, animal_products: false,
-        formal_restaurant: false}
-    permits: [kkpr, persetujuan-lingkungan-sppl, nib]
-    risk: {'47222': rendah}
+      attributes: {packaged: null, served_on_site: false, has_seating: false, sells_online: null, animal_products: null,
+        formal_restaurant: null}
+      permits:
+        '47222': [kkpr, persetujuan-lingkungan-sppl, nib]
+      risk: {'47222': rendah}
 - id: multi-01
   description: 'Restoran padang: makan di tempat, juga terima catering nasi box untuk acara, dan jual
     rendang kemasan vakum lewat online'
@@ -398,19 +440,27 @@
     activities:
     - primary: '56101'
       acceptable: ['56101']
-      attributes: {packaged: false, served_on_site: true, has_seating: true, sells_online: false, animal_products: true,
+      attributes: {packaged: null, served_on_site: true, has_seating: true, sells_online: null, animal_products: true,
         formal_restaurant: true}
+      permits:
+        '56101': [kkpr, persetujuan-lingkungan-sppl, nib, sertifikat-standar-terverifikasi, slhs, sertifikat-halal]
+      risk: {'56101': menengah_tinggi}
     - primary: '56210'
       acceptable: ['56210']
-      attributes: {packaged: false, served_on_site: false, has_seating: false, sells_online: false, animal_products: true,
-        formal_restaurant: false}
+      attributes: {packaged: null, served_on_site: null, has_seating: null, sells_online: null, animal_products: null,
+        formal_restaurant: null}
+      permits:
+        '56210': [kkpr, persetujuan-lingkungan-sppl, nib, sertifikat-standar, label-hsp, sertifikat-halal]
+      risk: {'56210': menengah_rendah}
     - primary: '10750'
       acceptable: ['10750']
-      attributes: {packaged: true, served_on_site: false, has_seating: false, sells_online: true, animal_products: true,
-        formal_restaurant: false}
-    permits: [kkpr, persetujuan-lingkungan-sppl, nib, sertifikat-standar, sertifikat-standar-terverifikasi,
-      izin-edar-bpom, label-hsp, slhs, sertifikat-halal]
-    risk: {'56101': menengah_tinggi, '56210': menengah_rendah, '10750': menengah_rendah}
+      attributes: {packaged: true, served_on_site: null, has_seating: null, sells_online: true, animal_products: true,
+        formal_restaurant: null}
+      permits:
+        '10750': [kkpr, persetujuan-lingkungan-sppl, nib, sertifikat-standar, izin-edar-bpom, sertifikat-halal]
+      risk: {'10750': menengah_rendah}
+  owner_note: 'Does ''Restoran padang'' count as formal_restaurant=true (vs warung/rumah makan)? Expected
+    here: yes, which gives the stricter 56101 permit set.'
 - id: multi-02
   description: 'Toko roti yang punya kafe di dalamnya: roti buatan sendiri dijual dikemas dan pengunjung
     bisa duduk minum kopi'
@@ -419,15 +469,18 @@
     activities:
     - primary: '10710'
       acceptable: ['10710']
-      attributes: {packaged: true, served_on_site: false, has_seating: false, sells_online: false, animal_products: true,
-        formal_restaurant: false}
+      attributes: {packaged: true, served_on_site: null, has_seating: null, sells_online: null, animal_products: null,
+        formal_restaurant: null}
+      permits:
+        '10710': [kkpr, persetujuan-lingkungan-sppl, nib, izin-edar-pangan-olahan, sertifikat-halal]
+      risk: {'10710': rendah}
     - primary: '56303'
       acceptable: ['56303']
-      attributes: {packaged: false, served_on_site: true, has_seating: true, sells_online: false, animal_products: true,
-        formal_restaurant: false}
-    permits: [kkpr, persetujuan-lingkungan-sppl, nib, sertifikat-standar, izin-edar-pangan-olahan, label-hsp-atau-slhs,
-      sertifikat-halal]
-    risk: {'10710': rendah, '56303': menengah_rendah}
+      attributes: {packaged: null, served_on_site: true, has_seating: true, sells_online: null, animal_products: null,
+        formal_restaurant: null}
+      permits:
+        '56303': [kkpr, persetujuan-lingkungan-sppl, nib, sertifikat-standar, label-hsp-atau-slhs, sertifikat-halal]
+      risk: {'56303': menengah_rendah}
 - id: multi-03
   description: Kedai kopi tenda pinggir jalan, selain itu juga sangrai biji kopi sendiri dan jual kopi
     bubuk kemasan
@@ -436,15 +489,18 @@
     activities:
     - primary: '56304'
       acceptable: ['56304']
-      attributes: {packaged: false, served_on_site: true, has_seating: true, sells_online: false, animal_products: true,
-        formal_restaurant: false}
+      attributes: {packaged: null, served_on_site: null, has_seating: null, sells_online: null, animal_products: null,
+        formal_restaurant: null}
+      permits:
+        '56304': [kkpr, persetujuan-lingkungan-sppl, nib, sertifikat-standar, label-hsp, sertifikat-halal]
+      risk: {'56304': menengah_rendah}
     - primary: '10761'
       acceptable: ['10761']
-      attributes: {packaged: true, served_on_site: false, has_seating: false, sells_online: false, animal_products: false,
-        formal_restaurant: false}
-    permits: [kkpr, persetujuan-lingkungan-sppl, nib, sertifikat-standar, izin-edar-pangan-olahan, label-hsp,
-      sertifikat-halal]
-    risk: {'56304': menengah_rendah, '10761': rendah}
+      attributes: {packaged: true, served_on_site: null, has_seating: null, sells_online: null, animal_products: null,
+        formal_restaurant: null}
+      permits:
+        '10761': [kkpr, persetujuan-lingkungan-sppl, nib, izin-edar-pangan-olahan, sertifikat-halal]
+      risk: {'10761': rendah}
 - id: multi-04
   description: Saya bikin tahu dan tempe sendiri dijual curah, dan juga buka warung pecel lele pakai tenda
   expect:
@@ -452,18 +508,25 @@
     activities:
     - primary: '10308'
       acceptable: ['10308']
-      attributes: {packaged: false, served_on_site: false, has_seating: false, sells_online: false, animal_products: false,
-        formal_restaurant: false}
+      attributes: {packaged: false, served_on_site: null, has_seating: null, sells_online: null, animal_products: false,
+        formal_restaurant: null}
+      permits:
+        '10308': [kkpr, persetujuan-lingkungan-sppl, nib, sertifikat-halal]
+      risk: {'10308': rendah}
     - primary: '10307'
       acceptable: ['10307']
-      attributes: {packaged: false, served_on_site: false, has_seating: false, sells_online: false, animal_products: false,
-        formal_restaurant: false}
+      attributes: {packaged: false, served_on_site: null, has_seating: null, sells_online: null, animal_products: false,
+        formal_restaurant: null}
+      permits:
+        '10307': [kkpr, persetujuan-lingkungan-sppl, nib, sertifikat-halal]
+      risk: {'10307': rendah}
     - primary: '56102'
       acceptable: ['56102']
-      attributes: {packaged: false, served_on_site: true, has_seating: true, sells_online: false, animal_products: true,
-        formal_restaurant: false}
-    permits: [kkpr, persetujuan-lingkungan-sppl, nib, sertifikat-standar, label-hsp-atau-slhs, sertifikat-halal]
-    risk: {'10308': rendah, '10307': rendah, '56102': menengah_rendah}
+      attributes: {packaged: null, served_on_site: null, has_seating: null, sells_online: null, animal_products: true,
+        formal_restaurant: null}
+      permits:
+        '56102': [kkpr, persetujuan-lingkungan-sppl, nib, sertifikat-standar, label-hsp-atau-slhs, sertifikat-halal]
+      risk: {'56102': menengah_rendah}
 - id: multi-05
   description: 'Ibu rumah tangga: bikin kue basah dibungkus plastik, es krim homemade di cup, dan terima
     pesanan snack box acara kantor'
@@ -472,18 +535,25 @@
     activities:
     - primary: '10792'
       acceptable: ['10792']
-      attributes: {packaged: true, served_on_site: false, has_seating: false, sells_online: false, animal_products: true,
-        formal_restaurant: false}
+      attributes: {packaged: true, served_on_site: null, has_seating: null, sells_online: null, animal_products: null,
+        formal_restaurant: null}
+      permits:
+        '10792': [kkpr, persetujuan-lingkungan-sppl, nib, izin-edar-bpom, sertifikat-halal]
+      risk: {'10792': rendah}
     - primary: '10503'
       acceptable: ['10503']
-      attributes: {packaged: true, served_on_site: false, has_seating: false, sells_online: false, animal_products: true,
-        formal_restaurant: false}
+      attributes: {packaged: true, served_on_site: null, has_seating: null, sells_online: null, animal_products: true,
+        formal_restaurant: null}
+      permits:
+        '10503': [kkpr, persetujuan-lingkungan-sppl, nib, izin-edar-bpom, sertifikat-halal]
+      risk: {'10503': rendah}
     - primary: '56210'
       acceptable: ['56210']
-      attributes: {packaged: false, served_on_site: false, has_seating: false, sells_online: false, animal_products: true,
-        formal_restaurant: false}
-    permits: [kkpr, persetujuan-lingkungan-sppl, nib, sertifikat-standar, izin-edar-bpom, label-hsp, sertifikat-halal]
-    risk: {'10792': rendah, '10503': rendah, '56210': menengah_rendah}
+      attributes: {packaged: null, served_on_site: null, has_seating: null, sells_online: null, animal_products: null,
+        formal_restaurant: null}
+      permits:
+        '56210': [kkpr, persetujuan-lingkungan-sppl, nib, sertifikat-standar, label-hsp, sertifikat-halal]
+      risk: {'56210': menengah_rendah}
 - id: partial-01
   description: Warung nasi di pinggir jalan, sekalian jual rokok dan pulsa
   expect:
@@ -491,10 +561,12 @@
     activities:
     - primary: '56101'
       acceptable: ['56101', '56102']
-      attributes: {packaged: false, served_on_site: true, has_seating: true, sells_online: false, animal_products: true,
+      attributes: {packaged: null, served_on_site: null, has_seating: null, sells_online: null, animal_products: null,
         formal_restaurant: false}
-    permits: [kkpr, persetujuan-lingkungan-sppl, nib, sertifikat-standar, label-hsp, sertifikat-halal]
-    risk: {'56101': menengah_rendah}
+      permits:
+        '56101': [kkpr, persetujuan-lingkungan-sppl, nib, sertifikat-standar, label-hsp, sertifikat-halal]
+        '56102': [kkpr, persetujuan-lingkungan-sppl, nib, sertifikat-standar, label-hsp-atau-slhs, sertifikat-halal]
+      risk: {'56101': menengah_rendah, '56102': menengah_rendah}
 - id: partial-02
   description: Kafe kopi yang juga jual bir dan minuman beralkohol lainnya
   expect:
@@ -502,10 +574,11 @@
     activities:
     - primary: '56303'
       acceptable: ['56303']
-      attributes: {packaged: false, served_on_site: true, has_seating: true, sells_online: false, animal_products: true,
-        formal_restaurant: false}
-    permits: [kkpr, persetujuan-lingkungan-sppl, nib, sertifikat-standar, label-hsp-atau-slhs, sertifikat-halal]
-    risk: {'56303': menengah_rendah}
+      attributes: {packaged: null, served_on_site: null, has_seating: null, sells_online: null, animal_products: null,
+        formal_restaurant: null}
+      permits:
+        '56303': [kkpr, persetujuan-lingkungan-sppl, nib, sertifikat-standar, label-hsp-atau-slhs, sertifikat-halal]
+      risk: {'56303': menengah_rendah}
 - id: partial-03
   description: Produksi keripik tempe kemasan, dan juga pembuatan pakan ternak ayam
   expect:
@@ -513,21 +586,24 @@
     activities:
     - primary: '10794'
       acceptable: ['10794']
-      attributes: {packaged: true, served_on_site: false, has_seating: false, sells_online: false, animal_products: false,
-        formal_restaurant: false}
-    permits: [kkpr, persetujuan-lingkungan-sppl, nib, izin-edar-pangan-olahan, sertifikat-halal]
-    risk: {'10794': rendah}
+      attributes: {packaged: true, served_on_site: null, has_seating: null, sells_online: null, animal_products: null,
+        formal_restaurant: null}
+      permits:
+        '10794': [kkpr, persetujuan-lingkungan-sppl, nib, izin-edar-pangan-olahan, sertifikat-halal]
+      risk: {'10794': rendah}
 - id: partial-04
-  description: Toko kelontong kecil jual kue basah dan beras eceran
+  description: Kios kue basah di pinggir jalan (lemper, kue lapis, bolu), selain itu juga jual sedikit
+    beras eceran
   expect:
     scope: partial
     activities:
     - primary: '47242'
       acceptable: ['47242']
-      attributes: {packaged: true, served_on_site: false, has_seating: false, sells_online: false, animal_products: false,
-        formal_restaurant: false}
-    permits: [kkpr, persetujuan-lingkungan-sppl, nib]
-    risk: {'47242': rendah}
+      attributes: {packaged: null, served_on_site: null, has_seating: null, sells_online: null, animal_products: null,
+        formal_restaurant: null}
+      permits:
+        '47242': [kkpr, persetujuan-lingkungan-sppl, nib]
+      risk: {'47242': rendah}
 - id: partial-05
   description: Warung bakso dan depot air minum isi ulang
   expect:
@@ -535,10 +611,12 @@
     activities:
     - primary: '56101'
       acceptable: ['56101', '56102']
-      attributes: {packaged: false, served_on_site: true, has_seating: true, sells_online: false, animal_products: true,
+      attributes: {packaged: null, served_on_site: null, has_seating: null, sells_online: null, animal_products: true,
         formal_restaurant: false}
-    permits: [kkpr, persetujuan-lingkungan-sppl, nib, sertifikat-standar, label-hsp, sertifikat-halal]
-    risk: {'56101': menengah_rendah}
+      permits:
+        '56101': [kkpr, persetujuan-lingkungan-sppl, nib, sertifikat-standar, label-hsp, sertifikat-halal]
+        '56102': [kkpr, persetujuan-lingkungan-sppl, nib, sertifikat-standar, label-hsp-atau-slhs, sertifikat-halal]
+      risk: {'56101': menengah_rendah, '56102': menengah_rendah}
 - id: out-01
   description: Mau buka toko minuman keras, jual bir, wine dan whisky
   expect: {scope: out}
@@ -571,10 +649,11 @@
     activities:
     - primary: '56101'
       acceptable: ['56101']
-      attributes: {packaged: false, served_on_site: true, has_seating: true, sells_online: false, animal_products: true,
+      attributes: {packaged: null, served_on_site: true, has_seating: true, sells_online: null, animal_products: null,
         formal_restaurant: false}
-    permits: [kkpr, persetujuan-lingkungan-sppl, nib, sertifikat-standar, label-hsp, sertifikat-halal]
-    risk: {'56101': menengah_rendah}
+      permits:
+        '56101': [kkpr, persetujuan-lingkungan-sppl, nib, sertifikat-standar, label-hsp, sertifikat-halal]
+      risk: {'56101': menengah_rendah}
 - id: old-kbli-02
   description: Saya punya NIB lama dengan KBLI 10392, produksi tahu putih dan tahu goreng, dijual ke pasar
     tanpa kemasan
@@ -583,7 +662,8 @@
     activities:
     - primary: '10308'
       acceptable: ['10308']
-      attributes: {packaged: false, served_on_site: false, has_seating: false, sells_online: false, animal_products: false,
-        formal_restaurant: false}
-    permits: [kkpr, persetujuan-lingkungan-sppl, nib, sertifikat-halal]
-    risk: {'10308': rendah}
+      attributes: {packaged: false, served_on_site: null, has_seating: null, sells_online: null, animal_products: false,
+        formal_restaurant: null}
+      permits:
+        '10308': [kkpr, persetujuan-lingkungan-sppl, nib, sertifikat-halal]
+      risk: {'10308': rendah}
