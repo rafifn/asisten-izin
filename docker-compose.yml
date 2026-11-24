@@ -25,7 +25,10 @@ services:
       DATABASE_URL: postgresql://asisten:asisten@db:5432/asisten_izin
       LLM_MODE: ${LLM_MODE:-fake}
       EMBEDDER: ${EMBEDDER:-fake}
+      LLM_PROVIDER: ${LLM_PROVIDER:-deepseek}
       # No value: passed through only when set in the shell or .env (never as an empty string).
+      DEEPSEEK_API_KEY:
+      DEEPSEEK_MODEL:
       ANTHROPIC_API_KEY:
       CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:3000}
     depends_on:

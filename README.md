@@ -24,13 +24,14 @@ deployment. All user-facing copy is in Indonesian.
 ```
  browser ──> web (Next.js, :3000) ──> api (FastAPI, :8000) ──> Postgres 17 + pgvector (:5433)
                                          │
-                                         └──> Claude (Opus 5.5) via the anthropic SDK
+                                         └──> LLM: DeepSeek (default, deepseek-flash, OpenAI-compatible API)
+                                              or Claude (Opus 5.5, anthropic SDK) via LLM_PROVIDER
 ```
 
 1. **Retrieve.** The description is embedded with `BAAI/bge-m3` (local, 1024 dims) and matched
    against KBLI titles and definitions in pgvector, merged with keyword search by reciprocal rank
    fusion (at most 20 candidates per activity).
-2. **Select.** Claude picks one primary code and up to two alternatives, from the candidate list
+2. **Select.** The LLM picks one primary code and up to two alternatives, from the candidate list
    only. It may ask at most two clarifying questions, in one round.
 3. **Rules.** Risk levels and permits come from a rules engine over hand-curated data rows, never
    from the model. Every permit and rule carries its source regulation, URL and `last_verified`.
@@ -73,22 +74,30 @@ Stop with `docker compose --profile full down` (add `-v` only if you mean to del
 
 ### Real mode
 
-Real answers need Claude credentials and the real embedder. Set in `.env`:
+Real answers need an LLM provider and the real embedder. Set in `.env`:
 
 ```bash
 LLM_MODE=real
 EMBEDDER=bge
+LLM_PROVIDER=deepseek   # default; or claude
 ```
 
-Then authenticate in one of two ways:
+**DeepSeek (default, low cost).** Create a key at <https://platform.deepseek.com> and add
+`DEEPSEEK_API_KEY=sk-...` to `.env`. The model is `deepseek-flash` (override with
+`DEEPSEEK_MODEL`). DeepSeek has JSON mode but no schema-enforced output, so the API puts the
+JSON Schema in the prompt, validates every reply with Pydantic and retries once; a reply that
+still fails is treated like a refusal ("tidak dapat diproses" / "tidak yakin"). Logged cost uses
+DeepSeek's peak rates (US$0.30 in / US$1.20 out per 1M tokens for `deepseek-flash`, checked
+2026-11-24), so it errs high. Note that requests go to DeepSeek's API servers; descriptions are
+redacted of NIK, phone numbers and emails before they leave the API.
 
-- **API key:** add `ANTHROPIC_API_KEY=sk-ant-...` to `.env`.
-- **`ant auth login` profile:** run `ant auth login` once and leave `ANTHROPIC_API_KEY` out of
-  `.env` entirely (as in `.env.example`, where it is commented out). An empty
-  `ANTHROPIC_API_KEY=` line would override the profile.
+**Claude.** Set `LLM_PROVIDER=claude`, then either add `ANTHROPIC_API_KEY=sk-ant-...` to
+`.env`, or run `ant auth login` once and leave `ANTHROPIC_API_KEY` out of `.env` entirely (an
+empty `ANTHROPIC_API_KEY=` line would override the profile).
 
-The containers only get `ANTHROPIC_API_KEY` when it is set (in the shell or `.env`); the `ant`
-profile lives on the host and is not mounted, so the `full` profile needs the API key.
+The containers only get `DEEPSEEK_API_KEY` / `ANTHROPIC_API_KEY` when set (in the shell or
+`.env`); the `ant` profile lives on the host and is not mounted, so the `full` profile needs a
+key.
 
 Then reload the data so the KBLI embeddings come from bge-m3 (the first run downloads about
 2 GB of weights to the Hugging Face cache):
@@ -115,7 +124,7 @@ after switching.
 | `make data-load` | Validate `data/*.yaml` and insert a new data release |
 | `make data-sample` | Write a random spot-check sheet to `docs/spot-checks/` |
 | `make eval` | Eval dry run: case count and cost estimate, no API calls |
-| `make eval EVAL_ARGS=--yes` | Real eval against the Claude API (costs money) |
+| `make eval EVAL_ARGS=--yes` | Real eval against the configured LLM provider (costs money) |
 | `make eval-gen` | Regenerate expected permits in `evals/cases.yaml` |
 | `docker compose --profile full up --build` | The whole stack in containers |
 
@@ -144,7 +153,7 @@ harness runs the real pipeline over them and writes a report to `evals/reports/`
 
 ```bash
 make eval                        # dry run: prints case count and cost estimate
-make eval EVAL_ARGS=--yes        # real Claude API, costs money; needs `make data-load` with bge
+make eval EVAL_ARGS=--yes        # real LLM API (LLM_PROVIDER), costs money; needs `make data-load` with bge
 LLM_MODE=fake EMBEDDER=fake make eval   # free plumbing check, labelled as fake
 ```
 

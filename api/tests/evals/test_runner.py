@@ -15,7 +15,10 @@ from app.retrieval.embedder import FakeEmbedder
 
 
 def test_estimate_cost_is_rough_per_case_figure():
-    assert runner.estimate_cost(50) == pytest.approx(50 * 2 * 0.044)
+    assert runner.estimate_cost(50, "claude") == pytest.approx(50 * 2 * 0.044)
+    # DeepSeek flash at peak rates: 6k x $0.30 + 1k x $1.20 per 1M = $0.003 per call.
+    assert runner.estimate_cost(50, "deepseek") == pytest.approx(50 * 2 * 0.003)
+    assert runner.estimate_cost(50) == runner.estimate_cost(50, "deepseek")
 
 
 def test_percentile_nearest_rank():

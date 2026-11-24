@@ -27,12 +27,13 @@ class LlmResult[T: BaseModel]:
     tokens_in: int
     tokens_out: int
     model: str
+    # USD per 1M tokens (input, output). Defaults to Claude Opus 5.5 pricing.
+    usd_per_mtok: tuple[float, float] = (INPUT_USD_PER_MTOK, OUTPUT_USD_PER_MTOK)
 
     @property
     def cost_usd(self) -> float:
-        return (
-            self.tokens_in * INPUT_USD_PER_MTOK + self.tokens_out * OUTPUT_USD_PER_MTOK
-        ) / 1_000_000
+        usd_in, usd_out = self.usd_per_mtok
+        return (self.tokens_in * usd_in + self.tokens_out * usd_out) / 1_000_000
 
 
 class LlmClient:

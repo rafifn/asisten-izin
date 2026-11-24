@@ -31,6 +31,8 @@ def _choice(name: str, allowed: tuple[str, ...], default: str) -> str:
 class Settings:
     database_url: str = field(default_factory=database_url)
     llm_mode: Literal["real", "fake"] = "real"
+    # Which real LLM to call when llm_mode is "real".
+    llm_provider: Literal["deepseek", "claude"] = "deepseek"
     embedder: Literal["bge", "fake"] = "bge"
     cors_origins: tuple[str, ...] = (DEFAULT_CORS_ORIGINS,)
 
@@ -39,6 +41,10 @@ class Settings:
         return cls(
             database_url=database_url(),
             llm_mode=cast(Literal["real", "fake"], _choice("LLM_MODE", ("real", "fake"), "real")),
+            llm_provider=cast(
+                Literal["deepseek", "claude"],
+                _choice("LLM_PROVIDER", ("deepseek", "claude"), "deepseek"),
+            ),
             embedder=cast(Literal["bge", "fake"], _choice("EMBEDDER", ("bge", "fake"), "bge")),
             cors_origins=parse_origins(os.environ.get("CORS_ORIGINS")),
         )

@@ -9,10 +9,11 @@ from app.config import Settings
 from app.db import Conn, connect
 from app.errors import ApiError
 from app.llm.client import LlmClient
+from app.llm.deepseek import DeepSeekClient
 from app.llm.fake import FakeLlm
 from app.retrieval.embedder import BgeM3Embedder, Embedder, FakeEmbedder
 
-AnyLlm = LlmClient | FakeLlm
+AnyLlm = LlmClient | DeepSeekClient | FakeLlm
 
 log = logging.getLogger(__name__)
 
@@ -53,7 +54,11 @@ def warn_on_embedder_mismatch(settings: Settings) -> None:
 
 
 def build_llm(settings: Settings) -> AnyLlm:
-    return FakeLlm.canned() if settings.llm_mode == "fake" else LlmClient()
+    if settings.llm_mode == "fake":
+        return FakeLlm.canned()
+    if settings.llm_provider == "claude":
+        return LlmClient()
+    return DeepSeekClient()
 
 
 def build_embedder(settings: Settings) -> Embedder:

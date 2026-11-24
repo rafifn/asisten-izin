@@ -69,19 +69,23 @@ select id, created_at, notes from data_release order by id;
 With the containerised stack, the database is the same `db` service (port 5433 on the host).
 Raw input text is proposed to be kept 90 days on staging; there is no automatic purge yet.
 
-## When Claude is down
+## When the LLM provider is down
 
-The API converts Claude failures into `503` with `{"error": {"code": "llm_unavailable", ...}}`
-and the UI shows a "busy, try again" message. The anthropic client has server-side refusal
-fallbacks enabled. Nothing is served from a cache and the model never writes permits, so there is
-no degraded mode that gives answers. What to do:
+The configured provider (`LLM_PROVIDER`: `deepseek` by default, or `claude`) is the only external
+dependency. Timeouts, rate limits and 5xx errors become `503` with
+`{"error": {"code": "llm_unavailable", ...}}` and the UI shows a "busy, try again" message.
+(The Claude client also has server-side refusal fallbacks; DeepSeek has none, and a blank or
+invalid JSON reply after one retry is treated as a refusal.) Nothing is served from a cache and
+the model never writes permits, so there is no degraded mode that gives answers. What to do:
 
-1. Check `curl http://localhost:8000/healthz` (API up) and the Anthropic status page.
+1. Check `curl http://localhost:8000/healthz` (API up) and the provider's status page.
 2. Check the API logs for the error: `docker compose --profile full logs api --tail 100`.
-   An authentication error means `ANTHROPIC_API_KEY` is missing or revoked; fix `.env` and
-   restart the API container.
-3. If it is an outage, wait; users can retry.
-4. Do **not** switch a real deployment to `LLM_MODE=fake`: it returns canned answers that look
+   An authentication error (401/403, logged as a 500 `internal`) means `DEEPSEEK_API_KEY` (or
+   `ANTHROPIC_API_KEY` for Claude) is missing, revoked or out of balance; fix `.env` / top up and
+   restart the API. A missing `DEEPSEEK_API_KEY` stops the API at startup with a clear message.
+3. To switch providers, change `LLM_PROVIDER` in `.env` and restart; no data reload is needed.
+4. If it is an outage, wait; users can retry.
+5. Do **not** switch a real deployment to `LLM_MODE=fake`: it returns canned answers that look
    real. Use fake mode only for demos and tests.
 
 ## Owner spot-check
@@ -103,7 +107,7 @@ sheet.
 
 - `make eval` is a **dry run**: it prints the case count and a rough cost estimate and exits.
   No API calls are made.
-- `make eval EVAL_ARGS=--yes` (or `EVAL_CONFIRM=1`) calls the real Claude API for every case and
+- `make eval EVAL_ARGS=--yes` (or `EVAL_CONFIRM=1`) calls the configured LLM provider for every case and
   **costs money**. Run it only against a database loaded with `EMBEDDER=bge`
   (`make data-load` with `.env` set to real mode); the runner checks the release notes.
 - `LLM_MODE=fake EMBEDDER=fake make eval` is free, but the report is labelled as not a quality

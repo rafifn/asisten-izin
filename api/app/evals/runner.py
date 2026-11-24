@@ -23,6 +23,7 @@ from app.deps import AnyLlm, build_embedder, build_llm
 from app.errors import ApiError
 from app.evals.cases import CASES_PATH, REPO_ROOT, Case, load_cases
 from app.evals.score import DataCodes, invented, match_primaries, score_kbli, score_permits
+from app.llm.deepseek import DEFAULT_MODEL, PRICES
 from app.pipeline.analyze import NeedsClarification, Ok, OutOfScope, analyze
 from app.retrieval.embedder import Embedder
 
@@ -32,11 +33,13 @@ BAR_OUT_OF_SCOPE = 0.95  # applies to out-of-scope accuracy (ruling R22)
 # Rough cost model for the pre-run estimate: ~2 LLM calls per case, ~6k in + ~1k out each.
 CALLS_PER_CASE = 2
 IN_TOK, OUT_TOK = 6_000, 1_000
-IN_USD, OUT_USD = 4.00, 20.00
+# USD per 1M tokens (input, output) per provider; DeepSeek at peak rates (see app/llm/deepseek.py).
+PROVIDER_USD = {"claude": (4.00, 20.00), "deepseek": PRICES[DEFAULT_MODEL]}
 
 
-def estimate_cost(n_cases: int) -> float:
-    per_call = (IN_TOK * IN_USD + OUT_TOK * OUT_USD) / 1_000_000
+def estimate_cost(n_cases: int, provider: str = "deepseek") -> float:
+    in_usd, out_usd = PROVIDER_USD[provider]
+    per_call = (IN_TOK * in_usd + OUT_TOK * out_usd) / 1_000_000
     return n_cases * CALLS_PER_CASE * per_call
 
 
@@ -312,7 +315,8 @@ def render_report(
     out += [
         f"# Eval report {started:%Y-%m-%d %H:%M}",
         "",
-        f"- Mode: LLM_MODE={settings.llm_mode}, EMBEDDER={settings.embedder}",
+        f"- Mode: LLM_MODE={settings.llm_mode}, LLM_PROVIDER={settings.llm_provider}, "
+        f"EMBEDDER={settings.embedder}",
         f"- Data release id: {release_id}",
         f"- Cases: {s['cases']} ({s['activities']} expected activities)",
         "- Latency: the first case's latency includes loading the embedding model.",
@@ -433,9 +437,12 @@ def main(argv: list[str], env: Mapping[str, str] | None = None) -> int:
         cases = cases[: args.limit]
     confirmed = args.yes or env.get("EVAL_CONFIRM") == "1"
     if settings.llm_mode == "real" and not confirmed:
+        in_usd, out_usd = PROVIDER_USD[settings.llm_provider]
         print(
-            f"{len(cases)} cases, ~{CALLS_PER_CASE} LLM calls each. Rough cost estimate: "
-            f"${estimate_cost(len(cases)):.2f} (6k in + 1k out tokens per call at $4/$20 per 1M), "
+            f"{len(cases)} cases, ~{CALLS_PER_CASE} LLM calls each "
+            f"(LLM_PROVIDER={settings.llm_provider}). Rough cost estimate: "
+            f"${estimate_cost(len(cases), settings.llm_provider):.2f} "
+            f"(6k in + 1k out tokens per call at ${in_usd:g}/${out_usd:g} per 1M), "
             "plus clarification re-runs."
         )
         print("Not calling the real API. Re-run with --yes (or EVAL_CONFIRM=1) to proceed.")

@@ -189,6 +189,10 @@ Postgres 17 + pgvector  (KBLI, permits, rules, logs)
 - **Embeddings**: a local multilingual model that handles Indonesian well. Starting
   choice: `BAAI/bge-m3`. The builder may swap it if the eval shows a better
   option. KBLI embeddings are computed when data is loaded, not per request.
+- **Update 2026-11-24 (owner's decision, budget):** the default LLM is now DeepSeek
+  (`deepseek-flash`, JSON mode + Pydantic validation), selected with
+  `LLM_PROVIDER=deepseek`. Claude below remains available with `LLM_PROVIDER=claude`.
+  Comparing both on the eval is a planned portfolio item.
 - **LLM**: Claude Opus 5.5 (`claude-opus-5-5`) through the official `anthropic`
   Python SDK.
   - Use structured outputs for every call.
