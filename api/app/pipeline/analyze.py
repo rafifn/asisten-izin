@@ -16,9 +16,11 @@ from app.llm.client import LlmResult, LlmUnavailable
 from app.pipeline.redact import redact
 from app.pipeline.schemas import (
     Activity,
+    ActivitySelection,
     Attributes,
     Candidate,
     PermitItem,
+    Pick,
     Question,
     Selection,
     Understanding,
@@ -116,11 +118,49 @@ def attrs_for(label: str, activities: list[Activity]) -> Attributes:
     for a in activities:
         if a.label == label:
             return a.attributes
+    return combine_attributes([a.attributes for a in activities])
+
+
+def combine_attributes(items: list[Attributes]) -> Attributes:
+    """Per field: True if any is True, else None if any is None, else False."""
     combined: dict[str, bool | None] = {}
     for field in Attributes.model_fields:
-        values = [getattr(a.attributes, field) for a in activities]
+        values = [getattr(a, field) for a in items]
         combined[field] = True if True in values else (None if None in values else False)
     return Attributes.model_validate(combined)
+
+
+def merge_same_primary(
+    selections: list[ActivitySelection], understood: list[Activity]
+) -> list[tuple[ActivitySelection, Attributes]]:
+    """One entry per primary code: activities the model gave the same primary code (e.g.
+    "kerupuk udang" and "peyek kacang", both 10794) become one card with joined labels,
+    combined attributes and the union of their alternatives (max 2)."""
+    groups: dict[str, list[ActivitySelection]] = {}
+    for sel in selections:
+        groups.setdefault(sel.primary.code, []).append(sel)
+    merged: list[tuple[ActivitySelection, Attributes]] = []
+    for code, group in groups.items():
+        attrs = combine_attributes([attrs_for(s.activity_label, understood) for s in group])
+        if len(group) == 1:
+            merged.append((group[0], attrs))
+            continue
+        alternatives: list[Pick] = []
+        for s in group:
+            for alt in s.alternatives:
+                if alt.code != code and all(alt.code != a.code for a in alternatives):
+                    alternatives.append(alt)
+        merged.append(
+            (
+                ActivitySelection(
+                    activity_label=" + ".join(s.activity_label for s in group),
+                    primary=group[0].primary,
+                    alternatives=alternatives[:2],
+                ),
+                attrs,
+            )
+        )
+    return merged
 
 
 class _Log:
@@ -263,8 +303,7 @@ def _run(
     else:
         by_code = {c.code: c for cands in candidates.values() for c in cands}
         primaries: list[tuple[str, Attributes]] = []
-        for sel in selection.activities:
-            attrs = attrs_for(sel.activity_label, u.activities)
+        for sel, attrs in merge_same_primary(selection.activities, u.activities):
 
             def risk(code: str, attrs: Attributes = attrs) -> str | None:
                 return risk_for(conn, release_id, code, attrs, today)
